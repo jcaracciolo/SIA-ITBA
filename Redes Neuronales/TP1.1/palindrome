@@ -1,0 +1,17 @@
+function isPalindrome = validate(s)
+  if ( length(s) == 1 )
+    isPalindrome = true;
+    return;
+  elseif ( length(s) == 2 )
+    isPalindrome = s(1) == s(2);
+    return;
+  endif
+  if ( s(1) == s(length(s)) )
+    isPalindrome = validate(s(2:length(s)-1));
+  else
+    isPalindrome = false;
+  endif
+  isPalindrome
+endfunction
+
+source("basicNeural")

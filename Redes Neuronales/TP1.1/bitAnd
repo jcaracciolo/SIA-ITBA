@@ -1,0 +1,10 @@
+function bitAnd = validate(arr) 
+	bitAnd = 1;
+	for b = arr
+		bitAnd = bitand(bitAnd, b);
+	endfor
+	bitAnd
+	return
+endfunction
+
+source("basicNeural")

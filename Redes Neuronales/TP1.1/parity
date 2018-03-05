@@ -1,0 +1,12 @@
+function parity = validate(arr) 
+	parity = 0;
+	for b = arr
+		if(b==1)
+			parity += 1;
+		endif
+	endfor
+	parity = rem(parity, 2)
+	return
+endfunction
+
+source("basicNeural")
