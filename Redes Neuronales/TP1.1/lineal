@@ -1,0 +1,15 @@
+function lineal = transfer(number)
+	if(number > 1)
+		lineal=1;
+	elseif (number<0)
+		lineal=0;
+	else
+		lineal=number;
+	endif
+endfunction
+
+function lineal = correction(guess)
+	if(abs)
+	lineal = ones(1,length(guess))
+	return
+endfunction

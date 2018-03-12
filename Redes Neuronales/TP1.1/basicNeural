@@ -6,21 +6,11 @@ function sum = neuralGuess(weights, input)
 	return
 endfunction
 
-function ret = step(number)
-	if(number>0)
-		ret = 1;
-		return
-	endif
-
-	ret = 0;
-	return
-endfunction
-
 amount = input("Insert amout of bits to test\n")
 weights = [];
 
 for i = 1:amount+1
-	weights = [weights, unifrnd(-1,1)];
+	weights = [weights, unifrnd(-1,1)*0.1];
 endfor
 
 
@@ -28,17 +18,17 @@ learningRate = input("Insert learning rate\n")
 tries = 0;
 correct = 0;
 
+source("chooseAlgorithm")
+source("setUpPatternMatrix")
+patternMatrix = setUpPatternMatrix(amount, @validate);
+
 while(true)
-	input = [-1];
-	for i = 1:amount
-		input = [input, randi(2)-1];
-	endfor
+	randInt = randi(2 ** amount);
+	input = patternMatrix(randInt, 1 : amount + 1)
+	expected = patternMatrix(randInt, amount + 1)
+	guess = transfer(sum(times(weights, input)))
 
-	input
-	expected = validate(input(2:amount+1));
-	guess = step(sum(times(weights, input)));
-
-	deltaW = learningRate*(expected - guess)*input;
+	deltaW = learningRate * (expected - guess) * correction(guess) * input;
 	weights += deltaW
 
 	tries += 1;
@@ -49,4 +39,5 @@ while(true)
 	printf("Ratio is %f\n", ratio)
 	printf("Missed: %d\n",(tries - correct))
 	pause(0.05)
+
 endwhile

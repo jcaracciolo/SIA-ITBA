@@ -1,0 +1,9 @@
+function exponential = transfer(number)
+	if(number > 1)
+		exponential=1;
+	elseif (number<0)
+		exponential=0;
+	else
+		exponential = 1 / (1 + exp (-2 * number));
+	endif
+endfunction

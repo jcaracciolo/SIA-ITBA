@@ -1,0 +1,45 @@
+source("chooseAlgorithm")
+amount = input("Insert amout of bits to test\n")
+outputSize = input("Insert amount of bits in the output\n")
+hiddenLayers = input("Insert number of hidden layers\n");
+layersSize = [];
+for i=1:hiddenLayers
+	layersSize(i) = input(sprintf("Insert the amount of neurons in the hidden Layer %d\n", i))
+endfor
+
+weights = cell(hiddenLayers + 1, 1)
+weights(1) = rand(layersSize(1), amount + 1);
+for i=2:hiddenLayers
+	weights(i) = rand(layersSize(i), layersSize(i-1)+1);
+endfor
+weights(hiddenLayers+1) = rand(outputSize, layersSize(hiddenLayers) + 1);
+
+outputs = cell(hiddenLayers + 2, 1);
+
+while(true)
+	input = [-1];
+	for i = 1:amount
+		input = [input, randi(2)-1];
+	endfor
+
+	input
+	outputs(1) = input
+
+	for i=2:hiddenLayers+1
+		outputs{i} = ones(layersSize(i) +1,1)'
+		outputs{i}(1) = [-1]
+		for j=1: layersSize(i)
+			res = transfer(sum(times(weights{i}(j,:), outputs{i-1}(j,:))))
+			outputs{i}(j+1) = res
+		endfor
+	endfor
+
+endwhile
+
+
+
+
+
+
+
+

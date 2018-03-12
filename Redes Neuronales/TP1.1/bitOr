@@ -1,5 +1,5 @@
 function bitOr = validate(arr) 
-	bitOr = 1;
+	bitOr = 0;
 	for b = arr
 		bitOr = bitor(bitOr, b);
 	endfor

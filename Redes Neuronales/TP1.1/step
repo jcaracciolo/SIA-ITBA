@@ -1,0 +1,14 @@
+function step = transfer(number)
+	if(number>0)
+		step = 1;
+		return
+	endif
+
+	step = 0;
+	return
+endfunction
+
+function step = correction(guess)
+	step = ones(1,length(guess))
+	return
+endfunction

@@ -1,0 +1,9 @@
+algorithm = input("Insert the transfer function (1)Step (2)Lineal (3)Tangent (4)Exponential\n")
+
+if(algorithm==1)
+	source("step")
+elseif(algorithm==2)
+	source("lineal")
+elseif(algorithm==4)
+	source("exponential")
+endif
