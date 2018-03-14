@@ -7,4 +7,4 @@ function bitAnd = validate(arr)
 	return
 endfunction
 
-source("multiLayerNeural")
+source("chooseNeural")

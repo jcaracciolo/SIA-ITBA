@@ -1,10 +1,10 @@
 function bitOr = validate(arr) 
 	bitOr = 0;
 	for b = arr
-		bitOr = bitor(bitOr, b);
+		bitOr = bitxor(bitOr, b);
 	endfor
 	bitOr
 	return
 endfunction
 
-source("basicNeural")
+source("chooseNeural")

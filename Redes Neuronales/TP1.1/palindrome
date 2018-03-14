@@ -14,4 +14,4 @@ function isPalindrome = validate(s)
   isPalindrome
 endfunction
 
-source("basicNeural")
+source("chooseNeural")

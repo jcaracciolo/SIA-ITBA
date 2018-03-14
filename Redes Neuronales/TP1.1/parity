@@ -9,4 +9,4 @@ function parity = validate(arr)
 	return
 endfunction
 
-source("basicNeural")
+source("chooseNeural")

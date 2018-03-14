@@ -26,13 +26,13 @@ while(true)
 	randInt = randi(2 ** amount);
 	input = patternMatrix(randInt, 1 : amount + 1)
 	expected = patternMatrix(randInt, amount + 1)
-	guess = transfer(sum(times(weights, input)))
+	rawGuess = sum(times(weights, input))
 
-	deltaW = learningRate * (expected - guess) * correction(guess) * input;
+	deltaW = learningRate * (expected - transfer(rawGuess)) * correction(rawGuess) * input;
 	weights += deltaW
 
 	tries += 1;
-	if(guess == expected) 
+	if(rawGuess == expected) 
 		correct += 1;
 	endif
 	ratio = correct/tries;

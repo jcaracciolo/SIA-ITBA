@@ -1,0 +1,7 @@
+neural = input("Insert the neural network type to use (1)Simple, (2)MultiLayer\n")
+
+if(neural==1)
+	source("basicNeural")
+elseif(neural==2)
+	source("multiLayerNeural")
+endif

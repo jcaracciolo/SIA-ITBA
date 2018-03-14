@@ -6,35 +6,70 @@ layersSize = [];
 for i=1:hiddenLayers
 	layersSize(i) = input(sprintf("Insert the amount of neurons in the hidden Layer %d\n", i))
 endfor
+layersSize = [layersSize, outputSize]
 
-weights = cell(hiddenLayers + 1, 1)
+%Weigth Matrix for each layer
+weights = cell(hiddenLayers + 1, 1);
 weights(1) = rand(layersSize(1), amount + 1);
 for i=2:hiddenLayers
 	weights(i) = rand(layersSize(i), layersSize(i-1)+1);
 endfor
 weights(hiddenLayers+1) = rand(outputSize, layersSize(hiddenLayers) + 1);
 
+weights
+
+%Output vector for each layer
+rawOutputs = cell(hiddenLayers + 2, 1);
 outputs = cell(hiddenLayers + 2, 1);
-
+tries =0
+correct=0
 while(true)
-	input = [-1];
+	%Calculating Outputs
+	outputs{1} = [-1];
 	for i = 1:amount
-		input = [input, randi(2)-1];
+		outputs{1} = [outputs{1}; randi(2)-1];
 	endfor
 
-	input
-	outputs(1) = input
 
-	for i=2:hiddenLayers+1
-		outputs{i} = ones(layersSize(i) +1,1)'
-		outputs{i}(1) = [-1]
-		for j=1: layersSize(i)
-			res = transfer(sum(times(weights{i}(j,:), outputs{i-1}(j,:))))
-			outputs{i}(j+1) = res
-		endfor
+	for i=2:hiddenLayers+2
+		rawOutputs{i} = [-1; weights{i-1}*outputs{i-1}];
+		outputs{i} = transfer(rawOutputs{i});
 	endfor
 
-endwhile
+	%Correcting
+	deltas = cell(hiddenLayers+2,1);
+	expected = validate(outputs{1}(2:end,:)');
+	lastOutput = outputs{end}(2:end,:);
+	deltas{end} = times(correction(rawOutputs{end}(2:end,:)), (expected - lastOutput));
+
+	for i=fliplr(2:hiddenLayers+1)
+		lastOutput = outputs{i+1};
+		deltas{i} = times(correction(rawOutputs{i}(2:end,:)),weights{i}(:,2:end)'*deltas{i+1});
+	endfor
+
+
+	for(i=1:hiddenLayers+1)
+		weights{i} += 0.1*times(deltas{i+1},outputs{i}');
+	endfor
+
+	deltas
+	weights
+	rawGuess = outputs{end}(2,1)
+	expected
+
+	tries += 1;
+	if(rawGuess == expected) 
+		correct += 1;
+	endif
+	ratio = correct/tries;
+	outputs{1}'
+	printf("Ratio is %f\n", ratio)
+	printf("Missed: %d\n",(tries - correct))
+	% deltas
+	pause(0.1)
+	endwhile
+
+
 
 
 
