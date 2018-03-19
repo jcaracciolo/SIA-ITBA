@@ -1,0 +1,12 @@
+% Receives a column vector
+function answer = activate(array)
+	answer = [];
+	for n = array'
+		answer = [answer ; 1 / (1+e**-n)];
+	endfor
+endfunction
+
+% Receives a column vector
+function answer = correction(array)
+	answer = times(activate(array), (1-activate(array)));
+endfunction			

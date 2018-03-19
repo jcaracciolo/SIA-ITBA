@@ -1,0 +1,27 @@
+function answer=xorArr(array)
+	answer = array(1);
+	for i=2:length(array)
+		answer = xor(answer, array(i));
+	endfor
+endfunction
+
+
+global patternMatrix = zeros (2 ** inputSize, inputSize + 1);
+
+for i = 1 : (2 ** inputSize)
+	bin = dec2bin(i-1);
+	for j = 1:length(bin)
+		patternMatrix(i,j) = bin2dec(bin(length(bin) +1 - j));
+	endfor
+	patternMatrix(i, inputSize + 1) = xorArr(patternMatrix(i, 1 : inputSize ));
+endfor
+
+function sample = getSample(i) 
+	global patternMatrix;
+	sample = patternMatrix(i, 1:end-1);
+endfunction
+
+function sample = getAnswer(i)
+	global patternMatrix;
+	sample = patternMatrix(i, end);
+endfunction

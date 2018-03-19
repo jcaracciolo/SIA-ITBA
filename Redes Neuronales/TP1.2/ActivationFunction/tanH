@@ -1,0 +1,12 @@
+% Receives a column vector
+function answer = activate(array)
+	answer = [];
+	for n = array'
+		answer = [answer ; (e**n - e**-n) / (e**n+e**-n)];
+	endfor
+endfunction
+
+% Receives a column vector
+function answer = correction(array)
+	answer = 1 - activate(array).**2;
+endfunction			

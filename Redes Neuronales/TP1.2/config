@@ -1,0 +1,6 @@
+inputSize = 8;
+outputSize = 1;
+layersSize = [7,7,7,6,5,4,3,2];
+learningRate = 0.1;
+trainerPath = "Trainer/XOR";
+activationFunctionPath = "ActivationFunction/tanH";
