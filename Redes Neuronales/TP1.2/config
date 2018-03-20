@@ -1,17 +1,27 @@
 global inputSize = 3;
 global outputSize = 1;
 global layersSize = [2,2];
-global learningRate = 0.1;
+global learningRate = 0.01;
+global alphaMomentum = 0.9;
 global validateEpsilon = 0.1;
-% global randomSeed = 1.010070001202975e-310;
-% global randomSeed = 3.160924944941073e-310;	
+% global randomSeed = 5.194645720472441e-310;
 global trainerPath = 'Trainer/XOR';
 global activationFunctionPath = 'ActivationFunction/tanH';
 
+% Tarda menos con momentum y con 0.05 no anda
 % global inputSize = 3;
 % global outputSize = 1;
 % global layersSize = [2,2];
-% global learningRate = 0.1;
-% global trainerPath = "Trainer/XOR";
-% global randomSeed = 1.010070001202975e-310;
-% global activationFunctionPath = "ActivationFunction/tanH";
+% global learningRate = 0.01;
+% global alphaMomentum = 0.9;
+% global validateEpsilon = 0.1;
+% global randomSeed = 1.396061037376968e-310;
+
+% Se chotea con momentum
+% global inputSize = 3;
+% global outputSize = 1;
+% global layersSize = [2,2];
+% global learningRate = 0.01;
+% global alphaMomentum = 0.9;
+% global validateEpsilon = 0.1;
+% global randomSeed = 5.194645720472441e-310;

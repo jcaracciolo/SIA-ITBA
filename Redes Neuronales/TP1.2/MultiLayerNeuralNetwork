@@ -25,7 +25,7 @@ global layersCount = length(layersSize)
 
 %create initial random matrix
 global weights = cell(layersCount, 1);
-
+global deltaWeights = cell(layersCount, 1);
 
 if (exist('randomSeed', 'var') == 1)
     rand('seed',randomSeed)
@@ -36,11 +36,13 @@ else
 endif
 
 % Initial weights takes into account inputSize
-weights(1) = rand(layersSize(1), inputSize + 1);
+weights(1) = rand(layersSize(1), inputSize+1);
+deltaWeights(1) = zeros(layersSize(1), inputSize+1);
 
 for i=2:layersCount
 	% Matrix size is layer(i+1) X (layer(i)+1)
 	weights(i) = rand(layersSize(i), layersSize(i-1)+1);
+	deltaWeights(i) = zeros(layersSize(i), layersSize(i-1)+1);
 endfor
 
 %Output vector for each layer
@@ -78,9 +80,12 @@ while(true)
 		endfor
 
 
-		weights{1} += learningRate*(deltas{1}*([-1; input]'));
+		
+		deltaWeights{1} = learningRate*(deltas{1}*([-1; input]')) + alphaMomentum*deltaWeights{1};
+		weights{1} += deltaWeights{1};
 		for(i=2:layersCount)
-			weights{i} += learningRate*(deltas{i}*([-1; outputs{i-1}]'));
+			deltaWeights{i} = learningRate*(deltas{i}*([-1; outputs{i-1}]')) + alphaMomentum*deltaWeights{i};
+			weights{i} += deltaWeights{i};
 		endfor
 
 		tries += 1;
@@ -95,7 +100,7 @@ while(true)
 		% printf("Missed: %d\n",(tries - correct))
 	endfor
 	errors = [errors, medianError()];
-	if(epochs>1000)
+	if(epochs>4000)
 		plot(1:length(errors),errors)
 		pause(1000000)
 	endif
