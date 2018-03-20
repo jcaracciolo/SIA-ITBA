@@ -67,7 +67,7 @@ while(true)
 	printf("Missed: %d\n",(tries - correct))
 	% deltas
 	pause(0.1)
-	endwhile
+endwhile
 
 
 

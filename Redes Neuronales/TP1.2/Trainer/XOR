@@ -16,12 +16,19 @@ for i = 1 : (2 ** inputSize)
 	patternMatrix(i, inputSize + 1) = xorArr(patternMatrix(i, 1 : inputSize ));
 endfor
 
+patternMatrix(patternMatrix==0) = -1;
+
+function amount = getSampleSize()
+	global patternMatrix;
+	amount = rows(patternMatrix);
+endfunction
+
 function sample = getSample(i) 
 	global patternMatrix;
 	sample = patternMatrix(i, 1:end-1);
 endfunction
 
-function sample = getAnswer(i)
+function answer = getAnswer(i)
 	global patternMatrix;
-	sample = patternMatrix(i, end);
+	answer = patternMatrix(i, end);
 endfunction

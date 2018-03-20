@@ -5,3 +5,14 @@ function answer = step(n)
 		answer = 0;
 	endif
 endfunction
+
+function answer = stepEpsilon(n)
+	global validateEpsilon
+	if (n>=(1-validateEpsilon))
+		answer = 1;
+	elseif (n<=(-1+validateEpsilon))
+		answer = -1;
+	else
+		answer = n;
+	endif
+endfunction

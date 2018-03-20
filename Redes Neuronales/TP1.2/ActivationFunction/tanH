@@ -9,4 +9,4 @@ endfunction
 % Receives a column vector
 function answer = correction(array)
 	answer = 1 - activate(array).**2;
-endfunction			
+endfunction

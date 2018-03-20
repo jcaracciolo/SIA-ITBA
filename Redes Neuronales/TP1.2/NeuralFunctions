@@ -1,0 +1,31 @@
+function guess = makeGuess(input)
+	global weights
+	global rawOutputs
+	global outputs
+	global layersCount
+
+	% Caculate the output of the first layer
+	rawOutputs{1} = weights{1}*[-1; input];
+	outputs{1} = activate(rawOutputs{1});
+
+	% Caculate the output of each layer
+	for i=2:layersCount
+		% Wigths of the current layer times last output with a -1 at the beggining
+		rawOutputs{i} = weights{i}*[-1; outputs{i-1}];
+		outputs{i} = activate(rawOutputs{i});
+	endfor
+
+	guess = stepEpsilon(outputs{end});
+endfunction
+
+function error = medianError()
+	errors = [];
+	n = getSampleSize();
+	for i=1:n
+		input = getSample(i)';
+		answer = getAnswer(i);
+		guess =  stepEpsilon(makeGuess(input));
+		errors = [errors, (answer - guess)**2];
+	endfor
+	error = sum(errors)/(2*n);
+endfunction
