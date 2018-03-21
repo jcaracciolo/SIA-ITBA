@@ -29,3 +29,27 @@ function error = medianError()
 	endfor
 	error = sum(errors)/(2*n);
 endfunction
+
+function adaptEta()
+	global errors
+	global consecutiveErrorReduction
+
+	lastError = medianError();
+	errors = [errors, lastError];
+
+	if(length(errors)>1)
+		if(errors(end)<lastError)
+			consecutiveErrorReduction +=1;
+
+			if(consecutiveErrorReduction==maxEtaErrorReductions)
+				consecutiveErrorReduction=0;
+				learningRate+= etaPositiveAdjustment;
+			endif
+
+		elseif(errors(end)>lastError)
+			consecutiveErrorReduction=0;
+			learningRate-= etaNegativeAdjustment * learningRate;
+		endif
+	endif
+	
+endfunction

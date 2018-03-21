@@ -3,8 +3,11 @@ global outputSize = 1;
 global layersSize = [2,2];
 global learningRate = 0.01;
 global alphaMomentum = 0.9;
+global etaPositiveAdjustment = 0.25;
+global etaNegativeAdjustment = 0.1;
+global maxEtaErrorReductions = 5;
 global validateEpsilon = 0.1;
-% global randomSeed = 5.194645720472441e-310;
+global randomSeed = 5.194645720472441e-310;
 global trainerPath = 'Trainer/XOR';
 global activationFunctionPath = 'ActivationFunction/tanH';
 
@@ -23,5 +26,17 @@ global activationFunctionPath = 'ActivationFunction/tanH';
 % global layersSize = [2,2];
 % global learningRate = 0.01;
 % global alphaMomentum = 0.9;
+% global validateEpsilon = 0.1;
+% global randomSeed = 5.194645720472441e-310;
+
+
+% Converge mucho mas rapido que sin learning rate pero no lo saca de minimo
+% global inputSize = 3;
+% global outputSize = 1;
+% global layersSize = [2,2];
+% global learningRate = 0.01;
+% global alphaMomentum = 0.9;
+% global learningRatePositiveAdjustment = 0.25;
+% global learningRateNegativeAdjustment = 0.1;
 % global validateEpsilon = 0.1;
 % global randomSeed = 5.194645720472441e-310;

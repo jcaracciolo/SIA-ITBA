@@ -23,10 +23,7 @@ source(activationFunctionPath)
 layersSize = [layersSize, outputSize];
 global layersCount = length(layersSize)
 
-%create initial random matrix
-global weights = cell(layersCount, 1);
-global deltaWeights = cell(layersCount, 1);
-
+% Setup RNG
 if (exist('randomSeed', 'var') == 1)
     rand('seed',randomSeed)
 else
@@ -34,6 +31,12 @@ else
 	save randState seed
 	rand('seed', seed)
 endif
+
+
+%create initial random matrix
+global weights = cell(layersCount, 1);
+global deltaWeights = cell(layersCount, 1);
+global deltas = cell(layersCount,1);
 
 % Initial weights takes into account inputSize
 weights(1) = rand(layersSize(1), inputSize+1);
@@ -48,26 +51,23 @@ endfor
 %Output vector for each layer
 global rawOutputs = cell(layersCount,1);
 global outputs = cell(layersCount,1);
+global errors = [];
+global consecutiveErrorReduction=0;
+global epochs = 0;	
 
-tries=0;
-correct=0;
-epochs = 0;	
-errors = [];
+
 while(true)
 	epochs +=1;
 
 	samplesShuffled = randperm(getSampleSize());
 	for index = samplesShuffled
-		 % index = mod(randi(2**inputSize), 2**inputSize)+1;
 
 		% Input must be a column vector with a -1 at the beggining
 		input = getSample(index)';
 		lastOutput = makeGuess(input);
-
-		%Correcting
-		deltas = cell(layersCount,1);
 		expected = getAnswer(index)';
 
+		%Correcting
 		% Calculate the last delta to start backpropagation
 		deltas{end} = times(correction(rawOutputs{end}), (expected - lastOutput));
 
@@ -80,27 +80,17 @@ while(true)
 		endfor
 
 
-		
 		deltaWeights{1} = learningRate*(deltas{1}*([-1; input]')) + alphaMomentum*deltaWeights{1};
 		weights{1} += deltaWeights{1};
 		for(i=2:layersCount)
 			deltaWeights{i} = learningRate*(deltas{i}*([-1; outputs{i-1}]')) + alphaMomentum*deltaWeights{i};
 			weights{i} += deltaWeights{i};
 		endfor
-
-		tries += 1;
-		guess = stepEpsilon(lastOutput);
-		expected;
-		if(guess == expected) 
-			correct += 1;
-		endif
-		tries;
-		ratio = correct/tries;
-		% printf("Ratio is %f\n", ratio)
-		% printf("Missed: %d\n",(tries - correct))
 	endfor
-	errors = [errors, medianError()];
-	if(epochs>4000)
+
+	adaptEta()
+	
+	if(epochs>1000)
 		plot(1:length(errors),errors)
 		pause(1000000)
 	endif
