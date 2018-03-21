@@ -1,0 +1,16 @@
+global data = dlmread('terrain01.data',',',1,0)
+
+function amount = getSampleSize()
+	global data;
+	amount = rows(data);
+endfunction
+
+function sample = getSample(i) 
+	global data;
+	sample = data(i, 1:end-1);
+endfunction
+
+function answer = getAnswer(i)
+	global data;
+	answer = data(i, end);
+endfunction

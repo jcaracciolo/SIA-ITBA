@@ -15,7 +15,7 @@ function guess = makeGuess(input)
 		outputs{i} = activate(rawOutputs{i});
 	endfor
 
-	guess = stepEpsilon(outputs{end});
+	guess = outputs{end};
 endfunction
 
 function error = medianError()
@@ -24,7 +24,7 @@ function error = medianError()
 	for i=1:n
 		input = getSample(i)';
 		answer = getAnswer(i);
-		guess =  stepEpsilon(makeGuess(input));
+		guess =  makeGuess(input);
 		errors = [errors, (answer - guess)**2];
 	endfor
 	error = sum(errors)/(2*n);

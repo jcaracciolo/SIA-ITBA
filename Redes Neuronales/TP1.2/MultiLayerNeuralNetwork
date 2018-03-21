@@ -55,11 +55,17 @@ global errors = [];
 global consecutiveErrorReduction=0;
 global epochs = 0;	
 
+sampleSize = getSampleSize();
+samples = randperm(sampleSize);
+trainingSize = ceil(sampleSize*trainingPercentage);
+testingSize = sampleSize - trainingSize;
+trainingIndexes = samples(1:trainingSize);
+testingIndexes = samples(trainingSize+1:end);
 
-while(true)
-	epochs +=1;
+while(epochs<500)
+	epochs +=1
 
-	samplesShuffled = randperm(getSampleSize());
+	samplesShuffled = trainingIndexes(randperm(trainingSize));
 	for index = samplesShuffled
 
 		% Input must be a column vector with a -1 at the beggining
@@ -89,10 +95,20 @@ while(true)
 	endfor
 
 	adaptEta()
-	
-	if(epochs>1000)
-		plot(1:length(errors),errors)
-		pause(1000000)
-	endif
 
 endwhile
+
+correct = 0;
+for test = testingIndexes
+	input = getSample(test)';
+	guess = makeGuess(input);
+	expected = getAnswer(test);
+
+	if((guess - expected)<validateEpsilon)
+		correct+=1;
+	endif
+endfor
+
+printf('Guessed %d out of %d. Ratio: %f\n',correct, testingSize,correct/testingSize)
+plot(1:length(errors),errors) 
+pause(1000)
