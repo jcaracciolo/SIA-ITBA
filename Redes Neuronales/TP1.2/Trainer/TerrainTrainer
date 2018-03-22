@@ -14,3 +14,19 @@ function answer = getAnswer(i)
 	global data;
 	answer = data(i, end);
 endfunction
+
+function matrix = getSampleMatrix()
+	global data;
+	matrix = data(:, 1:end-1);
+endfunction
+
+function matrix = getAnswerMatrix()
+	global data;
+	matrix = data(:, end);
+endfunction
+
+function setUpBatch()
+	global data;
+	membraines = zeros(getSampleSize(),1) -1;
+	data = [membraines, data];
+endfunction

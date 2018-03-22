@@ -62,7 +62,7 @@ testingSize = sampleSize - trainingSize;
 trainingIndexes = samples(1:trainingSize);
 testingIndexes = samples(trainingSize+1:end);
 
-while(epochs<500)
+while(epochs<100)
 	epochs +=1
 
 	samplesShuffled = trainingIndexes(randperm(trainingSize));

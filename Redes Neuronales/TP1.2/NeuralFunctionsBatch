@@ -1,0 +1,59 @@
+function guess = makeGuess(input)
+	global weights
+	global rawOutputs
+	global outputs
+	global layersCount
+
+	% Batch
+
+	% Caculate the output of the first layer
+	rawOutputs{1, batchIndex} = weights{1}*[-1; input];
+	outputs{1, batchIndex} = activate(rawOutputs{1, batchIndex});
+
+	% Caculate the output of each layer
+	for i=2:layersCount
+		% Wigths of the current layer times last output with a -1 at the beggining
+		rawOutputs{i, batchIndex} = weights{i}*[-1; outputs{i-1, batchIndex}];
+		outputs{i, batchIndex} = activate(rawOutputs{i, batchIndex});
+	endfor
+
+	guess = outputs{end, batchIndex};
+endfunction
+
+function error = medianError(indexes)
+	% Batch
+	errors = [];
+	n = getSampleSize();
+	for i=indexes
+		input = getSample(i)';
+		answer = getAnswer(i);
+		guess =  makeGuess(input, i);
+		errors = [errors, (answer - guess)**2];
+	endfor
+	error = sum(errors)/(2*n);
+endfunction
+
+function adaptEta(indexes)
+	global errors
+	global consecutiveErrorReduction
+
+	% Batch
+	lastError = medianError(indexes);
+	errors = [errors, lastError];
+
+	if(length(errors)>1)
+		if(errors(end)<lastError)
+			consecutiveErrorReduction +=1;
+
+			if(consecutiveErrorReduction==maxEtaErrorReductions)
+				consecutiveErrorReduction=0;
+				learningRate+= etaPositiveAdjustment;
+			endif
+
+		elseif(errors(end)>lastError)
+			consecutiveErrorReduction=0;
+			learningRate-= etaNegativeAdjustment * learningRate;
+		endif
+	endif
+	
+endfunction
