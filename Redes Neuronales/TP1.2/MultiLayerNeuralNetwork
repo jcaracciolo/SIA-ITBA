@@ -27,7 +27,7 @@ global layersCount = length(layersSize)
 if (exist('randomSeed', 'var') == 1)
     rand('seed',randomSeed)
 else
-	seed = rand('seed')
+	seed = rand('seed');
 	save randState seed
 	rand('seed', seed)
 endif
@@ -62,8 +62,9 @@ testingSize = sampleSize - trainingSize;
 trainingIndexes = samples(1:trainingSize);
 testingIndexes = samples(trainingSize+1:end);
 
-while(epochs<500)
-	epochs +=1
+maxEpochs = 100;
+while(epochs<maxEpochs)
+	epochs +=1;
 
 	samplesShuffled = trainingIndexes(randperm(trainingSize));
 	for index = samplesShuffled
@@ -109,6 +110,10 @@ for test = testingIndexes
 	endif
 endfor
 
-printf('Guessed %d out of %d. Ratio: %f\n',correct, testingSize,correct/testingSize)
-plot(1:length(errors),errors) 
-pause(1000)
+first = floor(maxEpochs*0.1);
+lastE = errors(end);
+sumE = sum(errors(end-first:end));
+printf('%.20f', sumE)
+% printf('Guessed %d out of %d. Ratio: %f\n',correct, testingSize,correct/testingSize) 
+% plot(1:length(errors),errors)  
+% pause(1000)

@@ -1,43 +1,13 @@
 global inputSize = 2;
 global outputSize = 1;
-global layersSize = [4,3,2];
-global learningRate = 0.01;
-global alphaMomentum = 0.9;
-global etaPositiveAdjustment = 0.25;
-global etaNegativeAdjustment = 0.1;
-global maxEtaErrorReductions = 5;
+global layersSize = [2, 2];
+global learningRate = 0.058910134617457685;
+global alphaMomentum = 0.8426323722104133;
+global etaPositiveAdjustment = 0.08254215617982248;
+global etaNegativeAdjustment = 0.06023774337773145;
+global maxEtaErrorReductions = 1;
 global validateEpsilon = 0.1;
-global randomSeed = 5.194645720472441e-310;
 global trainerPath = 'Trainer/TerrainTrainer';
 global activationFunctionPath = 'ActivationFunction/tanH';
 global trainingPercentage = 0.8;
-
-% Tarda menos con momentum y con 0.05 no anda
-% global inputSize = 3;
-% global outputSize = 1;
-% global layersSize = [2,2];
-% global learningRate = 0.01;
-% global alphaMomentum = 0.9;
-% global validateEpsilon = 0.1;
-% global randomSeed = 1.396061037376968e-310;
-
-% Se chotea con momentum
-% global inputSize = 3;
-% global outputSize = 1;
-% global layersSize = [2,2];
-% global learningRate = 0.01;
-% global alphaMomentum = 0.9;
-% global validateEpsilon = 0.1;
-% global randomSeed = 5.194645720472441e-310;
-
-
-% Converge mucho mas rapido que sin learning rate pero no lo saca de minimo
-% global inputSize = 3;
-% global outputSize = 1;
-% global layersSize = [2,2];
-% global learningRate = 0.01;
-% global alphaMomentum = 0.9;
-% global learningRatePositiveAdjustment = 0.25;
-% global learningRateNegativeAdjustment = 0.1;
-% global validateEpsilon = 0.1;
-% global randomSeed = 5.194645720472441e-310;
+global randomSeed = 3.3118290756047566
