@@ -111,8 +111,7 @@ for test = testingIndexes
 endfor
 
 first = floor(maxEpochs*0.1);
-lastE = errors(end);
-sumE = sum(errors(end-first:end));
+sumE = sum(errors(end-first+1:end))/first;
 printf('%.20f', sumE)
 % printf('Guessed %d out of %d. Ratio: %f\n',correct, testingSize,correct/testingSize) 
 % plot(1:length(errors),errors)  

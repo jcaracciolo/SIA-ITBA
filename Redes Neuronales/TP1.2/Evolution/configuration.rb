@@ -1,9 +1,9 @@
 require 'distribution'
 
 rand = Random.new
-threads = 3
-generations = 12
-sample = 6
+threads = 4
+generations = 25
+sample = 8
 number_of_chosens = 5
 
 class Object
@@ -24,7 +24,6 @@ class Configuration
   @etaPositiveAdjustment
   @etaNegativeAdjustment
   @maxEtaErrorReductions
-  @survival_instinct
   @error
   @thread_index
 
@@ -34,7 +33,6 @@ class Configuration
   attr_reader :etaPositiveAdjustment
   attr_reader :etaNegativeAdjustment
   attr_reader :maxEtaErrorReductions
-  attr_accessor :survival_instinct
   attr_accessor :error
   attr_accessor :thread_index
 
@@ -136,15 +134,11 @@ global randomSeed = #{@thread_index + Random.new.rand}
       system(cmd)
 
       f = File.open("../errorOutput#{@thread_index}", "r")
-      iterationError = f.readlines[0].strip.to_f
-      if iterationError < 0.00000001
-        puts "wtf"
-      end
-      acumulator += 1/iterationError
+      acumulator += f.readlines[0].strip.to_f
       f.close
     end
 
-    @error = acumulator
+    @error = acumulator/3
     puts @error
     @error
   end
@@ -198,22 +192,22 @@ while true
 
     avrg = 0
     for c in confs
-      c.survival_instinct= c.error
-      avrg += c.error/1000
+      avrg += c.error
 
       if chosens.size < number_of_chosens
         chosens << c
-      elsif c.error > chosens[0].error
-        chosens = chosens[1...chosens.size]
+        chosens.sort_by! {|x| x.error }
+      elsif !chosens.include?(c.error) and c.error < chosens.last.error
+        chosens.pop
         chosens << c
-        chosens.sort_by! {|x| -x.error }
+        chosens.sort_by! {|x| x.error }
       end
 
     end
 
-    puts "NEW GENERATION AVRG #{avrg}"
+    puts "NEW GENERATION AVRG #{avrg/confs.size}"
 
-    confs.sort_by! {|x| -x.survival_instinct }
+    confs.sort_by! {|x| x.error }
 
     next_confs = []
     (sample/2).times do |i|
