@@ -21,13 +21,13 @@ source(activationFunctionPath)
 
 % Create array with all sizes
 layersSize = [layersSize, outputSize];
-global layersCount = length(layersSize)
+global layersCount = length(layersSize);
 
 % Setup RNG
 if (exist('randomSeed', 'var') == 1)
     rand('seed',randomSeed)
 else
-	seed = rand('seed');
+	seed = rand('seed')
 	save randState seed
 	rand('seed', seed)
 endif

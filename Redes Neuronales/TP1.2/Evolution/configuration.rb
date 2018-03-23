@@ -1,13 +1,19 @@
+require 'distribution'
+
 rand = Random.new
-threads = 4
-generations = 10
-sample = 16
+threads = 3
+generations = 12
+sample = 6
 number_of_chosens = 5
 
 class Object
   def clamp(bounds)
     [bounds[0], self, bounds[1]].sort[1]
   end
+end
+
+def more_prob_less(bound)
+  (Distribution::Normal.rng(mean = 0, sigma =bound/2, seed = nil).call.abs.floor + (Random.rand(0..20)/19).to_i).clamp ([0,bound-1])
 end
 
 class Configuration
@@ -18,7 +24,6 @@ class Configuration
   @etaPositiveAdjustment
   @etaNegativeAdjustment
   @maxEtaErrorReductions
-
   @survival_instinct
   @error
   @thread_index
@@ -70,7 +75,7 @@ class Configuration
   end
 
   def eta_reduction_bounds
-    [1,6]
+    [2,6]
   end
 
   def maxEtaErrorReductions=(reductions)
@@ -90,33 +95,32 @@ global validateEpsilon = 0.1;
 global trainerPath = 'Trainer/TerrainTrainer';
 global activationFunctionPath = 'ActivationFunction/tanH';
 global trainingPercentage = 0.8;
-global randomSeed = #{rand + @thread_index}
+global randomSeed = #{@thread_index + Random.new.rand}
 "
   end
 
 
 # FUNCIONALITY
   def initialize_random
-    @layersSize = Array.new(rand(1..3)) { rand(2..4)}
-    @learningRate = rand(learning_rate_bounds[0]..learning_rate_bounds[1])
-    @alphaMomentum = rand(alpha_momentum_bounds[0]..alpha_momentum_bounds[1])
-    @etaPositiveAdjustment = rand(eta_bounds[0]..eta_bounds[1])
-    @etaNegativeAdjustment = rand(eta_bounds[0]..eta_bounds[1])
-    @maxEtaErrorReductions = rand(eta_reduction_bounds[0]..eta_reduction_bounds[1])
+    @layersSize = Array.new(1) { Random.rand(2..50)}
+    @learningRate = Random.rand(learning_rate_bounds[0]..learning_rate_bounds[1])
+    @alphaMomentum = Random.rand(alpha_momentum_bounds[0]..alpha_momentum_bounds[1])
+    @etaPositiveAdjustment = Random.rand(eta_bounds[0]..eta_bounds[1])
+    @etaNegativeAdjustment = Random.rand(eta_bounds[0]..eta_bounds[1])
+    @maxEtaErrorReductions = Random.rand(eta_reduction_bounds[0]..eta_reduction_bounds[1])
     self
   end
 
   def breed(other)
     conf = Configuration.new
-    conf.learningRate= (@learningRate+other.learningRate)/2*rand(0.8..1.2)
-    conf.alphaMomentum= (@alphaMomentum+other.alphaMomentum)/2*rand(0.8..1.2)
-    conf.etaPositiveAdjustment= (@etaPositiveAdjustment+other.etaPositiveAdjustment)/2*rand(0.8..1.2)
-    conf.etaNegativeAdjustment= (@etaNegativeAdjustment+other.etaNegativeAdjustment)/2*rand(0.8..1.2)
-    conf.maxEtaErrorReductions= (@maxEtaErrorReductions+other.maxEtaErrorReductions)/2*rand(0.8)
+    conf.learningRate= (@learningRate+other.learningRate)/2*Random.rand(0.8..1.2)
+    conf.alphaMomentum= (@alphaMomentum+other.alphaMomentum)/2*Random.rand(0.8..1.2)
+    conf.etaPositiveAdjustment= (@etaPositiveAdjustment+other.etaPositiveAdjustment)/2*Random.rand(0.8..1.2)
+    conf.etaNegativeAdjustment= (@etaNegativeAdjustment+other.etaNegativeAdjustment)/2*Random.rand(0.8..1.2)
+    conf.maxEtaErrorReductions= (@maxEtaErrorReductions+other.maxEtaErrorReductions)/2 + Random.rand(-1..1)
 
-    layer_size = ((@layersSize.size + other.layersSize.size)*rand(0.8..1.2)/2).clamp([1,3]).round
-    conf.layersSize = Array.new(layer_size) {
-                  ((@layersSize.sample + other.layersSize.sample)*rand(0.8..1.2)/2).clamp([2,5]).round
+    conf.layersSize = Array.new(1) {
+                  ((@layersSize[0] + other.layersSize[0])*Random.rand(0.7..1.3)/2).clamp([2,50]).round
               }
     conf
   end
@@ -132,7 +136,11 @@ global randomSeed = #{rand + @thread_index}
       system(cmd)
 
       f = File.open("../errorOutput#{@thread_index}", "r")
-      acumulator += 1/(f.readlines[0].strip.to_f)
+      iterationError = f.readlines[0].strip.to_f
+      if iterationError < 0.00000001
+        puts "wtf"
+      end
+      acumulator += 1/iterationError
       f.close
     end
 
@@ -147,61 +155,70 @@ end
 
 next_confs = []
 chosens = []
+confs = []
 
-sample.times do
-  next_confs << Configuration.new.initialize_random
-end
 
 while true
+  confs = []
+  next_confs = []
+  sample.times do
+    next_confs << Configuration.new.initialize_random
+  end
   generations.times do |g|
     puts "GENERATION #{g}"
 
     confs = next_confs
 
-    (0...sample).each_slice(threads) do |bucket|
-        bucket.each do |i|
-          confs[i].thread_index = i
-          Thread.start { confs[i].calculateError }
-          begin
-            sleep 1
-          rescue Interrupt
-          end
-        end
-
-        bucket.each do |i|
-          while confs[i].error.nil?
+    running_threads = 0
+    sample.times do |i|
+        if running_threads < threads
+          if confs[i].error.nil?
+            confs[i].thread_index = i
+            Thread.start { confs[i].calculateError }
             begin
               sleep 1
             rescue Interrupt
             end
+            running_threads+=1
+
+            if running_threads == threads
+              (i+1).times do |j|
+                while confs[j].error.nil?
+                  begin
+                    sleep 1
+                  rescue Interrupt
+                  end
+                end
+              end
+              running_threads=0
+            end
           end
         end
-
     end
 
     avrg = 0
     for c in confs
-      c.survival_instinct= rand(c.error*0.9..c.error)
-      avrg += c.error
+      c.survival_instinct= c.error
+      avrg += c.error/1000
 
       if chosens.size < number_of_chosens
         chosens << c
       elsif c.error > chosens[0].error
         chosens = chosens[1...chosens.size]
         chosens << c
-        chosens.sort_by! {|x| x.error }
+        chosens.sort_by! {|x| -x.error }
       end
 
     end
 
     puts "NEW GENERATION AVRG #{avrg}"
 
-    confs.sort_by! {|x| x.survival_instinct }
+    confs.sort_by! {|x| -x.survival_instinct }
 
     next_confs = []
     (sample/2).times do |i|
-      next_confs << confs[i].breed(confs[rand(0...sample/2)])
-      next_confs << confs[i].breed(confs[rand(0...sample/2)])
+      next_confs << confs[i]
+      next_confs << confs[i].breed(confs[more_prob_less(sample)])
     end
   end
 
