@@ -1,6 +1,5 @@
 global inputSize = 2;
 global outputSize = 1;
-<<<<<<< HEAD
 global layersSize = [4,3,2];
 global learningRate = 0.01;
 global alphaMomentum = 0.9;
@@ -9,7 +8,6 @@ global etaNegativeAdjustment = 0.1;
 global maxEtaErrorReductions = 5;
 global validateEpsilon = 0.08;
 global randomSeed = 5.194645720472441e-310;
-=======
 global layersSize = [22];
 global learningRate = 0.09425876693257812;
 global alphaMomentum = 0.824572803713471;
@@ -17,7 +15,6 @@ global etaPositiveAdjustment = 0.19919913007592094;
 global etaNegativeAdjustment = 0.1952120992811588;
 global maxEtaErrorReductions = 4;
 global validateEpsilon = 0.1;
->>>>>>> c413f26b23306c4cc3318532ef4eedfebc6ec54d
 global trainerPath = 'Trainer/TerrainTrainer';
 global activationFunctionPath = 'ActivationFunction/tanH';
 global trainingPercentage = 0.8;
