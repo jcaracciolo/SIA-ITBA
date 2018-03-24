@@ -59,17 +59,18 @@ sampleSize = getSampleSize();
 samples = randperm(sampleSize);
 trainingSize = ceil(sampleSize*trainingPercentage);
 testingSize = sampleSize - trainingSize;
-trainingIndexes = samples(1:trainingSize);
-testingIndexes = samples(trainingSize+1:end);
+global trainingIndexes = samples(1:trainingSize);
+global testingIndexes = samples(trainingSize+1:end);
 
-<<<<<<< HEAD
-while(epochs<100)
-	epochs +=1
-=======
 maxEpochs = 100;
+
+displayRate=50;
+displayCounter=0;
+hold on;
+
 while(epochs<maxEpochs)
 	epochs +=1;
->>>>>>> c413f26b23306c4cc3318532ef4eedfebc6ec54d
+	displayCounter+=1;
 
 	samplesShuffled = trainingIndexes(randperm(trainingSize));
 	for index = samplesShuffled
@@ -101,6 +102,20 @@ while(epochs<maxEpochs)
 	endfor
 
 	adaptEta()
+	if(visual)
+		trEr=medianTrainingError();
+		tEr=medianTestingError();
+		scatter(epochs,errors(end),'r','o');
+		scatter(epochs, trEr,'b','-');
+		scatter(epochs,tEr,'g','*');
+		refresh;
+		if(displayCounter==displayRate)
+			displayCounter=0;
+			epochs
+			trEr
+			tEr
+		endif
+	endif
 
 endwhile
 
@@ -119,5 +134,7 @@ first = floor(maxEpochs*0.1);
 sumE = sum(errors(end-first+1:end))/first;
 printf('%.20f', sumE)
 % printf('Guessed %d out of %d. Ratio: %f\n',correct, testingSize,correct/testingSize) 
-% plot(1:length(errors),errors)  
-% pause(1000)
+if (visual)
+	plot(1:length(errors),errors)  
+	pause(1000)
+endif

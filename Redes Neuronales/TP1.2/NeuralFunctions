@@ -30,6 +30,35 @@ function error = medianError()
 	error = sum(errors)/(2*n);
 endfunction
 
+function error = medianTestingError()
+	global testingIndexes
+
+	n=length(testingIndexes);
+	testError=[];
+	for i = testingIndexes
+		input=getSample(i)';
+		answer=getAnswer(i);
+		guess= makeGuess(input);
+		testError=[testError,(answer-guess)**2];
+	endfor
+	error=sum(testError)/(2*n);
+endfunction
+
+function error = medianTrainingError()
+	global trainingIndexes
+
+	n=length(trainingIndexes);
+	trainError=[];
+	for i = trainingIndexes
+		input=getSample(i)';
+		answer=getAnswer(i);
+		guess= makeGuess(input);
+		trainError=[trainError,(answer-guess)**2];
+	endfor
+	error=sum(trainError)/(2*n);
+endfunction
+
+
 function adaptEta()
 	global errors
 	global consecutiveErrorReduction

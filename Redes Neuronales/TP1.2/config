@@ -19,3 +19,4 @@ global trainerPath = 'Trainer/TerrainTrainer';
 global activationFunctionPath = 'ActivationFunction/tanH';
 global trainingPercentage = 0.8;
 global randomSeed = 3.7066987600701107
+global visual=true;
