@@ -1,10 +1,10 @@
 require 'distribution'
 
-rand = Random.new
 threads = 4
-generations = 25
+generations = 2
 sample = 8
-number_of_chosens = 5
+chosens = 5
+
 
 class Object
   def clamp(bounds)
@@ -18,14 +18,6 @@ end
 
 class Configuration
   #   Variables
-  @layersSize
-  @learningRate
-  @alphaMomentum
-  @etaPositiveAdjustment
-  @etaNegativeAdjustment
-  @maxEtaErrorReductions
-  @error
-  @thread_index
 
   attr_reader :layersSize
   attr_reader :learningRate
@@ -35,6 +27,19 @@ class Configuration
   attr_reader :maxEtaErrorReductions
   attr_accessor :error
   attr_accessor :thread_index
+
+  @layersSize
+  @learningRate
+  @alphaMomentum
+  @etaPositiveAdjustment
+  @etaNegativeAdjustment
+  @maxEtaErrorReductions
+  @error
+  @thread_index
+
+  def layer_size_bounds
+    [2,80]
+  end
 
   def layersSize=(layers)
     if layers.empty?
@@ -77,7 +82,7 @@ class Configuration
   end
 
   def maxEtaErrorReductions=(reductions)
-    @maxEtaErrorReductions = reductions.clamp(eta_reduction_bounds)
+    @maxEtaErrorReductions = reductions.clamp(eta_reduction_bounds).round
   end
 
   def to_s
@@ -90,17 +95,18 @@ global etaPositiveAdjustment = #{@etaPositiveAdjustment};
 global etaNegativeAdjustment = #{@etaNegativeAdjustment};
 global maxEtaErrorReductions = #{@maxEtaErrorReductions};
 global validateEpsilon = 0.1;
-global trainerPath = 'Trainer/TerrainTrainer';
+global trainerPath = 'Trainer/XOR';
 global activationFunctionPath = 'ActivationFunction/tanH';
-global trainingPercentage = 0.8;
+global trainingPercentage = 0.65;
 global randomSeed = #{@thread_index + Random.new.rand}
+global visual=false;
 "
   end
 
 
 # FUNCIONALITY
   def initialize_random
-    @layersSize = Array.new(1) { Random.rand(2..50)}
+    @layersSize = Array.new(1) { Random.rand(layer_size_bounds[0]..layer_size_bounds[1])}
     @learningRate = Random.rand(learning_rate_bounds[0]..learning_rate_bounds[1])
     @alphaMomentum = Random.rand(alpha_momentum_bounds[0]..alpha_momentum_bounds[1])
     @etaPositiveAdjustment = Random.rand(eta_bounds[0]..eta_bounds[1])
@@ -118,14 +124,18 @@ global randomSeed = #{@thread_index + Random.new.rand}
     conf.maxEtaErrorReductions= (@maxEtaErrorReductions+other.maxEtaErrorReductions)/2 + Random.rand(-1..1)
 
     conf.layersSize = Array.new(1) {
-                  ((@layersSize[0] + other.layersSize[0])*Random.rand(0.7..1.3)/2).clamp([2,50]).round
+                  ((@layersSize[0] + other.layersSize[0])*Random.rand(0.7..1.3)/2).clamp(layer_size_bounds).round
               }
     conf
   end
 
+  
+
   def calculateError
-    acumulator = 0
-    3.times do
+    accumulator = 0
+    tries = 3
+
+    tries.times do
       f = File.new("../config", "w")
       f.write(to_s)
       f.close
@@ -134,11 +144,11 @@ global randomSeed = #{@thread_index + Random.new.rand}
       system(cmd)
 
       f = File.open("../errorOutput#{@thread_index}", "r")
-      acumulator += f.readlines[0].strip.to_f
+      accumulator += f.readlines[0].strip.to_f
       f.close
     end
 
-    @error = acumulator/3
+    @error = accumulator/tries
     puts @error
     @error
   end
@@ -148,16 +158,17 @@ end
 
 
 next_confs = []
-chosens = []
 confs = []
 
 
 while true
   confs = []
   next_confs = []
+
   sample.times do
     next_confs << Configuration.new.initialize_random
   end
+
   generations.times do |g|
     puts "GENERATION #{g}"
 
@@ -169,21 +180,17 @@ while true
           if confs[i].error.nil?
             confs[i].thread_index = i
             Thread.start { confs[i].calculateError }
-            begin
-              sleep 1
-            rescue Interrupt
-            end
+            begin sleep 1 rescue Interrupt end
             running_threads+=1
 
             if running_threads == threads
+
               (i+1).times do |j|
                 while confs[j].error.nil?
-                  begin
-                    sleep 1
-                  rescue Interrupt
-                  end
+                  begin sleep 1 rescue Interrupt end
                 end
               end
+
               running_threads=0
             end
           end
@@ -193,16 +200,6 @@ while true
     avrg = 0
     for c in confs
       avrg += c.error
-
-      if chosens.size < number_of_chosens
-        chosens << c
-        chosens.sort_by! {|x| x.error }
-      elsif !chosens.include?(c.error) and c.error < chosens.last.error
-        chosens.pop
-        chosens << c
-        chosens.sort_by! {|x| x.error }
-      end
-
     end
 
     puts "NEW GENERATION AVRG #{avrg/confs.size}"
@@ -216,7 +213,7 @@ while true
     end
   end
 
-  for c in chosens
+  for c in confs[0...chosens]
     open("chosens", "a") do |f|
       f << c.to_s
       f << "-----------------------------------\n"

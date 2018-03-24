@@ -119,12 +119,14 @@ while(epochs<maxEpochs)
 
 endwhile
 
-correct = 0;
+testingError = 0;
+correct=0;
 for test = testingIndexes
 	input = getSample(test)';
 	guess = makeGuess(input);
 	expected = getAnswer(test);
 
+	testingError += (guess - expected)**2;
 	if((guess - expected)<validateEpsilon)
 		correct+=1;
 	endif
@@ -132,9 +134,10 @@ endfor
 
 first = floor(maxEpochs*0.1);
 sumE = sum(errors(end-first+1:end))/first;
-printf('%.20f', sumE)
+testingError = testingError/(2*length(testingIndexes));
+printf('%.20f', testingError)
 % printf('Guessed %d out of %d. Ratio: %f\n',correct, testingSize,correct/testingSize) 
-if (visual)
+if (exist('randomSeed', 'var') == 1 && visual)
 	plot(1:length(errors),errors)  
 	pause(1000)
 endif
