@@ -102,20 +102,20 @@ while(epochs<maxEpochs)
 	endfor
 
 	adaptEta()
-	if(visual)
-		trEr=medianTrainingError();
-		tEr=medianTestingError();
-		scatter(epochs,errors(end),'r','o');
-		scatter(epochs, trEr,'b','-');
-		scatter(epochs,tEr,'g','*');
-		refresh;
-		if(displayCounter==displayRate)
-			displayCounter=0;
-			epochs
-			trEr
-			tEr
-		endif
-	endif
+	% if(exist('visual', 'var') == 1 && visual)
+	% 	trEr=medianTrainingError();
+	% 	tEr=medianTestingError();
+	% 	scatter(epochs,errors(end),'r','o');
+	% 	scatter(epochs, trEr,'b','-');
+	% 	scatter(epochs,tEr,'g','*');
+	% 	refresh;
+	% 	if(displayCounter==displayRate)
+	% 		displayCounter=0;
+	% 		epochs
+	% 		trEr
+	% 		tEr
+	% 	endif
+	% endif
 
 endwhile
 
@@ -137,7 +137,7 @@ sumE = sum(errors(end-first+1:end))/first;
 testingError = testingError/(2*length(testingIndexes));
 printf('%.20f', testingError)
 % printf('Guessed %d out of %d. Ratio: %f\n',correct, testingSize,correct/testingSize) 
-if (exist('randomSeed', 'var') == 1 && visual)
+if (exist('visual', 'var') == 1 && visual)
 	plot(1:length(errors),errors)  
 	pause(1000)
 endif
