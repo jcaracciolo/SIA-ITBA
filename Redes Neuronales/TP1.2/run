@@ -1,4 +1,4 @@
-source('NeuralFunctions')
+source('./Incremental/NeuralFunctions')
 printf('Reading configuration file')
 source('runconfig')
 layersSize = [layersSize, outputSize];
@@ -8,20 +8,19 @@ global rawOutputs = cell(layersCount,1);
 global weights = cell(layersCount,1);
 
 printf('Setting up Nerual Network Weights\n')
-weights{1} = csvread(weightsPath, [0, 0, layersSize(1)-1, inputSize]);
-lastRead = layersSize(1);
-for i=2:layersCount
-	weights{i} = csvread(weightsPath,[lastRead, 0, lastRead + layersSize(i), layersSize(i - 1)]);
-	lastRead += layersSize(i);
-endfor
+weights = load(weightsPath)
+% weights{1} = csvread(weightsPath, [0, 0, layersSize(1)-1, inputSize]);
+% lastRead = layersSize(1);
+% for i=2:layersCount
+% 	weights{i} = csvread(weightsPath,[lastRead, 0, lastRead + layersSize(i), layersSize(i - 1)]);
+% 	lastRead += layersSize(i);
+% endfor
 
 weights
 
 x = input("Insert X value\n")
 y = input("Insert Y value\n")
 
-source('Utils')
-source('NeuralFunctions')
 source(activationFunctionPath)
 
 

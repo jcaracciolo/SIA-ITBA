@@ -1,10 +1,9 @@
-source('Utils')
 source('NeuralFunctions')
 % inputSize: Size of each input
 % outputSize: Size of the output
 % layersSize: Size of each layer
 % learningRate: Rate of learning
-source('config')
+source('../config')
 
 % Trainer functions
 % trainerPath: Path to trainer file
@@ -118,12 +117,14 @@ while(epochs<maxEpochs)
 	% endif
 
 endwhile
-dlmwrite(weightsPath, []);
+% dlmwrite(weightsPath, []);
 
-for i = 1 : layersCount
-	csvwrite(weightsPath, weights{i},"-append");
-endfor
-
+% for i = 1 : layersCount
+% 	csvwrite(weightsPath, weights{i},"-append");
+% endfor
+if(outputOn)
+	save(weightsPath, "weights");
+endif
 testingError = 0;
 correct=0;
 for test = testingIndexes
