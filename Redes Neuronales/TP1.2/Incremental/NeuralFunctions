@@ -63,7 +63,7 @@ function adaptEta()
 	global errors
 	global consecutiveErrorReduction
 
-	lastError = medianError()
+	lastError = medianError();
 	errors = [errors, lastError];
 
 	if(length(errors)>1)
