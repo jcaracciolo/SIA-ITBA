@@ -1,12 +1,14 @@
-global activationFunctionRange = [-1,1];
-global activationFunctionMarginDelta = 0.1;
+global activationFunctionRange = [0,1];
+global activationFunctionMarginDelta = 0.15;
 
 function answer = tanH(n)
-	answer = (e**n - e**-n) / (e**n+e**-n);
+	%answer = (e**n - e**-n) / (e**n+e**-n);
+	answer=tanh(n);
 end
 
 function answer = derivativeTanH(x)
-	answer = 1 - activate(x)**2;
+	%answer = (1 - activate(x)**2);
+	answer = (1- tanh(x)**2);
 end
 
 function answer = activate(matrix)
