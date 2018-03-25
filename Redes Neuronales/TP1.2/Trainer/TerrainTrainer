@@ -30,3 +30,30 @@ function setUpBatch()
 	membraines = zeros(getSampleSize(),1) -1;
 	data = [membraines, data];
 endfunction
+
+function getSampleGraph()
+	global data;
+	x = data(:,1);
+	y = data(:,2);
+	z = data(:,3);
+	subplot(2,1,1);
+	scatter3(x(:),y(:),z(:),[],z(:));
+endfunction
+
+function getMeshGraph()
+	% Hay que implementar f(x,y) para hacer el mesh
+	% Dejo esto con un scatter para mostrar el subplot
+	global data;
+	x = data(:,1);
+	y = data(:,2);
+	z = data(:,3); 
+	[xx,yy] = meshgrid(x,y);
+	% z = zeros(441,441);
+	% 	for j = 1:441
+	% 		points = [xx(:,j),yy(:,j)];
+	% 		z = [makeGuess(points),z];
+	% endfor
+	subplot(2,1,2);
+	scatter3(x,y,z);
+	% mesh(x,y,z);
+endfunction
