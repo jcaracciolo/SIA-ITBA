@@ -1,0 +1,23 @@
+source('config')
+source(activationFunctionPath)
+
+values = csvread(dataFile);
+answers = values(:,end);
+global maxAnswer = max(answers);
+global minAnswer = min(answers);
+global newMax = activationFunctionRange(2) - activationFunctionMarginDelta;
+global newMin = activationFunctionRange(1) + activationFunctionMarginDelta;
+
+function answer = changeRange(x)
+	global maxAnswer
+	global minAnswer
+	global newMax
+	global newMin
+	answer = ((x-minAnswer)/maxAnswer)*(newMax-newMin) + newMin;
+endfunction
+
+newValues = arrayfun(@changeRange, values)
+min(newValues)
+dataFile = strcat(dataFile,'-modified');
+dlmwrite(dataFile, newValues);
+

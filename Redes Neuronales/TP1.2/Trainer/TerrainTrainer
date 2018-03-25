@@ -1,4 +1,4 @@
-global data = dlmread('terrain01.data',',',1,0)
+global data = csvread(dataFile)
 global dataSize = rows(data)
 
 function amount = getSampleSize()
