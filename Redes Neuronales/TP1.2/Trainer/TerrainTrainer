@@ -1,6 +1,6 @@
-global data = csvread(dataFile)
-global dataSize = rows(data)
-
+global data = csvread(dataFile)'
+global dataSize = columns(data)
+dataFile
 function amount = getSampleSize()
 	global dataSize;
 	amount = dataSize;
@@ -8,12 +8,12 @@ endfunction
 
 function sample = getSample(i) 
 	global data;
-	sample = data(i, 1:end-1);
+	sample = data(1:end-1, i);
 endfunction
 
 function answer = getAnswer(i)
 	global data;
-	answer = data(i, end);
+	answer = data(end, i);
 endfunction
 
 function matrix = getSampleMatrix()
@@ -27,9 +27,9 @@ function matrix = getAnswerMatrix()
 endfunction
 
 function setUpBatch()
-	global data;
-	membraines = zeros(getSampleSize(),1) -1;
-	data = [membraines, data]';
+	% global data;
+	% membraines = zeros(1,getSampleSize()) -1;
+	% data = [membraines; data];
 endfunction
 
 function getSampleGraph()

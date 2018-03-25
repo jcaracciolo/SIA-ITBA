@@ -7,7 +7,7 @@ function guess = makeGuess(input)
 	% Caculate the output of the first layer
 	rawOutputs{1} = weights{1}*[-1; input];
 	outputs{1} = activate(rawOutputs{1});
-
+	
 	% Caculate the output of each layer
 	for i=2:layersCount
 		% Wigths of the current layer times last output with a -1 at the beggining
@@ -22,7 +22,7 @@ function error = medianError()
 	errors = [];
 	n = getSampleSize();
 	for i=1:n
-		input = getSample(i)';
+		input = getSample(i);
 		answer = getAnswer(i);
 		guess =  makeGuess(input);
 		errors = [errors, (answer - guess)**2];
@@ -36,7 +36,7 @@ function error = medianTestingError()
 	n=length(testingIndexes);
 	testError=[];
 	for i = testingIndexes
-		input=getSample(i)';
+		input=getSample(i);
 		answer=getAnswer(i);
 		guess= makeGuess(input);
 		testError=[testError,(answer-guess)**2];
@@ -50,7 +50,7 @@ function error = medianTrainingError()
 	n=length(trainingIndexes);
 	trainError=[];
 	for i = trainingIndexes
-		input=getSample(i)';
+		input=getSample(i);
 		answer=getAnswer(i);
 		guess= makeGuess(input);
 		trainError=[trainError,(answer-guess)**2];
@@ -63,7 +63,7 @@ function adaptEta()
 	global errors
 	global consecutiveErrorReduction
 
-	lastError = medianError();
+	lastError = medianError()
 	errors = [errors, lastError];
 
 	if(length(errors)>1)

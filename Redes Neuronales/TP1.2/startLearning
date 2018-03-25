@@ -7,5 +7,3 @@ else
 	source('Incremental/MultiLayerNeuralNetwork');
 endif
 
-
-

@@ -3,7 +3,6 @@ source('Batch/NeuralFunctionsBatch')
 % outputSize: Size of the output
 % layersSize: Size of each layer
 % learningRate: Rate of learning
-source('config')
 
 % Trainer functions
 % trainerPath: Path to trainer file
@@ -40,10 +39,10 @@ global testingSize = sampleSize - trainingSize;
 global trainingIndexes = samples(1:trainingSize);
 global testingIndexes = samples(trainingSize+1:end);
 
-global trainingMatrix = getSampleMatrix(trainingIndexes,:);
-global testingMatrix = getSampleMatrix(testingIndexes,:);
-global trainingAnswerMatrix = getAnswerMatrix(trainingIndexes,:);
-global testingAnswerMatrix = getAnswerMatrix(testingIndexes,:);
+global trainingMatrix = getSampleMatrix()(:,trainingIndexes);
+global testingMatrix = getSampleMatrix()(:,testingIndexes);
+global trainingAnswerMatrix = getAnswerMatrix()(:,trainingIndexes);
+global testingAnswerMatrix = getAnswerMatrix()(:,testingIndexes);
 
 %create initial random matrix
 global weights = cell(layersCount,1);
@@ -69,40 +68,40 @@ global consecutiveErrorReduction=0;
 global epochs = 0;
 
 
-global membraines = zeros(1,getSampleSize()) -1;
+global membraines = zeros(1,trainingSize) -1;
 
-while(epochs<300)
-	epochs +=1
+while(epochs<6000)
+	epochs +=1;
 
-	% Input must be a column vector with a -1 at the beggining
-	lastOutput = makeGuessWithMatrix(trainingMatrix);
-	%Correcting
-	% Calculate the last delta to start backpropagation
-	deltas{end} = times(correction(rawOutputs{end}), (trainingAnswerMatrix - lastOutput));
+		lastOutput = makeGuessWithMatrix(trainingMatrix);
 
-	% For each delta, calculate it by correcting the output of the given layer
-	% point product by the matrix product of
-	% the weigths of the upper layer (removing the threshold column) and
-	% the delta of the upper layer. 
-	for i=fliplr(1:layersCount-1)
-		deltas{i} = times(correction(rawOutputs{i}), (weights{i+1}(:,2:end)'*deltas{i+1}));
-	endfor
+		%Correcting
+		% Calculate the last delta to start backpropagation
+		deltas{end} = times(correction(rawOutputs{end}), (trainingAnswerMatrix - lastOutput));
 
-	deltaWeights{1} = deltas{1}*(trainingMatrix') + deltaWeights{1}*alphaMomentum;
-	weights{1} += deltaWeights{1};
-	for(i=2:layersCount)
-		deltaWeights{i} = deltas{i}*([membraines; outputs{i-1}]') + deltaWeights{i}*alphaMomentum;
-		weights{i} += deltaWeights{i};
-	endfor
+		% For each delta, calculate it by correcting the output of the given layer
+		% point product by the matrix product of
+		% the weigths of the upper layer (removing the threshold column) and
+		% the delta of the upper layer. 
+		for i=fliplr(1:layersCount-1)
+			deltas{i} = times(correction(rawOutputs{i}), (weights{i+1}(:,2:end)'*deltas{i+1}));
+		endfor
 
-	printf("%.20f",medianTrainingError);
-	adaptEta(trainingIndexes)
+
+		deltaWeights{1} = learningRate*(deltas{1}*([membraines; trainingMatrix]')) + alphaMomentum*deltaWeights{1};
+		weights{1} += deltaWeights{1};
+		for(i=2:layersCount)
+			deltaWeights{i} = learningRate*(deltas{i}*([membraines; outputs{i-1}]')) + alphaMomentum*deltaWeights{i};
+			weights{i} += deltaWeights{i};
+		endfor
+
+	adaptEta()
 
 endwhile
 
 % correct = 0;
 % for test = testingIndexes
-% 	input = getSample(test)';
+% 	input = getSample(test);
 % 	% Batch
 % 	guess = makeGuess(input, 1);
 % 	expected = getAnswer(test);

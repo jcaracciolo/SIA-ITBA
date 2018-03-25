@@ -12,7 +12,7 @@ function answer = changeRange(x)
 	global minAnswer
 	global newMax
 	global newMin
-	answer = ((x-minAnswer)/maxAnswer)*(newMax-newMin) + newMin;
+	answer = ((x-minAnswer)/(maxAnswer-minAnswer))*(newMax-newMin) + newMin;
 endfunction
 
 function answer = reverseChangeRange(x)
@@ -20,7 +20,7 @@ function answer = reverseChangeRange(x)
 	global minAnswer
 	global newMax
 	global newMin
-	answer = ((x - newMin)/(newMax-newMin))*maxAnswer + minAnswer  
+	answer = ((x - newMin)/(newMax-newMin))*(maxAnswer-minAnswer) + minAnswer  
 endfunction
 
 newAnswers = arrayfun(@changeRange, answers);

@@ -55,7 +55,7 @@ testingSize = sampleSize - trainingSize;
 global trainingIndexes = samples(1:trainingSize);
 global testingIndexes = samples(trainingSize+1:end);
 
-maxEpochs = 30;
+maxEpochs = 500;
 
 
 displayRate=50;
@@ -70,9 +70,9 @@ while(epochs<maxEpochs)
 	for index = samplesShuffled
 
 		% Input must be a column vector with a -1 at the beggining
-		input = getSample(index)';
+		input = getSample(index);
 		lastOutput = makeGuess(input);
-		expected = getAnswer(index)';
+		expected = getAnswer(index);
 
 		%Correcting
 		% Calculate the last delta to start backpropagation
@@ -125,7 +125,7 @@ endif
 testingError = 0;
 correct=0;
 for test = testingIndexes
-	input = getSample(test)';
+	input = getSample(test);
 	guess = makeGuess(input);
 	expected = getAnswer(test);
 
