@@ -56,22 +56,29 @@ global consecutiveErrorReduction=0;
 global epochs = 0;	
 
 sampleSize = getSampleSize();
+
+%MODIFIED FOR TERRAIN STUDY PURPOSES
 samples = randperm(sampleSize);
+%samples=[1:sampleSize];
+
+
 trainingSize = ceil(sampleSize*trainingPercentage);
 testingSize = sampleSize - trainingSize;
 global trainingIndexes = samples(1:trainingSize);
 global testingIndexes = samples(trainingSize+1:end);
 
-maxEpochs = 100;
+maxEpochs = 4000;
 
-displayRate=50;
+displayRate=20;
 displayCounter=0;
 hold on;
+weightsRate=55555;
+weighCounter=0;
 
 while(epochs<maxEpochs)
 	epochs +=1;
 	displayCounter+=1;
-
+	weighCounter+=1;
 	samplesShuffled = trainingIndexes(randperm(trainingSize));
 	for index = samplesShuffled
 
@@ -102,19 +109,29 @@ while(epochs<maxEpochs)
 	endfor
 
 	adaptEta()
-	if(visual)
+	if(displayCounter==displayRate)
+		if(visual)
 		trEr=medianTrainingError();
 		tEr=medianTestingError();
+		totEr=errors(end);
 		scatter(epochs,errors(end),'r','o');
 		scatter(epochs, trEr,'b','-');
 		scatter(epochs,tEr,'g','*');
 		refresh;
-		if(displayCounter==displayRate)
-			displayCounter=0;
-			epochs
-			trEr
-			tEr
-		endif
+		displayCounter=0;
+		
+		%%PRINTINGGG
+		printf("%d,%d,%d\n",epochs,trEr,tEr);
+		
+
+		% epochs;
+		% trEr;
+		% tEr;
+		endif;
+	endif
+	if(weighCounter==weightsRate)
+		weighCounter=0;
+		weights
 	endif
 
 endwhile
@@ -133,6 +150,8 @@ endfor
 first = floor(maxEpochs*0.1);
 sumE = sum(errors(end-first+1:end))/first;
 printf('%.20f', sumE)
+%weights
+%save weight.mat weights
 % printf('Guessed %d out of %d. Ratio: %f\n',correct, testingSize,correct/testingSize) 
 if (visual)
 	plot(1:length(errors),errors)  
