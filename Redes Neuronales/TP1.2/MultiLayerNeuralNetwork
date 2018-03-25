@@ -62,14 +62,14 @@ testingSize = sampleSize - trainingSize;
 global trainingIndexes = samples(1:trainingSize);
 global testingIndexes = samples(trainingSize+1:end);
 
-maxEpochs = 100;
+maxEpochs = 1;
 
 displayRate=50;
 displayCounter=0;
 hold on;
 
 while(epochs<maxEpochs)
-	epochs +=1;
+	epochs +=1
 	displayCounter+=1;
 
 	samplesShuffled = trainingIndexes(randperm(trainingSize));
@@ -118,6 +118,11 @@ while(epochs<maxEpochs)
 	% endif
 
 endwhile
+dlmwrite(weightsPath, []);
+
+for i = 1 : layersCount
+	csvwrite(weightsPath, weights{i},"-append");
+endfor
 
 testingError = 0;
 correct=0;
