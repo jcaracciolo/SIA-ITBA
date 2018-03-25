@@ -14,4 +14,4 @@ global dataFile = 'terrain01.data';
 global weightsPath = 'weights.data';
 global randomSeed = 24321312;
 global visual = true;
-global batch = true;
+global batch = false;

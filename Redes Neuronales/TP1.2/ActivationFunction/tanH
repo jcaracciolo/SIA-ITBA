@@ -1,5 +1,5 @@
-global activationFunctionRange = [0,1];
-global activationFunctionMarginDelta = 0;
+global activationFunctionRange = [-1,1];
+global activationFunctionMarginDelta = 0.15;
 
 function answer = tanH(n)
 	answer = (e**n - e**-n) / (e**n+e**-n);
