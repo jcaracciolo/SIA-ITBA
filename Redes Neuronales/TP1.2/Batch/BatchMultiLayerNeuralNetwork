@@ -1,5 +1,4 @@
-source('Utils')
-source('NeuralFunctionsBatch')
+source('Batch/NeuralFunctionsBatch')
 % inputSize: Size of each input
 % outputSize: Size of the output
 % layersSize: Size of each layer
@@ -96,6 +95,7 @@ while(epochs<300)
 		weights{i} += deltaWeights{i};
 	endfor
 
+	printf("%.20f",medianTrainingError);
 	adaptEta(trainingIndexes)
 
 endwhile

@@ -1,4 +1,3 @@
-source('config')
 source(activationFunctionPath)
 
 values = csvread(dataFile);
@@ -16,8 +15,7 @@ function answer = changeRange(x)
 	answer = ((x-minAnswer)/maxAnswer)*(newMax-newMin) + newMin;
 endfunction
 
-newValues = arrayfun(@changeRange, values)
-min(newValues)
+newValues = arrayfun(@changeRange, values);
 dataFile = strcat(dataFile,'-modified');
 dlmwrite(dataFile, newValues);
 

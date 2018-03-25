@@ -1,9 +1,8 @@
-source('NeuralFunctions')
+source('Incremental/NeuralFunctions')
 % inputSize: Size of each input
 % outputSize: Size of the output
 % layersSize: Size of each layer
 % learningRate: Rate of learning
-source('../config')
 
 % Trainer functions
 % trainerPath: Path to trainer file
@@ -12,11 +11,6 @@ source('../config')
 %  -- ? getAnswer(int index)
 source(trainerPath)
 
-%  Activation functions
-% activationFunctionPath: Path to activate function
-%  -- float activate(float x)
-%  -- float correction(float x) derivative
-source(activationFunctionPath)
 
 % Create array with all sizes
 layersSize = [layersSize, outputSize];
@@ -61,11 +55,12 @@ testingSize = sampleSize - trainingSize;
 global trainingIndexes = samples(1:trainingSize);
 global testingIndexes = samples(trainingSize+1:end);
 
-maxEpochs = 1;
+maxEpochs = 30;
+
 
 displayRate=50;
 displayCounter=0;
-hold on;
+
 
 while(epochs<maxEpochs)
 	epochs +=1
@@ -101,6 +96,8 @@ while(epochs<maxEpochs)
 	endfor
 
 	adaptEta()
+
+
 	% if(exist('visual', 'var') == 1 && visual)
 	% 	trEr=medianTrainingError();
 	% 	tEr=medianTestingError();
@@ -122,7 +119,7 @@ endwhile
 % for i = 1 : layersCount
 % 	csvwrite(weightsPath, weights{i},"-append");
 % endfor
-if(outputOn)
+if(exist('outputOn', 'var') == 1 && outputOn)
 	save(weightsPath, "weights");
 endif
 testingError = 0;
@@ -133,7 +130,7 @@ for test = testingIndexes
 	expected = getAnswer(test);
 
 	testingError += (guess - expected)**2;
-	if((guess - expected)<validateEpsilon)
+	if(abs(guess - expected)<validateEpsilon)
 		correct+=1;
 	endif
 endfor
