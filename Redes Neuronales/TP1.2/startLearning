@@ -1,0 +1,11 @@
+source('config');
+source('dataInitialization');
+
+if (exist('batch', 'var') == 1 && batch)
+	source('Batch/BatchMultiLayerNeuralNetwork');
+else
+	source('Incremental/MultiLayerNeuralNetwork');
+endif
+
+
+

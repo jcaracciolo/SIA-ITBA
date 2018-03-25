@@ -6,7 +6,7 @@ function answer = logistic(x)
 end
 
 function answer = derivativeLogistic(x)
-	logi = logistic(x)
+	logi = logistic(x);
 	answer = logi*(1-logi);
 end
 
