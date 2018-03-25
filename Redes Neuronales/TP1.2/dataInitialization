@@ -16,8 +16,15 @@ function answer = changeRange(x)
 	answer = ((x-minAnswer)/maxAnswer)*(newMax-newMin) + newMin;
 endfunction
 
-newValues = arrayfun(@changeRange, values)
-min(newValues)
+function answer = reverseChangeRange(x)
+	global maxAnswer
+	global minAnswer
+	global newMax
+	global newMin
+	answer = ((x - newMin)/(newMax-newMin))*maxAnswer + minAnswer  
+endfunction
+
+newAnswers = arrayfun(@changeRange, answers);
 dataFile = strcat(dataFile,'-modified');
-dlmwrite(dataFile, newValues);
+dlmwrite(dataFile, [values(:,1:end-1),newAnswers]);
 
