@@ -1,8 +1,9 @@
 global data = dlmread('terrain01.data',',',1,0)
+global dataSize = rows(data)
 
 function amount = getSampleSize()
-	global data;
-	amount = rows(data);
+	global dataSize;
+	amount = dataSize;
 endfunction
 
 function sample = getSample(i) 
@@ -17,16 +18,16 @@ endfunction
 
 function matrix = getSampleMatrix()
 	global data;
-	matrix = data(:, 1:end-1);
+	matrix = data(1:end-1,:);
 endfunction
 
 function matrix = getAnswerMatrix()
 	global data;
-	matrix = data(:, end);
+	matrix = data(end,:);
 endfunction
 
 function setUpBatch()
 	global data;
 	membraines = zeros(getSampleSize(),1) -1;
-	data = [membraines, data];
+	data = [membraines, data]';
 endfunction

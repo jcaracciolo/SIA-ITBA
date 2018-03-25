@@ -1,12 +1,16 @@
-% Receives a column vector
-function answer = activate(array)
-	answer = [];
-	for n = array'
-		answer = [answer ; (e**n - e**-n) / (e**n+e**-n)];
-	endfor
+function answer = tanH(n)
+	answer = (e**n - e**-n) / (e**n+e**-n);
+end
+
+function answer = derivativeTanH(x)
+	answer = 1 - activate(x)**2;
+end
+
+function answer = activate(matrix)
+	answer = arrayfun(@tanH, matrix);
 endfunction
 
-% Receives a column vector
-function answer = correction(array)
-	answer = 1 - activate(array).**2;
-endfunction
+function answer = correction(matrix)
+	answer = arrayfun(@derivativeTanH, matrix);
+endfunction			
+

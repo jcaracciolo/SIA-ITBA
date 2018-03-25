@@ -1,12 +1,16 @@
-% Receives a column vector
-function answer = activate(array)
-	answer = [];
-	for n = array'
-		answer = [answer ; 1 / (1+e**-n)];
-	endfor
+function answer = logistic(x)
+	answer = 1 / (1+e**-x);
+end
+
+function answer = derivativeLogistic(x)
+	logi = logistic(x)
+	answer = logi*(1-logi);
+end
+
+function answer = activate(matrix)
+	answer = arrayfun(@logistic, matrix);
 endfunction
 
-% Receives a column vector
-function answer = correction(array)
-	answer = times(activate(array), (1-activate(array)));
+function answer = correction(matrix)
+	answer = arrayfun(@derivativeLogistic, matrix);
 endfunction			
