@@ -11,4 +11,6 @@ global trainerPath = 'Trainer/TerrainTrainer';
 global activationFunctionPath = 'ActivationFunction/logistic';
 global trainingPercentage = 0.8;
 global dataFile = 'terrain01.data';
+global randomSeed = 3.7260235586134627
+global weightsPath = './weights.data';
 global visual = true;

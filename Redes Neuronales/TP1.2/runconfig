@@ -1,0 +1,5 @@
+global outputSize = 1;
+global layersSize = [29];
+global inputSize = 2;
+global weightsPath = './weights.data';
+global activationFunctionPath = 'ActivationFunction/tanH';
