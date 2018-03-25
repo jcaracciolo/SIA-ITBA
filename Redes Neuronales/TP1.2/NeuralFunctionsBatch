@@ -1,44 +1,53 @@
-function guess = makeGuess(input)
+function guess = makeGuessWithMatrix(input)
 	global weights
 	global rawOutputs
 	global outputs
 	global layersCount
-
-	% Batch
+	global membraines
 
 	% Caculate the output of the first layer
-	rawOutputs{1, batchIndex} = weights{1}*[-1; input];
-	outputs{1, batchIndex} = activate(rawOutputs{1, batchIndex});
+	rawOutputs{1} = weights{1}*input;
+	outputs{1} = activate(rawOutputs{1});
 
 	% Caculate the output of each layer
 	for i=2:layersCount
 		% Wigths of the current layer times last output with a -1 at the beggining
-		rawOutputs{i, batchIndex} = weights{i}*[-1; outputs{i-1, batchIndex}];
-		outputs{i, batchIndex} = activate(rawOutputs{i, batchIndex});
+		rawOutputs{i} = weights{i}*[membraines; outputs{i-1}];
+		outputs{i} = activate(rawOutputs{i});
 	endfor
 
-	guess = outputs{end, batchIndex};
+	guess = outputs{end};
 endfunction
 
-function error = medianError(indexes)
-	% Batch
-	errors = [];
-	n = getSampleSize();
-	for i=indexes
-		input = getSample(i)';
-		answer = getAnswer(i);
-		guess =  makeGuess(input, i);
-		errors = [errors, (answer - guess)**2];
-	endfor
-	error = sum(errors)/(2*n);
+function error = medianBatchError()
+	guess = makeGuessWithMatrix(getSampleMatrix());
+	error = sum((getAnswerMatrix()-guess).**2)/(2*getSampleSize());
 endfunction
 
-function adaptEta(indexes)
+function error = medianTestingError()
+	global testingSize
+	global testingMatrix
+	global testing
+
+	guess = makeGuessWithMatrix(testingMatrix);
+	error = sum((testingAnswerMatrix-guess).**2)/(2*testingSize);
+endfunction
+
+function error = medianTrainingError()
+	global trainingSize
+	global trainingMatrix
+	global trainingAnswerMatrix
+
+	guess = makeGuessWithMatrix(trainingMatrix);
+	error = sum((trainingAnswerMatrix-guess).**2)/(2*trainingSize);
+endfunction
+
+
+function adaptEta()
 	global errors
 	global consecutiveErrorReduction
 
-	% Batch
-	lastError = medianError(indexes);
+	lastError = medianTrainingError();
 	errors = [errors, lastError];
 
 	if(length(errors)>1)

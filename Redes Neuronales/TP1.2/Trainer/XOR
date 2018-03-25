@@ -7,6 +7,7 @@ endfunction
 
 
 global patternMatrix = zeros (2 ** inputSize, inputSize + 1);
+global matrixSize = rows(patternMatrix);
 
 for i = 1 : (2 ** inputSize)
 	bin = dec2bin(i-1);
@@ -19,8 +20,8 @@ endfor
 patternMatrix(patternMatrix==0) = -1;
 
 function amount = getSampleSize()
-	global patternMatrix;
-	amount = rows(patternMatrix);
+	global matrixSize;
+	amount = matrixSize;
 endfunction
 
 function sample = getSample(i) 
@@ -31,4 +32,20 @@ endfunction
 function answer = getAnswer(i)
 	global patternMatrix;
 	answer = patternMatrix(i, end);
+endfunction
+
+function matrix = getSampleMatrix()
+	global patternMatrix;
+	matrix = patternMatrix(1:end-1,:);
+endfunction
+
+function matrix = getAnswerMatrix()
+	global patternMatrix;
+	matrix = patternMatrix(end,:);
+endfunction
+
+function setUpBatch()
+	global patternMatrix;
+	membraines = zeros(getSampleSize(),1) -1;
+	patternMatrix = [membraines, patternMatrix]';
 endfunction
