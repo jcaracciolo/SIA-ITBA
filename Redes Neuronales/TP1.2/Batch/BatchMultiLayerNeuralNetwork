@@ -70,7 +70,7 @@ global epochs = 0;
 
 global membraines = zeros(1,trainingSize) -1;
 
-while(epochs<6000)
+while(epochs<1200)
 	epochs +=1;
 
 		lastOutput = makeGuessWithMatrix(trainingMatrix);
@@ -92,7 +92,7 @@ while(epochs<6000)
 		weights{1} += deltaWeights{1};
 		for(i=2:layersCount)
 			deltaWeights{i} = learningRate*(deltas{i}*([membraines; outputs{i-1}]')) + alphaMomentum*deltaWeights{i};
-			weights{i} += deltaWeights{i};
+			weights{i} += deltaWeights{i}/trainingSize;
 		endfor
 
 	adaptEta()
