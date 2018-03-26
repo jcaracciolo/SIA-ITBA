@@ -55,7 +55,7 @@ testingSize = sampleSize - trainingSize;
 global trainingIndexes = samples(1:trainingSize);
 global testingIndexes = samples(trainingSize+1:end);
 
-maxEpochs = 200;
+maxEpochs = 35;
 
 trainingErrors=zeros(1,maxEpochs);
 testingErrors=zeros(1,maxEpochs);

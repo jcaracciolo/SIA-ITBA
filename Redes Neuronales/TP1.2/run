@@ -1,6 +1,6 @@
-source('./Incremental/NeuralFunctions')
+source('./Batch/NeuralFunctionsBatch')
 printf('Reading configuration file')
-source('runconfig')
+source('config')
 layersSize = [layersSize, outputSize];
 global layersCount = length(layersSize);
 global outputs = cell(layersCount,1);
@@ -8,22 +8,39 @@ global rawOutputs = cell(layersCount,1);
 global weights = cell(layersCount,1);
 
 printf('Setting up Nerual Network Weights\n')
-weights = load(weightsPath)
-% weights{1} = csvread(weightsPath, [0, 0, layersSize(1)-1, inputSize]);
-% lastRead = layersSize(1);
-% for i=2:layersCount
-% 	weights{i} = csvread(weightsPath,[lastRead, 0, lastRead + layersSize(i), layersSize(i - 1)]);
-% 	lastRead += layersSize(i);
-% endfor
-
-weights
-
-x = input("Insert X value\n")
-y = input("Insert Y value\n")
-
+weights = load(weightsPath).weights;
 source(activationFunctionPath)
-
-
+source(trainerPath)
 
 printf('Calculating answer\n')
-answer = makeGuess([x,y]')
+
+% Hay que implementar f(x,y) para hacer el mesh
+% Dejo esto con un scatter para mostrar el subplot
+global data;
+x = data(1,:)';
+y = data(2,:)';
+z = data(3,:)';
+
+
+minimun = min([min(x),min(y)]);
+maximun = max([max(x),max(y)]);
+positions = [minimun:0.1:maximun];
+scatterPoints = [];
+for j = 1:length(positions)
+	scatterPoints = [scatterPoints; [zeros(length(positions),1) + positions(j),positions']];
+endfor
+z2 = makeGuessWithMatrix(scatterPoints')';
+
+[xx,yy] = meshgrid(positions,positions);
+zmesh = zeros(length(positions),length(positions));
+for j = 1:length(positions)
+	points = makeGuessWithMatrix([xx(:,j),yy(:,j)]');
+	zmesh(:,j) = points;
+endfor
+subplot(3,1,1);
+scatter3(x,y,z);
+subplot(3,1,2)
+scatter3(scatterPoints(:,1),scatterPoints(:,2),z2);
+subplot(3,1,3);
+surf(positions,positions,zmesh);
+pause()
