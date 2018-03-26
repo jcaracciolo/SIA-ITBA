@@ -1,4 +1,4 @@
-source('./Batch/NeuralFunctionsBatch')
+source('Batch/NeuralFunctionsBatch')
 printf('Reading configuration file')
 source('config')
 layersSize = [layersSize, outputSize];

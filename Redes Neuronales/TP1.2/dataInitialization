@@ -7,7 +7,7 @@ global minAnswer = min(answers);
 global newMax = activationFunctionRange(2) - activationFunctionMarginDelta;
 global newMin = activationFunctionRange(1) + activationFunctionMarginDelta;
 
-toReduceLater=0
+toReduceLater=0;
 if newMin<0
 	toReduceLater = abs(newMin);
 	newMin = 0;

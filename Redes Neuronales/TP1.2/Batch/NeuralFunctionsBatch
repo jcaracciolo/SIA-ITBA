@@ -46,8 +46,9 @@ endfunction
 function adaptEta()
 	global errors
 	global consecutiveErrorReduction
-
-	lastError = medianTrainingError()
+	global lastError;
+	
+	lastError = medianBatchError();
 	errors = [errors, lastError];
 
 	if(length(errors)>1)

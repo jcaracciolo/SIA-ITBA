@@ -1,6 +1,5 @@
 global data = csvread(dataFile)'
 global dataSize = columns(data)
-dataFile
 function amount = getSampleSize()
 	global dataSize;
 	amount = dataSize;

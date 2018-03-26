@@ -69,49 +69,73 @@ global epochs = 0;
 
 
 global membraines = zeros(1,trainingSize) -1;
+if(exist('visual', 'var') == 1 && visual)
+	hold on;
+endif
 
-while(epochs<1200)
+global lastError = Inf;
+trainingErrors=[];
+testingErrors=[];
+displayRate=1;
+displayCounter=0;
+while(lastError>errorGoal)
 	epochs +=1;
+	displayCounter+=1;
 
-		lastOutput = makeGuessWithMatrix(trainingMatrix);
+	lastOutput = makeGuessWithMatrix(trainingMatrix);
 
-		%Correcting
-		% Calculate the last delta to start backpropagation
-		deltas{end} = times(correction(rawOutputs{end}), (trainingAnswerMatrix - lastOutput));
+	%Correcting
+	% Calculate the last delta to start backpropagation
+	deltas{end} = times(correction(rawOutputs{end}), (trainingAnswerMatrix - lastOutput));
 
-		% For each delta, calculate it by correcting the output of the given layer
-		% point product by the matrix product of
-		% the weigths of the upper layer (removing the threshold column) and
-		% the delta of the upper layer. 
-		for i=fliplr(1:layersCount-1)
-			deltas{i} = times(correction(rawOutputs{i}), (weights{i+1}(:,2:end)'*deltas{i+1}));
-		endfor
+	% For each delta, calculate it by correcting the output of the given layer
+	% point product by the matrix product of
+	% the weigths of the upper layer (removing the threshold column) and
+	% the delta of the upper layer. 
+	for i=fliplr(1:layersCount-1)
+		deltas{i} = times(correction(rawOutputs{i}), (weights{i+1}(:,2:end)'*deltas{i+1}));
+	endfor
 
 
-		deltaWeights{1} = learningRate*(deltas{1}*([membraines; trainingMatrix]')) + alphaMomentum*deltaWeights{1};
-		weights{1} += deltaWeights{1};
-		for(i=2:layersCount)
-			deltaWeights{i} = learningRate*(deltas{i}*([membraines; outputs{i-1}]')) + alphaMomentum*deltaWeights{i};
-			weights{i} += deltaWeights{i}/trainingSize;
-		endfor
+	deltaWeights{1} = learningRate*(deltas{1}*([membraines; trainingMatrix]')) + alphaMomentum*deltaWeights{1};
+	weights{1} += deltaWeights{1};
+	for(i=2:layersCount)
+		deltaWeights{i} = learningRate*(deltas{i}*([membraines; outputs{i-1}]')) + alphaMomentum*deltaWeights{i};
+		weights{i} += deltaWeights{i}/trainingSize;
+	endfor
 
 	adaptEta()
 
+	trainingErrors=[trainingErrors, medianTrainingError()];
+	testingErrors=[testingErrors, medianTestingError()];
+
+	if(exist('visual', 'var') == 1 && visual)
+		if(displayCounter==displayRate)
+			trEr=trainingErrors(end);
+			tEr=testingErrors(end);
+			scatter(epochs,errors(end),'r','o');
+			scatter(epochs, trEr,'b','-');
+			scatter(epochs,tEr,'g','*');
+			refresh;
+			displayCounter=0;
+		endif;
+	endif
+
 endwhile
 
-% correct = 0;
-% for test = testingIndexes
-% 	input = getSample(test);
-% 	% Batch
-% 	guess = makeGuess(input, 1);
-% 	expected = getAnswer(test);
+testingError = 0;
+correct=0;
+guess = makeGuessWithMatrix(testingMatrix);
+expected = testingAnswerMatrix;
+for i=1:testingSize
+	if(abs(guess(i)-expected(i))<validateEpsilon)
+		correct+=1;
+	endif
+endfor
 
-% 	if((guess - expected)<validateEpsilon)
-% 		correct+=1;
-% 	endif
-% endfor
-
-% printf('Guessed %d out of %d. Ratio: %f\n',correct, testingSize,correct/testingSize)
-errors;
-plot(1:length(errors),errors) 
-pause(1000)
+printf('Guessed %d out of %d. Ratio: %f wit a %f error\n',
+	correct, testingSize,correct/testingSize, validateEpsilon) 
+if (exist('visual', 'var') == 1 && visual)
+	plot(1:length(errors),errors)  
+	pause()
+endif
