@@ -58,17 +58,52 @@ function error = medianTrainingError()
 	error=sum(trainError)/(2*n);
 endfunction
 
+function amount = getCorrected() 
+  global testingIndexes 
+  global validateEpsilon 
+ 
+  amount=0; 
+  for test = testingIndexes 
+    input = getSample(test); 
+    guess = makeGuess(input); 
+    expected = getAnswer(test); 
+    if(abs(guess - expected)<validateEpsilon) 
+      amount+=1; 
+    endif 
+  endfor 
+endfunction 
 
+global consecutiveErrorReduction = 0;
 function adaptEta()
-	global errors
+	global weights
+	global lastWeights
+	global deltaWeights
+	global lastDeltaWeights
+
 	global consecutiveErrorReduction
+	global maxEtaErrorReductions
+	global learningRate
+	global etaPositiveAdjustment
+	global etaNegativeAdjustment
+
+	global errors
+	global trainingErrors
+	global testingErrors
 	global lastError
+	global lastTrainingError
+	global lastTestingError
 
 	lastError = medianError();
-	errors = [errors, lastError];
+	lastTestingError = medianTestingError();
+	lastTrainingError = medianTestingError();
 
-	if(length(errors)>1)
-		if(errors(end)<lastError)
+
+	if(length(errors)>=1)
+		if(errors(end)>lastError)
+			errors = [errors, lastError];
+			trainingErrors=[trainingErrors, lastTrainingError];
+			testingErrors=[testingErrors, lastTestingError];
+
 			consecutiveErrorReduction +=1;
 
 			if(consecutiveErrorReduction==maxEtaErrorReductions)
@@ -76,7 +111,10 @@ function adaptEta()
 				learningRate+= etaPositiveAdjustment;
 			endif
 
-		elseif(errors(end)>lastError)
+		else
+			weights = lastWeights;
+			deltaWeights = lastDeltaWeights;
+			sum(sum(weights{1}));
 			consecutiveErrorReduction=0;
 			learningRate-= etaNegativeAdjustment * learningRate;
 		endif

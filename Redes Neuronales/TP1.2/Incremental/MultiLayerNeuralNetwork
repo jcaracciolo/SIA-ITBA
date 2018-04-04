@@ -41,12 +41,12 @@ for i=2:layersCount
 	deltaWeights(i) = zeros(layersSize(i), layersSize(i-1)+1);
 endfor
 
+global lastWeights = weights;
+global lastDeltaWeights = deltaWeights;
+
 %Output vector for each layer
 global rawOutputs = cell(layersCount,1);
 global outputs = cell(layersCount,1);
-global errors = [];
-global consecutiveErrorReduction=0;
-global epochs = 0;	
 
 sampleSize = getSampleSize();
 samples = randperm(sampleSize);
@@ -55,19 +55,46 @@ testingSize = sampleSize - trainingSize;
 global trainingIndexes = samples(1:trainingSize);
 global testingIndexes = samples(trainingSize+1:end);
 
-trainingErrors=[];
-testingErrors=[];
+global epochs = 1;	
+global errors = [medianError()];
+global trainingErrors=[medianTrainingError()];
+global testingErrors=[medianTestingError()];
+global lastError=errors(end);
+global lastTrainingError=trainingErrors(end);
+global lastTestingError=testingErrors(end);
 
-displayRate=1;
 displayCounter=0;
 if(exist('visual', 'var') == 1 && visual)
 	hold on;
 endif
 
-global lastError=Inf;
 while(lastError>errorGoal)
-	epochs +=1
+
+	if(exist('visual', 'var') == 1 && visual)
+		if(displayCounter==displayRate)
+			set(gca,'Color',[0,0,0]) 
+            corrected = getCorrected(); 
+            ratio = corrected/testingSize*100; 
+            title ( 
+              sprintf('{\\fontsize{12} Errors - current LearningRate: %.3f - guessed: %d/%d (%.2f%%)}', 
+              learningRate,corrected,testingSize,ratio)); 
+            scatter(epochs,lastError,'w','s');  
+            scatter(epochs,lastTrainingError,'r','o');  
+            scatter(epochs,lastTestingError,'g','*');  
+            legend( 
+              sprintf('{\\fontsize{12} MedianError %f\n}',lastError), 
+              sprintf('{\\fontsize{12} trainingError %f\n}',lastTrainingError), 
+              sprintf('{\\fontsize{12} testingError %f\n}',lastTestingError) 
+            )      
+            refresh;  
+          displayCounter=0;  
+		endif;
+	endif
+
+	epochs +=1;
 	displayCounter+=1;
+	lastWeights = weights;
+	lastDeltaWeights = deltaWeights;
 
 	samplesShuffled = trainingIndexes(randperm(trainingSize));
 	for index = samplesShuffled
@@ -99,21 +126,6 @@ while(lastError>errorGoal)
 	endfor
 
 	adaptEta()
-
-	trainingErrors=[trainingErrors, medianTrainingError()];
-	testingErrors=[testingErrors, medianTestingError()];
-
-	if(exist('visual', 'var') == 1 && visual)
-		if(displayCounter==displayRate)
-			trEr=trainingErrors(end);
-			tEr=testingErrors(end);
-			scatter(epochs,errors(end),'r','o');
-			scatter(epochs, trEr,'b','-');
-			scatter(epochs,tEr,'g','*');
-			refresh;
-			displayCounter=0;
-		endif;
-	endif
 
 endwhile
 
