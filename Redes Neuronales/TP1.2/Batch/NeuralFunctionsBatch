@@ -59,11 +59,13 @@ function amount = getCorrected()
 endfunction 
 
 global consecutiveErrorReduction = 0;
+global lastCorrectError=Inf;
 function adaptEta()
 	global weights
 	global lastWeights
 	global deltaWeights
 	global lastDeltaWeights
+	global shouldDropWeights
 
 	global consecutiveErrorReduction
 	global maxEtaErrorReductions
@@ -77,18 +79,20 @@ function adaptEta()
 	global lastError
 	global lastTrainingError
 	global lastTestingError
+	global lastCorrectError
 
 	lastError = medianBatchError();
 	lastTestingError = medianTestingError();
-	lastTrainingError = medianTestingError();
+	lastTrainingError = medianTrainingError();
 
+	errors = [errors, lastError];
+	trainingErrors=[trainingErrors, lastTrainingError];
+	testingErrors=[testingErrors, lastTestingError];
 
+	checkError = lastTrainingError;
 	if(length(errors)>=1)
-		if(errors(end)>lastError)
-			errors = [errors, lastError];
-			trainingErrors=[trainingErrors, lastTrainingError];
-			testingErrors=[testingErrors, lastTestingError];
-
+		if(lastCorrectError>checkError)
+			lastCorrectError = checkError;
 			consecutiveErrorReduction +=1;
 
 			if(consecutiveErrorReduction==maxEtaErrorReductions)
@@ -97,12 +101,17 @@ function adaptEta()
 			endif
 
 		else
-			weights = lastWeights;
-			for i=1:length(deltaWeights)
-				deltaWeights(i) = zeros(size(deltaWeights{i}));
-			endfor
+			if(shouldDropWeights)
+				for i=1:length(deltaWeights)
+					weights{i} = lastWeights{i};
+					deltaWeights{i} = zeros(size(deltaWeights{i}));
+				endfor
+			endif
 			consecutiveErrorReduction=0;
 			learningRate-= etaNegativeAdjustment * learningRate;
+			if learningRate < 0.001
+				learningRate = 0.001;
+			endif
 		endif
 	endif
 	

@@ -75,32 +75,36 @@ global lastTrainingError=trainingErrors(end);
 global lastTestingError=testingErrors(end);
 
 global membraines = zeros(1,trainingSize) -1;
-if(exist('visual', 'var') == 1 && visual)
-	hold on;
-endif
 
 displayCounter=0;
 while(lastError>errorGoal)
-
+	lastError
+	minPlot = 2;
 	if(exist('visual', 'var') == 1 && visual)
-		if(displayCounter==displayRate)
-			set(gca,'Color',[0,0,0]) 
-            corrected = getCorrected(); 
-            ratio = corrected/testingSize*100; 
-            title ( 
-              sprintf('{\\fontsize{12} Errors - current LearningRate: %.3f - guessed: %d/%d (%.2f%%)}', 
-              learningRate,corrected,testingSize,ratio)); 
-            scatter(epochs,lastError,'w','s');  
-            scatter(epochs,lastTrainingError,'r','o');  
-            scatter(epochs,lastTestingError,'g','*');  
-            legend( 
-              sprintf('{\\fontsize{12} MedianError %f\n}',lastError), 
-              sprintf('{\\fontsize{12} trainingError %f\n}',lastTrainingError), 
-              sprintf('{\\fontsize{12} testingError %f\n}',lastTestingError) 
-            )      
-            refresh;  
-          displayCounter=0;  
-		endif;
+		if(length(errors) >  minPlot)
+			hold on;
+			mini = min([minPlot, length(errors)]);
+			if(displayCounter==displayRate)
+				set(gca,'Color',[0,0,0]) 
+	            corrected = getCorrected(); 
+	            ratio = corrected/testingSize*100; 
+	            title ( 
+	              sprintf('{\\fontsize{12} Errors - current LearningRate: %.3f - guessed: %d/%d (%.2f%%)}', 
+	              learningRate,corrected,testingSize,ratio)); 
+	            % plot(mini:length(errors),errors(mini:end),'w');  
+	            plot(mini:length(testingErrors),testingErrors(mini:end),'g');  
+	            plot(mini:length(trainingErrors),trainingErrors(mini:end),'r');  
+	            legend( 
+	              % sprintf('{\\fontsize{12} MedianError %f\n}',lastError), 
+	              sprintf('{\\fontsize{12} trainingError %f\n}',lastTrainingError), 
+	              sprintf('{\\fontsize{12} testingError %f\n}',lastTestingError) 
+	            )      
+	            refresh;  
+	          displayCounter=0;  
+			endif
+		else
+	         displayCounter=0;
+		endif
 	endif
 
 	lastWeights = weights;
