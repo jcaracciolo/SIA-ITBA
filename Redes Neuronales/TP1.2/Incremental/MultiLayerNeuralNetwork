@@ -67,7 +67,7 @@ displayCounter=0;
 
 while(lastError>errorGoal)
 	lastError
-	minPlot = 10;
+	minPlot = 1;
 	if(exist('visual', 'var') == 1 && visual)
 		if(length(errors) >  minPlot)
 			hold on;

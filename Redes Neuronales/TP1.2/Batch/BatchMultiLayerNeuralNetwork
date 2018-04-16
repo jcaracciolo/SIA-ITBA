@@ -79,7 +79,7 @@ global membraines = zeros(1,trainingSize) -1;
 displayCounter=0;
 while(lastError>errorGoal)
 	lastError
-	minPlot = 2;
+	minPlot = 1;
 	if(exist('visual', 'var') == 1 && visual)
 		if(length(errors) >  minPlot)
 			hold on;
