@@ -32,7 +32,8 @@ class CRParser {
             return CRGame(board = board.map { it.toList()},
                     shapes = shapes,
                     colors = colors,
-                    starting = Pair(startX, startY))
+                    starting = PairCache[startX, startY]
+            )
         }
 
         private fun intSplit(string: String, delimiter: String = ","): List<Int> =
