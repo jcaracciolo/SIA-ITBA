@@ -6,16 +6,18 @@ data class CRCell(val color: Int, val shape: Int)
 
 enum class Direction {
     UP {
-        override fun move(position: Pair<Int, Int>, steps: Int): Pair<Int, Int> = Pair(position.first - steps, position.second)
+        override fun move(pos: Pair<Int, Int>, steps: Int): Pair<Int, Int> = Pair(pos.first - steps, pos.second)
     }, DOWN {
-        override fun move(position: Pair<Int, Int>, steps: Int): Pair<Int, Int> = Pair(position.first + steps, position.second)
+        override fun move(pos: Pair<Int, Int>, steps: Int): Pair<Int, Int> = Pair(pos.first + steps, pos.second)
     }, LEFT {
-        override fun move(position: Pair<Int, Int>, steps: Int): Pair<Int, Int> = Pair(position.first, position.second - steps)
+        override fun move(pos: Pair<Int, Int>, steps: Int): Pair<Int, Int> = Pair(pos.first, pos.second - steps)
     }, RIGHT {
-        override fun move(position: Pair<Int, Int>, steps: Int): Pair<Int, Int> = Pair(position.first, position.second + steps)
+        override fun move(pos: Pair<Int, Int>, steps: Int): Pair<Int, Int> = Pair(pos.first, pos.second + steps)
     };
 
-    abstract fun move(position: Pair<Int, Int>, steps: Int): Pair<Int, Int>
+    abstract fun move(pos: Pair<Int, Int>, steps: Int): Pair<Int, Int>
 }
 
 data class CRAction(val from: CRState, val to: CRState, val rule: CRRule)
+
+

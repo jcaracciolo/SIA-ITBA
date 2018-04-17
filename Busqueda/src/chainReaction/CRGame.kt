@@ -2,6 +2,7 @@ package chainReaction
 
 import ar.com.itba.sia.Problem
 import ar.com.itba.sia.Rule
+import utils.BooleanMatrix
 
 data class CRGame(
         val board: List<List<CRCell?>>,
@@ -29,7 +30,7 @@ data class CRGame(
     }
 
     override fun getInitialState(): CRState {
-        return CRState(game = this, touched = HashMap(), last = starting)
+        return CRState(game = this, touched = BooleanMatrix(rows,cols), last = starting)
     }
 
     override fun getRules(state: CRState): List<Rule<CRState>> {
@@ -38,8 +39,8 @@ data class CRGame(
 
     override fun isResolved(state: CRState): Boolean  =
             when {
-                state.touched.size < state.game.tokens -> false
-                state.touched.size == state.game.tokens -> checkFinalIsCorrect(state)
+                state.touched.count(true) < state.game.tokens -> false
+                state.touched.count(true) == state.game.tokens -> checkFinalIsCorrect(state)
                 else -> throw IllegalStateException("You cant touch more tokens than there are available in the game")
             }
 
@@ -47,13 +48,10 @@ data class CRGame(
         val board = state.game.board
         for(i in 0..state.game.rows) {
             for(j in 0..state.game.cols) {
-                val cell = board[i][j]
-                val correct =  when(cell) {
-                    null -> state.touched[Pair(i,j)] == null
-                    else -> state.touched[Pair(i,j)] == true
+                val present = board[i][j] != null
+                if(present == state.touched[i,j]) {
+                    throw IllegalStateException("Final state is not final")
                 }
-
-                if(!correct) { throw IllegalStateException("Final state is not final") }
             }
         }
 

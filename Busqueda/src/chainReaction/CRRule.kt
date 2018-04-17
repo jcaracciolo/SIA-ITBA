@@ -1,15 +1,16 @@
 package chainReaction
 
 import ar.com.itba.sia.Rule
+import utils.BooleanMatrix
 
 data class CRRule(val direction: Direction, val steps: Int) : Rule<CRState> {
 
     override var cost: Double = 1.0
 
     override fun applyToState(state: CRState): CRState {
-        val newMap = HashMap(state.touched)
+        val newMap = BooleanMatrix(state.touched)
         val next = nextPosition(state)
-        newMap[next] = true
+        newMap[next.first, next.second] = true
 
         return CRState(state.game, newMap, next)
     }
