@@ -3,7 +3,6 @@ package utils
 import chainReaction.CRCell
 import chainReaction.CRGame
 import java.io.File
-import java.util.*
 import kotlin.collections.ArrayList
 
 class CRParser {
@@ -36,10 +35,10 @@ class CRParser {
                     starting = Pair(startX, startY))
         }
 
-        fun intSplit(string: String, delimeter: String = ","): List<Int> =
-                string.split(delimeter).map { n -> Integer.valueOf(n) }
+        private fun intSplit(string: String, delimiter: String = ","): List<Int> =
+                string.split(delimiter).map { n -> Integer.valueOf(n) }
 
-        fun readRow(line: String): List<CRCell?> = line.split(",").map { cell ->
+        private fun readRow(line: String): List<CRCell?> = line.split(",").map { cell ->
                 when(cell.isEmpty()){
                     true-> null
                     false -> CRCell(color = intSplit(cell, " ")[0], shape = intSplit(cell, " ")[1])
