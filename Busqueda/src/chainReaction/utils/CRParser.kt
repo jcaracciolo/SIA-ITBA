@@ -1,9 +1,8 @@
 package chainReaction.utils
 
-import chainReaction.CRCell
+import chainReaction.game.CRBoard
 import chainReaction.game.CRGame
 import java.io.File
-import kotlin.collections.ArrayList
 
 class CRParser {
 
@@ -23,15 +22,16 @@ class CRParser {
             val startX = thirdLine[0]
             val startY = thirdLine[1]
 
-            val board:ArrayList<List<CRCell?>> = ArrayList()
+
+            var boardColors = CharMatrix(rows = row, cols = col)
+            var boardShapes = CharMatrix(rows = row, cols = col)
 
             for (i in 0..row) {
-                board.add(readRow(input.readLine()))
+                readRow(line = input.readLine(), boardColors = boardColors, boardShapes = boardShapes, i = i)
             }
-
-            return CRGame(board = board.map { it.toList() },
-                    shapes = shapes,
-                    colors = colors,
+            val board = CRBoard(maxColor = colors, maxShape = shapes, shapes = boardShapes, colors = boardColors)
+            PairCache.initialize(rows = row, cols = col)
+            return CRGame(board = board,
                     starting = PairCache[startX, startY]
             )
         }
@@ -39,11 +39,21 @@ class CRParser {
         private fun intSplit(string: String, delimiter: String = ","): List<Int> =
                 string.split(delimiter).map { n -> Integer.valueOf(n) }
 
-        private fun readRow(line: String): List<CRCell?> = line.split(",").map { cell ->
+        private fun readRow(line: String, boardColors: CharMatrix, boardShapes: CharMatrix, i: Int) {
+            var j = 0
+            line.split(",").map { cell ->
                 when(cell.isEmpty()){
                     true-> null
-                    false -> CRCell(color = intSplit(cell, " ")[0], shape = intSplit(cell, " ")[1])
+                    false -> {
+                        val inputCell = charSplit(cell, " ")
+                        boardColors[i, j] = inputCell[0]
+                        boardShapes[i, j] = inputCell[1]
+                    }
                 }
+                j++
             }
         }
+        private fun charSplit(string: String, delimiter: String = ","): List<Char> =
+                string.split(delimiter).map { n -> n[0] }
+    }
 }
