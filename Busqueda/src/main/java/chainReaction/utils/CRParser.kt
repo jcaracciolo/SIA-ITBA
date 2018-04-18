@@ -26,7 +26,7 @@ class CRParser {
             var boardColors = CharMatrix(rows = row, cols = col)
             var boardShapes = CharMatrix(rows = row, cols = col)
 
-            for (i in 0..row) {
+            for (i in 0..row-1) {
                 readRow(line = input.readLine(), boardColors = boardColors, boardShapes = boardShapes, i = i)
             }
             val board = CRBoard(maxColor = colors, maxShape = shapes, shapes = boardShapes, colors = boardColors)

@@ -9,5 +9,7 @@ class CharMatrix(override val rows: Int, override val cols: Int) : BuiltInMatrix
     }
 
     override fun get(i: Int): Char = matrix[i]
-    override fun set(i: Int, value: Char) { matrix[i] = value }
+    override fun set(i: Int, value: Char) {
+        matrix[i] = value
+    }
 }
