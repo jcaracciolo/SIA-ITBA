@@ -17,12 +17,13 @@ data class CRRule(val direction: Direction, val steps: Int) : Rule<CRState> {
 
     private fun nextPosition(state: CRState): Pair<Int, Int> {
         val next = direction.move(state.last, steps)
+        val board = state.game.board
 
         when {
             next.first < 0 -> throw IllegalStateException("Trying to move left of 0")
-            next.first >= state.game.rows -> throw IllegalStateException("Trying to move right outside")
+            next.first >= board.rows -> throw IllegalStateException("Trying to move right outside")
             next.second < 0 -> throw IllegalStateException("Trying to move up of 0")
-            next.second >= state.game.cols -> throw IllegalStateException("Trying to move down outside")
+            next.second >= board.cols -> throw IllegalStateException("Trying to move down outside")
         }
 
         return next

@@ -1,9 +1,6 @@
 package chainReaction
 
-import ar.com.itba.sia.Rule
 import utils.PairCache
-
-data class CRCell(val color: Int, val shape: Int)
 
 enum class Direction {
     UP {
