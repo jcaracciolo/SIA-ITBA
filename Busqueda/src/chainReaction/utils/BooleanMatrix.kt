@@ -1,4 +1,4 @@
-package utils
+package chainReaction.utils
 
 class BooleanMatrix(override val rows: Int, override val cols: Int) : BuiltInMatrix<Boolean> {
 

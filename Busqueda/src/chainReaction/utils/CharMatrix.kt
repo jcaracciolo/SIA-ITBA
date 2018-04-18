@@ -1,4 +1,4 @@
-package utils
+package chainReaction.utils
 
 class CharMatrix(override val rows: Int, override val cols: Int) : BuiltInMatrix<Char> {
 

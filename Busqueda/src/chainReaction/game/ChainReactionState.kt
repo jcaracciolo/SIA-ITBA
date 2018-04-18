@@ -1,6 +1,6 @@
-package chainReaction
+package chainReaction.game
 
-import utils.PairCache
+import chainReaction.utils.PairCache
 
 enum class Direction {
     UP {

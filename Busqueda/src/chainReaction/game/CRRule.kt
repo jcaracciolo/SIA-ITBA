@@ -1,7 +1,7 @@
-package chainReaction
+package chainReaction.game
 
 import ar.com.itba.sia.Rule
-import utils.BooleanMatrix
+import chainReaction.utils.BooleanMatrix
 
 data class CRRule(val direction: Direction, val steps: Int) : Rule<CRState> {
 

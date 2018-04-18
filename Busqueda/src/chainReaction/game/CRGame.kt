@@ -1,10 +1,8 @@
-package chainReaction
+package chainReaction.game
 
 import ar.com.itba.sia.Problem
 import ar.com.itba.sia.Rule
-import utils.BooleanMatrix
-import utils.PairCache
-import java.lang.reflect.Array
+import chainReaction.utils.BooleanMatrix
 
 data class CRGame(
         val board: CRBoard,
@@ -12,7 +10,7 @@ data class CRGame(
 
 
     override fun getInitialState(): CRState {
-        return CRState(game = this, touched = BooleanMatrix(board.rows,board.cols), last = starting)
+        return CRState(game = this, touched = BooleanMatrix(board.rows, board.cols), last = starting)
     }
 
     override fun getRules(state: CRState): List<Rule<CRState>> {

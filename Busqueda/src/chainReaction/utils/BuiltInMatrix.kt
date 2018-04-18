@@ -1,4 +1,4 @@
-package utils
+package chainReaction.utils
 
 interface BuiltInMatrix<B> {
     val rows: Int

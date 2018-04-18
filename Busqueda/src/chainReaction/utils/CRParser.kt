@@ -1,7 +1,7 @@
-package utils
+package chainReaction.utils
 
 import chainReaction.CRCell
-import chainReaction.CRGame
+import chainReaction.game.CRGame
 import java.io.File
 import kotlin.collections.ArrayList
 
@@ -29,7 +29,7 @@ class CRParser {
                 board.add(readRow(input.readLine()))
             }
 
-            return CRGame(board = board.map { it.toList()},
+            return CRGame(board = board.map { it.toList() },
                     shapes = shapes,
                     colors = colors,
                     starting = PairCache[startX, startY]

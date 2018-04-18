@@ -1,6 +1,6 @@
-package chainReaction
+package chainReaction.game
 
-import utils.CharMatrix
+import chainReaction.utils.CharMatrix
 
 class CRBoard(
         val maxShape: Int,
