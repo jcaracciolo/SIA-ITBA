@@ -1,12 +1,12 @@
 Redes Neuronales/**/.idea*
 Redes Neuronales/TP1\.2/errorOutput*	
 .DS_Store
-Busqueda/.idea/
+Busqueda/.idea/*
 Busqueda/.project
 Busqueda/.settings
 Busqueda/target/
 Busqueda/.classpath
-
+Busqueda/Busqueda.iml
 Redes Neuronales/TP1\.2/randState
 
 Redes Neuronales/TP1\.2/octave-workspace
