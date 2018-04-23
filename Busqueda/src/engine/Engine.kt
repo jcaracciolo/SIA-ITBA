@@ -6,18 +6,18 @@ import engine.searchers.BreadthFirstSearcher
 import engine.searchers.Searcher
 import java.util.*
 
-class Engine<E> (val problem: Problem<E>, val heuristic: Heuristic<E>) {
+class Engine<E>{
 
-    var idCounter: Int = 1;
-    var solved: Boolean = false;
-    var nodeMap: Set<Node<E>> = HashSet()
+    fun solve (problem: Problem<E>, heuristic: Heuristic<E>): List<Node<E>>? {
 
-    fun solve (problem: Problem<E>): List<Node<E>>? {
+        var idCounter: Int = 1;
+        var solved: Boolean = false;
+        var nodeMap: Set<Node<E>> = HashSet()
 
         var curNode: Node<E> = Node(idCounter++, problem, null, problem.getInitialState(), 0.0, 0)
         var newNode: Node<E>
 
-        var searcher: Searcher<E> = BreadthFirstSearcher()
+        val searcher: Searcher<E> = BreadthFirstSearcher()
         searcher.addNode(curNode)
 
         //TODO( Consultar si debemos quedarnos con la primer solucion )

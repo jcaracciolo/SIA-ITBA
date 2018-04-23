@@ -10,7 +10,9 @@ data class CRGame(
 
 
     override fun getInitialState(): CRState {
-        return CRState(game = this, touched = BooleanMatrix(board.rows, board.cols), last = starting)
+        val initial = CRState(game = this, touched = BooleanMatrix(board.rows, board.cols), last = starting)
+        initial.touched[starting.first,starting.second] = true
+        return initial
     }
 
     override fun getRules(state: CRState): List<Rule<CRState>> {
@@ -34,11 +36,9 @@ data class CRGame(
     }
 
     private fun checkMovement(state: CRState, direction: Direction, steps: Int, list: ArrayList<Rule<CRState>>) {
-        val y = state.last.first
-        val x = state.last.second
-        for(i in 0 until steps) {
+        for(i in 1 .. steps) {
             if(canMove(state, direction.move(state.last, steps), state.last)) {
-                list.add(CRRule(direction, steps))
+                list.add(CRRule(direction, i))
             }
         }
     }
@@ -69,7 +69,7 @@ data class CRGame(
         for(i in 0 until board.rows) {
             for(j in 0 until board.cols) {
                 val present = board.shapes[i,j] != CRBoard.EMPTY
-                if(present == state.touched[i,j]) {
+                if(present != state.touched[i,j]) {
                     throw IllegalStateException("Final state is not final")
                 }
             }

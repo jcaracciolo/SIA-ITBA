@@ -1,5 +1,7 @@
 package chainReaction.utils
 
+import java.util.*
+
 class BooleanMatrix(override val rows: Int, override val cols: Int) : BuiltInMatrix<Boolean> {
 
     private var matrix = BooleanArray(rows*cols)
@@ -7,6 +9,7 @@ class BooleanMatrix(override val rows: Int, override val cols: Int) : BuiltInMat
 
     constructor(other: BooleanMatrix) : this(other.rows, other.cols) {
         matrix = other.matrix.copyOf()
+        trues = other.trues
     }
 
     fun count(value: Boolean) = when(value) {
