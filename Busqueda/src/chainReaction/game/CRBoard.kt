@@ -18,15 +18,16 @@ class CRBoard(
     val tokens: Int
 
     init {
-        if(colors.rows != shapes.rows || colors.cols != shapes.rows) throw IllegalStateException("Matrix sizes do not match")
+        if(colors.rows != shapes.rows || colors.cols != shapes.cols) throw IllegalStateException("Matrix sizes do not match")
         if(maxShape > EMPTY.toInt() || maxColor > EMPTY.toInt()) throw IllegalStateException("Shapes and Colors must be bound to ${EMPTY.toInt()} ")
         rows = colors.rows
         cols = colors.cols
         size = rows*cols
 
         var countTokens = 0
-        for(i in 0..rows) {
-            for (j in 0..rows) {
+
+        for(i in 0 until rows) {
+            for (j in 0 until cols) {
                 when {
                     shapes[i, j] == EMPTY && colors[i, j] != EMPTY -> throw IllegalStateException("Color and shape matrix does not match")
                     shapes[i, j] != EMPTY && colors[i, j] == EMPTY -> throw IllegalStateException("Color and shape matrix does not match")

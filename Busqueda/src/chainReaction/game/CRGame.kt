@@ -36,7 +36,7 @@ data class CRGame(
     private fun checkMovement(state: CRState, direction: Direction, steps: Int, list: ArrayList<Rule<CRState>>) {
         val y = state.last.first
         val x = state.last.second
-        for(i in 0..steps) {
+        for(i in 0 until steps) {
             if(canMove(state, direction.move(state.last, steps), state.last)) {
                 list.add(CRRule(direction, steps))
             }
@@ -66,8 +66,8 @@ data class CRGame(
 
     private fun checkFinalIsCorrect(state: CRState): Boolean {
         val board = state.game.board
-        for(i in 0..board.rows) {
-            for(j in 0..board.cols) {
+        for(i in 0 until board.rows) {
+            for(j in 0 until board.cols) {
                 val present = board.shapes[i,j] != CRBoard.EMPTY
                 if(present == state.touched[i,j]) {
                     throw IllegalStateException("Final state is not final")

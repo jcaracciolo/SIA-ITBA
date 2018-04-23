@@ -11,8 +11,8 @@ class CRParser {
             val input = File(file).bufferedReader()
 
             val firstLine = intSplit(input.readLine())
-            val col = firstLine[0]
-            val row = firstLine[1]
+            val row = firstLine[0]
+            val col = firstLine[1]
 
             val secondLine = intSplit(input.readLine())
             val shapes = secondLine[0]
@@ -26,7 +26,7 @@ class CRParser {
             var boardColors = CharMatrix(rows = row, cols = col)
             var boardShapes = CharMatrix(rows = row, cols = col)
 
-            for (i in 0..row-1) {
+            for (i in 0 until row) {
                 readRow(line = input.readLine(), boardColors = boardColors, boardShapes = boardShapes, i = i)
             }
             val board = CRBoard(maxColor = colors, maxShape = shapes, shapes = boardShapes, colors = boardColors)
@@ -46,8 +46,8 @@ class CRParser {
                     true-> null
                     false -> {
                         val inputCell = charSplit(cell, " ")
-                        boardColors[i, j] = inputCell[0]
-                        boardShapes[i, j] = inputCell[1]
+                        boardColors[i, j] = inputCell[1]
+                        boardShapes[i, j] = inputCell[0]
                     }
                 }
                 j++
