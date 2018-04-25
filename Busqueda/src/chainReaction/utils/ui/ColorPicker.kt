@@ -35,7 +35,7 @@ class ColorPicker {
                     23 -> Color.SALMON
                     24 -> Color.GOLD
                     25 -> Color.SILVER
-                    else -> Color.BLACK
+                    else -> Color.WHITE
                 }
             }
 
