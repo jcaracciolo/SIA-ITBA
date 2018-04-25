@@ -3,6 +3,7 @@ package engine
 import ar.com.itba.sia.Heuristic
 import ar.com.itba.sia.Problem
 import engine.searchers.BreadthFirstSearcher
+import engine.searchers.AStar
 import engine.searchers.Searcher
 import java.util.*
 import kotlin.collections.HashSet
@@ -18,7 +19,7 @@ class Engine<E>{
         var curNode: Node<E> = Node(idCounter++, problem, null, problem.getInitialState(), 0.0, 0)
         var newNode: Node<E>
 
-        val searcher: Searcher<E> = BreadthFirstSearcher()
+        val searcher: Searcher<E> = AStar(heuristic)
         searcher.addNode(curNode)
 
         //TODO( Consultar si debemos quedarnos con la primer solucion )
