@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0261f5ed-4598-43bb-b8ff-5ce6ad8741d5" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/Busqueda/src/chainReaction/game/CRState.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Busqueda/src/chainReaction/game/CRState.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Busqueda/src/chainReaction/utils/BooleanMatrix.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Busqueda/src/chainReaction/utils/BooleanMatrix.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Busqueda/src/engine/Engine.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Busqueda/src/engine/Engine.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Busqueda/src/engine/Node.kt" beforeDir="false" afterPath="$PROJECT_DIR$/Busqueda/src/engine/Node.kt" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/Busqueda/target/" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -21,7 +18,7 @@
         <entry file="file://$PROJECT_DIR$/Busqueda/src/engine/Engine.kt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="135">
-              <caret line="9" column="16" lean-forward="true" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
+              <caret line="9" column="16" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
               <folding>
                 <element signature="e#16#210#0" expanded="true" />
               </folding>
@@ -29,20 +26,23 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Node.kt" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Node.kt" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/Busqueda/src/engine/Node.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="45">
-              <caret line="3" column="8" lean-forward="true" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="8" />
+            <state relative-caret-position="105">
+              <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+              <folding>
+                <element signature="e#16#74#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CRState.kt" pinned="false" current-in-tab="false">
+      <file leaf-file-name="CRState.kt" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/Busqueda/src/chainReaction/game/CRState.kt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="105">
-              <caret line="7" column="53" selection-start-line="7" selection-start-column="53" selection-end-line="7" selection-end-column="53" />
+            <state relative-caret-position="135">
+              <caret line="9" column="1" lean-forward="true" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
             </state>
           </provider>
         </entry>
@@ -51,7 +51,7 @@
         <entry file="file://$PROJECT_DIR$/Busqueda/src/chainReaction/utils/BooleanMatrix.kt">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="510">
-              <caret line="34" column="38" lean-forward="true" selection-start-line="34" selection-start-column="38" selection-end-line="34" selection-end-column="38" />
+              <caret line="34" column="38" selection-start-line="34" selection-start-column="38" selection-end-line="34" selection-end-column="38" />
             </state>
           </provider>
         </entry>
@@ -82,10 +82,10 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/Busqueda/src/chainReaction/game/CRState.kt" />
         <option value="$PROJECT_DIR$/Busqueda/src/chainReaction/utils/BooleanMatrix.kt" />
         <option value="$PROJECT_DIR$/Busqueda/src/engine/Node.kt" />
         <option value="$PROJECT_DIR$/Busqueda/src/engine/Engine.kt" />
+        <option value="$PROJECT_DIR$/Busqueda/src/chainReaction/game/CRState.kt" />
       </list>
     </option>
   </component>
@@ -121,37 +121,6 @@
             <path>
               <item name="Busqueda" type="b2602c69:ProjectViewProjectNode" />
               <item name="Busqueda" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Busqueda" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Busqueda" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Busqueda" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Busqueda" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="chainReaction" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Busqueda" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Busqueda" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="chainReaction" type="462c0819:PsiDirectoryNode" />
-              <item name="game" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Busqueda" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Busqueda" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="engine" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Busqueda" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Busqueda" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="engine" type="462c0819:PsiDirectoryNode" />
-              <item name="searchers" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -237,15 +206,16 @@
       <updated>1524678084217</updated>
       <workItem from="1524678087179" duration="80000" />
       <workItem from="1524679348487" duration="528000" />
-      <workItem from="1524679898808" duration="2314000" />
+      <workItem from="1524679898808" duration="2770000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="2922000" />
+    <option name="totallyTimeSpent" value="3378000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="right" id="Palette&#9;" order="3" />
@@ -254,9 +224,9 @@
       <window_info anchor="bottom" id="Database Changes" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="7" />
       <window_info anchor="bottom" id="Run" order="2" />
-      <window_info anchor="bottom" id="Terminal" order="7" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="7" visible="true" weight="0.32900944" />
       <window_info id="Designer" order="2" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.24305555" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.24305555" />
       <window_info anchor="right" id="Database" order="3" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -325,21 +295,14 @@
     <entry file="file://$PROJECT_DIR$/Busqueda/src/chainReaction/utils/BooleanMatrix.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="510">
-          <caret line="34" column="38" lean-forward="true" selection-start-line="34" selection-start-column="38" selection-end-line="34" selection-end-column="38" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/Busqueda/src/chainReaction/game/CRState.kt">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="105">
-          <caret line="7" column="53" selection-start-line="7" selection-start-column="53" selection-end-line="7" selection-end-column="53" />
+          <caret line="34" column="38" selection-start-line="34" selection-start-column="38" selection-end-line="34" selection-end-column="38" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/Busqueda/src/engine/Engine.kt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="135">
-          <caret line="9" column="16" lean-forward="true" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
+          <caret line="9" column="16" selection-start-line="9" selection-start-column="16" selection-end-line="9" selection-end-column="16" />
           <folding>
             <element signature="e#16#210#0" expanded="true" />
           </folding>
@@ -348,8 +311,18 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/Busqueda/src/engine/Node.kt">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="45">
-          <caret line="3" column="8" lean-forward="true" selection-start-line="3" selection-start-column="8" selection-end-line="3" selection-end-column="8" />
+        <state relative-caret-position="105">
+          <caret line="7" lean-forward="true" selection-start-line="7" selection-end-line="7" />
+          <folding>
+            <element signature="e#16#74#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Busqueda/src/chainReaction/game/CRState.kt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="135">
+          <caret line="9" column="1" lean-forward="true" selection-start-line="9" selection-start-column="1" selection-end-line="9" selection-end-column="1" />
         </state>
       </provider>
     </entry>
@@ -410,6 +383,7 @@
             <option name="proportions">
               <list>
                 <option value="0.2" />
+                <option value="0.6" />
               </list>
             </option>
           </splitter-proportions>
@@ -429,7 +403,7 @@
       </state>
       <state key="ProjectLibrariesConfigurable.UI">
         <settings>
-          <last-edited />
+          <last-edited>GPS</last-edited>
           <splitter-proportions>
             <option name="proportions">
               <list>
