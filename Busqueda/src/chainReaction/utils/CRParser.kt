@@ -43,8 +43,10 @@ class CRParser {
             var j = 0
             line.split(",").map { cell ->
                 when(cell.isEmpty()){
-                    true-> null
-                    false -> {
+                    true-> {
+                        boardColors[i, j] = CRBoard.EMPTY
+                        boardShapes[i, j] = CRBoard.EMPTY
+                    } false -> {
                         val inputCell = intSplit(cell, " ")
                         boardColors[i, j] = inputCell[1].toChar()
                         boardShapes[i, j] = inputCell[0].toChar()

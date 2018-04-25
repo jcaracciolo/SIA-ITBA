@@ -17,6 +17,12 @@ class BooleanMatrix(override val rows: Int, override val cols: Int) : BuiltInMat
         false -> (rows*cols) - trues
     }
 
+    override fun forEach(action: (Boolean) -> Unit) {
+        matrix.forEach(action)
+    }
+
+    override fun filter(predicate: (Boolean) -> Boolean): List<Boolean> = matrix.filter(predicate)
+
     override operator fun get(i: Int): Boolean = matrix[i]
 
     override operator fun set(i: Int, value: Boolean) {

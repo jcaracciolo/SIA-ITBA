@@ -31,6 +31,7 @@ class CRBoard(
                 when {
                     shapes[i, j] == EMPTY && colors[i, j] != EMPTY -> throw IllegalStateException("Color and shape matrix does not match")
                     shapes[i, j] != EMPTY && colors[i, j] == EMPTY -> throw IllegalStateException("Color and shape matrix does not match")
+                    shapes[i, j] == EMPTY && colors[i, j] == EMPTY -> Unit
                     shapes[i,j].toInt() > maxShape ||
                             colors[i,j].toInt() > maxColor -> throw IllegalStateException("There is a color greater than ${maxColor} or a shape greater than ${maxShape}")
                     shapes[i, j] != EMPTY && colors[i, j] != EMPTY -> countTokens++
@@ -44,4 +45,7 @@ class CRBoard(
             throw IllegalArgumentException("There are no tokens in the board")
         }
     }
+
+    fun areNeighbours(one: Pair<Int,Int>, other:  Pair<Int, Int>) =
+            shapes[one] == shapes[other] || colors[one] == colors[other]
 }

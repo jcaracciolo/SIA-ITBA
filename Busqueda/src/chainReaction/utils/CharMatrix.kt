@@ -12,4 +12,11 @@ class CharMatrix(override val rows: Int, override val cols: Int) : BuiltInMatrix
     override fun set(i: Int, value: Char) {
         matrix[i] = value
     }
+
+    override fun forEach(action: (Char) -> Unit) {
+        matrix.forEach(action)
+    }
+
+    override fun filter(predicate: (Char) -> Boolean): List<Char> = matrix.filter(predicate)
+
 }
