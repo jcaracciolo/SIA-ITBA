@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="GPS">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/Busqueda/GPS.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
