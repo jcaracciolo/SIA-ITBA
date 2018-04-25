@@ -5,6 +5,7 @@ import ar.com.itba.sia.Problem
 import engine.searchers.BreadthFirstSearcher
 import engine.searchers.Searcher
 import java.util.*
+import kotlin.collections.HashSet
 
 class Engine<E>{
 
@@ -12,7 +13,7 @@ class Engine<E>{
 
         var idCounter: Int = 1;
         var solved: Boolean = false;
-        var nodeMap: Set<Node<E>> = HashSet()
+        var visitedNodes: HashSet<Node<E>> = HashSet()
 
         var curNode: Node<E> = Node(idCounter++, problem, null, problem.getInitialState(), 0.0, 0)
         var newNode: Node<E>
@@ -26,13 +27,17 @@ class Engine<E>{
 
             curNode = searcher.nextNode()
 
-            val nextNodes = curNode.possibleRules.map {
-                Node(idCounter++, problem, curNode, it.applyToState(curNode.state),
-                        curNode.cost + it.cost, curNode.level + 1)
-            }
+            if(!visitedNodes.contains(curNode)){
 
-            searcher.addNodes(nextNodes)
-            solved = curNode.problem.isResolved(curNode.state)
+                visitedNodes.add(curNode)
+                val nextNodes = curNode.possibleRules.map {
+                    Node(idCounter++, problem, curNode, it.applyToState(curNode.state),
+                            curNode.cost + it.cost, curNode.level + 1)
+                }
+                searcher.addNodes(nextNodes)
+
+                solved = curNode.problem.isResolved(curNode.state)
+            }
 
         }
 

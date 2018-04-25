@@ -31,5 +31,8 @@ class BooleanMatrix(override val rows: Int, override val cols: Int) : BuiltInMat
         }
     }
 
+    override fun hashCode(): Int {
+        return Arrays.hashCode(matrix)
+    }
 
 }
