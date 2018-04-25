@@ -5,7 +5,7 @@ Busqueda/.idea/*
 Busqueda/.project
 Busqueda/.settings
 Busqueda/target/
-
+.idea/*
 Busqueda/.classpath
 Busqueda/Busqueda.iml
 Redes Neuronales/TP1\.2/randState
