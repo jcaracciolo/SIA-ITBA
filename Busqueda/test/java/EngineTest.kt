@@ -7,13 +7,14 @@ import org.junit.Test
 
 class EngineTest {
 
+    val base = "./test/resources/"
 
     @Test
     fun TrivialBFSTest(){
-        val problem = CRParser.parseBoard("./test/resources/trivialBoard")!!
+        val problem = CRParser.parseBoard(base + "trivialBoard")!!
         val solution = Engine<CRState>().solve(problem, object : Heuristic<CRState> {
             override fun getValue(state: CRState): Double {
-                return 0.0
+                return 1.0
             }
         })
        Assert.assertNotNull(solution)
@@ -21,7 +22,7 @@ class EngineTest {
 
     @Test
     fun Impossible2x2BFSTest(){
-        val problem = CRParser.parseBoard("./test/resources/impossible2x2Board")!!
+        val problem = CRParser.parseBoard(base + "impossible2x2Board")!!
         val solution = Engine<CRState>().solve(problem, object : Heuristic<CRState> {
             override fun getValue(state: CRState): Double {
                 return 0.0

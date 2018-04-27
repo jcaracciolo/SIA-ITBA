@@ -2,6 +2,8 @@ package chainReaction.game
 
 import ar.com.itba.sia.Rule
 import chainReaction.utils.BooleanMatrix
+import chainReaction.utils.CharMatrix
+import chainReaction.utils.PairCache
 
 data class CRRule(val direction: Direction, val steps: Int) : Rule<CRState> {
 
@@ -10,9 +12,30 @@ data class CRRule(val direction: Direction, val steps: Int) : Rule<CRState> {
     override fun applyToState(state: CRState): CRState {
         val newMap = BooleanMatrix(state.touched)
         val next = nextPosition(state)
-        newMap[next.first, next.second] = true
+        newMap[next] = true
 
-        return CRState(state.game, newMap, next)
+        val newNeighbours = CharMatrix(state.neighbours)
+        val board = state.game.board
+        (0 until board.rows).map { PairCache[it, next.second] }
+                .filter { board.areNeighbours(next, it) }
+                .forEach {
+                    if(newNeighbours[it].toInt() > 0) {
+                        newNeighbours[it]--
+                    }
+                }
+
+        (0 until board.cols).map { PairCache[next.first, it] }
+                .filter { board.areNeighbours(next, it) }
+                .forEach {
+                    if(newNeighbours[it].toInt() > 0) {
+                        newNeighbours[it]--
+                    }
+                }
+
+
+        newNeighbours[next] = CRBoard.EMPTY
+
+        return CRState(state.game, newMap, newNeighbours, next)
     }
 
     private fun nextPosition(state: CRState): Pair<Int, Int> {

@@ -4,7 +4,6 @@ import javafx.application.Application
 import javafx.scene.Group
 import javafx.scene.Scene
 import javafx.scene.canvas.Canvas
-import javafx.scene.canvas.GraphicsContext
 import javafx.stage.Stage
 
 class Drawer : Application(){
@@ -19,7 +18,7 @@ class Drawer : Application(){
 
     }
 
-    fun init(height: Double, width: Double){
+    fun init(height: Double, width: Double) {
         root = Group()
         canvas = Canvas(width, height)
         gc = canvas.graphicsContext2D
@@ -27,5 +26,12 @@ class Drawer : Application(){
         primaryStage.setScene(Scene(root))
         primaryStage.show()
         gc.lineWidth = 5.0
+    }
+    companion object {
+
+        @JvmStatic
+        fun main(args: Array<String>) {
+            Application.launch(Drawer::class.java, *args)
+        }
     }
 }

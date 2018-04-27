@@ -4,6 +4,7 @@ import ar.com.itba.sia.Heuristic
 import ar.com.itba.sia.Problem
 import engine.searchers.BreadthFirstSearcher
 import engine.searchers.AStar
+import engine.searchers.DepthFirstSearcher
 import engine.searchers.Searcher
 import java.util.*
 import kotlin.collections.HashSet
@@ -19,7 +20,7 @@ class Engine<E>{
         var curNode: Node<E> = Node(idCounter++, problem, null, problem.getInitialState(), 0.0, 0)
         var newNode: Node<E>
 
-        val searcher: Searcher<E> = AStar(heuristic)
+        val searcher: Searcher<E> = DepthFirstSearcher()
         searcher.addNode(curNode)
 
         //TODO( Consultar si debemos quedarnos con la primer solucion )
@@ -27,6 +28,7 @@ class Engine<E>{
         while(!solved  &&  !searcher.isEmpty()){
 
             curNode = searcher.nextNode()
+            curNode.state.toString()
 
             if(!visitedNodes.contains(curNode)){
 

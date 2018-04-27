@@ -3,16 +3,37 @@ package chainReaction.game
 import ar.com.itba.sia.Problem
 import ar.com.itba.sia.Rule
 import chainReaction.utils.BooleanMatrix
+import chainReaction.utils.CharMatrix
+import chainReaction.utils.PairCache
 
 data class CRGame(
         val board: CRBoard,
         val starting: Pair<Int,Int>): Problem<CRState> {
 
-
     override fun getInitialState(): CRState {
-        val initial = CRState(game = this, touched = BooleanMatrix(board.rows, board.cols), last = starting)
+        val initial = CRState(game = this,
+                touched = BooleanMatrix(board.rows, board.cols),
+                last = starting,
+                neighbours = calculateNeighbours()
+        )
         initial.touched[starting.first,starting.second] = true
         return initial
+    }
+
+    private fun calculateNeighbours(): CharMatrix {
+        val neighbours = CharMatrix(board.rows, board.cols)
+        (0 until board.rows).forEach { i ->
+            (0 until board.cols).forEach { j ->
+                var thisNeighbours = 0
+                thisNeighbours+=(0 until board.rows).filter { board.areNeighbours(PairCache[i,j],PairCache[it,j]) }.count()
+                thisNeighbours+=(0 until board.cols).filter { board.areNeighbours(PairCache[i,j],PairCache[i,it]) }.count()
+                neighbours[i,j] = thisNeighbours.toChar()
+            }
+        }
+
+        neighbours[starting] = CRBoard.EMPTY
+
+        return neighbours
     }
 
     override fun getRules(state: CRState): List<Rule<CRState>> {
