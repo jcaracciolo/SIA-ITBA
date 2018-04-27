@@ -10,6 +10,12 @@ data class CRGame(
         val board: CRBoard,
         val starting: Pair<Int,Int>): Problem<CRState> {
 
+    init {
+        if(board.colors[starting]==CRBoard.EMPTY || board.shapes[starting]==CRBoard.EMPTY) {
+            throw IllegalStateException("Starting at an empty place")
+        }
+    }
+
     override fun getInitialState(): CRState {
         val initial = CRState(game = this,
                 touched = BooleanMatrix(board.rows, board.cols),

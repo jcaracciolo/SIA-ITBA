@@ -15,5 +15,3 @@ enum class Direction {
 
     abstract fun move(pos: Pair<Int, Int>, steps: Int): Pair<Int, Int>
 }
-
-data class CRAction(val from: CRState, val to: CRState, val rule: CRRule)
