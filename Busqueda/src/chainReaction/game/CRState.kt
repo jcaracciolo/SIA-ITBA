@@ -21,4 +21,10 @@ class CRState(val game: CRGame, val touched: BooleanMatrix, val neighbours: Char
 
         return true
     }
+
+    override fun toString(): String {
+        return "CRState(last=${last} touched=$touched) "
+    }
+
+
 }
