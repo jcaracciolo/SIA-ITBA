@@ -30,7 +30,7 @@ class NeighbourTest {
         val secondRule = CRRule(Direction.LEFT, 3)
         val secondState = secondRule.applyToState(firstState)
 
-        assertEquals(Double.MAX_VALUE, heuristic.getValue(secondState))
+        assertEquals(Double.POSITIVE_INFINITY, heuristic.getValue(secondState))
     }
 
     @Test
@@ -54,7 +54,7 @@ class NeighbourTest {
 
         val firstRule = CRRule(Direction.RIGHT, 1)
         val firstState = firstRule.applyToState(state)
-        assertEquals(Double.MAX_VALUE, heuristic.getValue(firstState))
+        assertEquals(Double.POSITIVE_INFINITY, heuristic.getValue(firstState))
     }
 
 }

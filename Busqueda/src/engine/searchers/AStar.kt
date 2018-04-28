@@ -27,7 +27,6 @@ class AStar <E> (val heuristic: Heuristic<E>)  : Searcher<E>{
     }
 
     override fun addNodes(nodes: List<Node<E>>, from: Node<E>) {
-        println(openNodes.size)
        nodes.filter { heuristic.getValue(it.state)<Double.POSITIVE_INFINITY }.forEach {
            val lastNode = openSet[it]
 
