@@ -20,16 +20,16 @@ class EngineTest {
        Assert.assertNotNull(solution)
     }
 
-    @Test
-    fun GeneratedTest(){
-        val problem = CRParser.parseBoard(base + "here")!!
-        val solution = Engine<CRState>().solve(problem, object : Heuristic<CRState> {
-            override fun getValue(state: CRState): Double {
-                return 1.0
-            }
-        })
-        Assert.assertNotNull(solution)
-    }
+//    @Test
+//    fun GeneratedTest(){
+//        val problem = CRParser.parseBoard(base + "here")!!
+//        val solution = Engine<CRState>().solve(problem, object : Heuristic<CRState> {
+//            override fun getValue(state: CRState): Double {
+//                return 1.0
+//            }
+//        })
+//        Assert.assertNotNull(solution)
+//    }
 
     @Test
     fun Impossible2x2BFSTest(){
