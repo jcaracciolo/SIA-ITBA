@@ -44,5 +44,4 @@ data class CRRule(val direction: Direction, val steps: Int) : Rule<CRState> {
         return next
     }
 
-
 }

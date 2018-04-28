@@ -27,7 +27,11 @@ class Node<E> (val id: Int, val problem: Problem<E>, val previous: Node<E>?, val
     }
 
     override fun toString(): String {
-        return state.toString()
+        if(previous == null) {
+            return state.toString()
+        } else {
+            return previous.toString() + "->" + state.toString()
+        }
     }
 
     var possibleRules : List<Rule<E>> = problem.getRules(state)

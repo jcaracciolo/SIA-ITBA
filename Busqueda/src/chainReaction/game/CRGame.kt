@@ -54,13 +54,13 @@ data class CRGame(
     override fun getRules(state: CRState): List<Rule<CRState>> {
         val board = state.game.board
 
-        val currentX = state.last.second
-        val currentY = state.last.first
+        val currentRow = state.last.first
+        val currentCol = state.last.second
 
-        val up = currentY
-        val down = board.rows - currentY - 1
-        val left = currentX
-        val right = board.cols - currentX - 1
+        val up = currentRow
+        val down = board.rows - currentRow - 1
+        val left = currentCol
+        val right = board.cols - currentCol - 1
 
         val list = ArrayList<Rule<CRState>>()
         checkMovement(state, Direction.UP, up, list)
@@ -73,7 +73,7 @@ data class CRGame(
 
     private fun checkMovement(state: CRState, direction: Direction, steps: Int, list: ArrayList<Rule<CRState>>) {
         for(i in 1 .. steps) {
-            if(canMove(state, direction.move(state.last, steps), state.last)) {
+            if(canMove(state, direction.move(state.last, i), state.last)) {
                 list.add(CRRule(direction, i))
             }
         }
