@@ -8,9 +8,9 @@ data class Node<E> (val id: Int, val problem: Problem<E>, val previous: Node<E>?
 
     override fun hashCode(): Int {
         if (state==null){
-            return 0;
+            return 0
         }
-        return state.hashCode();
+        return state.hashCode()
     }
 
     var possibleRules : List<Rule<E>> = problem.getRules(state)

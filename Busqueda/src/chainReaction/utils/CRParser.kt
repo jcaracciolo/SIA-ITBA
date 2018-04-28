@@ -59,7 +59,5 @@ class CRParser {
                 j++
             }
         }
-        private fun charSplit(string: String, delimiter: String = ","): List<Char> =
-                string.split(delimiter).map { n -> n[0] }
     }
 }

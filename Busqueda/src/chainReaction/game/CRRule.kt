@@ -17,20 +17,12 @@ data class CRRule(val direction: Direction, val steps: Int) : Rule<CRState> {
         val newNeighbours = CharMatrix(state.neighbours)
         val board = state.game.board
         (0 until board.rows).map { PairCache[it, next.second] }
-                .filter { board.areNeighbours(next, it) }
-                .forEach {
-                    if(newNeighbours[it].toInt() > 0) {
-                        newNeighbours[it]--
-                    }
-                }
+                .filter { board.areNeighbours(next, it) && newNeighbours[it].toInt() > 0 && newNeighbours[it] != CRBoard.EMPTY }
+                .forEach { newNeighbours[it]-- }
 
         (0 until board.cols).map { PairCache[next.first, it] }
-                .filter { board.areNeighbours(next, it) }
-                .forEach {
-                    if(newNeighbours[it].toInt() > 0) {
-                        newNeighbours[it]--
-                    }
-                }
+                .filter { board.areNeighbours(next, it) && newNeighbours[it].toInt() > 0 && newNeighbours[it] != CRBoard.EMPTY }
+                .forEach { newNeighbours[it]-- }
 
 
         newNeighbours[next] = CRBoard.EMPTY

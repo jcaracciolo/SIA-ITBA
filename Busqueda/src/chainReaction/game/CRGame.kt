@@ -31,9 +31,18 @@ data class CRGame(
         (0 until board.rows).forEach { i ->
             (0 until board.cols).forEach { j ->
                 var thisNeighbours = 0
-                thisNeighbours+=(0 until board.rows).filter { board.areNeighbours(PairCache[i,j],PairCache[it,j]) }.count()
-                thisNeighbours+=(0 until board.cols).filter { board.areNeighbours(PairCache[i,j],PairCache[i,it]) }.count()
-                neighbours[i,j] = thisNeighbours.toChar()
+                if(board.shapes[i,j] != CRBoard.EMPTY) {
+                    thisNeighbours += (0 until board.rows).filter {
+                        i != it && PairCache[it, j] != starting && board.areNeighbours(PairCache[i, j], PairCache[it, j])
+                    }.count()
+
+                    thisNeighbours += (0 until board.cols).filter {
+                        j != it && PairCache[i, it] != starting && board.areNeighbours(PairCache[i, j], PairCache[i, it])
+                    }.count()
+                    neighbours[i, j] = thisNeighbours.toChar()
+                } else {
+                    neighbours[i,j] = CRBoard.EMPTY
+                }
             }
         }
 
