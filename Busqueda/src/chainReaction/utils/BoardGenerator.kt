@@ -40,6 +40,8 @@ class BoardGenerator {
 
                 (0 until tokens).forEach {
 
+                    println(lastPosition)
+
                     val posibilities = set.filter {
                         (it.key.first == lastPosition.first
                                 || it.key.second == lastPosition.second)
