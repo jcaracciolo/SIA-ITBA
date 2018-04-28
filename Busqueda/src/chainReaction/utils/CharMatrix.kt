@@ -1,5 +1,7 @@
 package chainReaction.utils
 
+import java.util.*
+
 class CharMatrix(override val rows: Int, override val cols: Int) : BuiltInMatrix<Char> {
 
     private var matrix = CharArray(rows*cols)
@@ -18,5 +20,21 @@ class CharMatrix(override val rows: Int, override val cols: Int) : BuiltInMatrix
     }
 
     override fun filter(predicate: (Char) -> Boolean): List<Char> = matrix.filter(predicate)
+
+
+    override fun hashCode(): Int {
+        return Arrays.hashCode(matrix)
+    }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as CharMatrix
+
+        if (!Arrays.equals(matrix, other.matrix)) return false
+
+        return true
+    }
 
 }

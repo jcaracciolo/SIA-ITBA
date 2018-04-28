@@ -13,40 +13,43 @@ class Engine<E>{
 
     fun solve (problem: Problem<E>, heuristic: Heuristic<E>): List<Node<E>>? {
 
-        var idCounter: Int = 1;
-        var solved: Boolean = false;
-        var visitedNodes: HashSet<Node<E>> = HashSet()
+        var idCounter = 1
+        var nodesTaken = 0
+        var solved = false
+
+        val visitedNodes: HashSet<Node<E>> = HashSet()
 
         var curNode: Node<E> = Node(idCounter++, problem, null, problem.getInitialState(), 0.0, 0)
-        var newNode: Node<E>
 
-        val searcher: Searcher<E> = DepthFirstSearcher()
+        val searcher: Searcher<E> = AStar(object: Heuristic<E> {
+            override fun getValue(state: E): Double = 0.0
+        })
+
         searcher.addNode(curNode)
+        visitedNodes.add(curNode)
 
-        //TODO( Consultar si debemos quedarnos con la primer solucion )
-        //TODO 2 chequear si el control x hash alcanza
         while(!solved  &&  !searcher.isEmpty()){
 
             curNode = searcher.nextNode()
-            curNode.state.toString()
-
-            if(!visitedNodes.contains(curNode)){
-
-                visitedNodes.add(curNode)
-                val nextNodes = curNode.possibleRules.map {
+            nodesTaken++
+            solved = curNode.problem.isResolved(curNode.state)
+            if(!solved) {
+                curNode.possibleRules.map {
                     Node(idCounter++, problem, curNode, it.applyToState(curNode.state),
                             curNode.cost + it.cost, curNode.level + 1)
+                }.filter{ !visitedNodes.contains(it) }.forEach {
+                    searcher.addNode(it)
+                    visitedNodes.add(it)
                 }
-                searcher.addNodes(nextNodes)
-
-                solved = curNode.problem.isResolved(curNode.state)
             }
 
         }
 
         if(solved){
+            println("It took ${nodesTaken} nodes")
            return getSolution(curNode)
         }
+
         return null
     }
 

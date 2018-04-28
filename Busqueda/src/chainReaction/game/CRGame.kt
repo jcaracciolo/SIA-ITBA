@@ -10,6 +10,12 @@ data class CRGame(
         val board: CRBoard,
         val starting: Pair<Int,Int>): Problem<CRState> {
 
+    init {
+        if(board.colors[starting]==CRBoard.EMPTY || board.shapes[starting]==CRBoard.EMPTY) {
+            throw IllegalStateException("Starting at an empty place")
+        }
+    }
+
     override fun getInitialState(): CRState {
         val initial = CRState(game = this,
                 touched = BooleanMatrix(board.rows, board.cols),
@@ -25,9 +31,18 @@ data class CRGame(
         (0 until board.rows).forEach { i ->
             (0 until board.cols).forEach { j ->
                 var thisNeighbours = 0
-                thisNeighbours+=(0 until board.rows).filter { board.areNeighbours(PairCache[i,j],PairCache[it,j]) }.count()
-                thisNeighbours+=(0 until board.cols).filter { board.areNeighbours(PairCache[i,j],PairCache[i,it]) }.count()
-                neighbours[i,j] = thisNeighbours.toChar()
+                if(board.shapes[i,j] != CRBoard.EMPTY) {
+                    thisNeighbours += (0 until board.rows).filter {
+                        i != it && PairCache[it, j] != starting && board.areNeighbours(PairCache[i, j], PairCache[it, j])
+                    }.count()
+
+                    thisNeighbours += (0 until board.cols).filter {
+                        j != it && PairCache[i, it] != starting && board.areNeighbours(PairCache[i, j], PairCache[i, it])
+                    }.count()
+                    neighbours[i, j] = thisNeighbours.toChar()
+                } else {
+                    neighbours[i,j] = CRBoard.EMPTY
+                }
             }
         }
 
@@ -39,13 +54,13 @@ data class CRGame(
     override fun getRules(state: CRState): List<Rule<CRState>> {
         val board = state.game.board
 
-        val currentX = state.last.second
-        val currentY = state.last.first
+        val currentRow = state.last.first
+        val currentCol = state.last.second
 
-        val up = currentY
-        val down = board.rows - currentY - 1
-        val left = currentX
-        val right = board.cols - currentX - 1
+        val up = currentRow
+        val down = board.rows - currentRow - 1
+        val left = currentCol
+        val right = board.cols - currentCol - 1
 
         val list = ArrayList<Rule<CRState>>()
         checkMovement(state, Direction.UP, up, list)
@@ -58,7 +73,7 @@ data class CRGame(
 
     private fun checkMovement(state: CRState, direction: Direction, steps: Int, list: ArrayList<Rule<CRState>>) {
         for(i in 1 .. steps) {
-            if(canMove(state, direction.move(state.last, steps), state.last)) {
+            if(canMove(state, direction.move(state.last, i), state.last)) {
                 list.add(CRRule(direction, i))
             }
         }

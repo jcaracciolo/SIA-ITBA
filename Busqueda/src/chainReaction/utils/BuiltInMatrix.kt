@@ -16,4 +16,5 @@ interface BuiltInMatrix<B> {
 
     fun forEach(action: (B) -> kotlin.Unit)
     fun filter(predicate: (B) -> Boolean): List<B>
+
 }

@@ -21,22 +21,20 @@ class NeighborFilter(val heuristic: Heuristic<CRState>): Heuristic<CRState> {
         var zeros = 0
         for (i: Int in 0 until board.rows) {
             for(j: Int in 0 until board.cols) {
-                if(i!= state.last.first || j!= state.last.second) {
-                    if(state.neighbours[i,j].toInt() == 0) {
-                        return false
-                    }
-                } else {
-                    if(board.areNeighbours(state.last, PairCache[i,j])) {
+                if(state.neighbours[i,j].toInt() == 0) {
+                    if(board.areNeighbours(PairCache[i,j],state.last)) {
                         zeros++
                         if(zeros>1) {
-                            return false
+                            return true
                         }
+                    } else {
+                        return true
                     }
                 }
             }
         }
 
-        return true
+        return false
     }
 
 }

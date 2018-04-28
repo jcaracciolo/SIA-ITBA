@@ -19,12 +19,16 @@ class CRParser {
             val colors = secondLine[1]
 
             val thirdLine = intSplit(input.readLine())
-            val startX = thirdLine[0]
-            val startY = thirdLine[1]
+            val startRow = thirdLine[0]
+            val startCol = thirdLine[1]
+
+            if(startRow<0 || startRow>=row || startCol<0 || startCol>=col) {
+                throw IllegalStateException("Starting Point outside board")
+            }
 
 
-            var boardColors = CharMatrix(rows = row, cols = col)
-            var boardShapes = CharMatrix(rows = row, cols = col)
+            val boardColors = CharMatrix(rows = row, cols = col)
+            val boardShapes = CharMatrix(rows = row, cols = col)
 
             for (i in 0 until row) {
                 readRow(line = input.readLine(), boardColors = boardColors, boardShapes = boardShapes, i = i)
@@ -32,7 +36,7 @@ class CRParser {
             val board = CRBoard(maxColor = colors, maxShape = shapes, shapes = boardShapes, colors = boardColors)
             PairCache.initialize(rows = row, cols = col)
             return CRGame(board = board,
-                    starting = PairCache[startX, startY]
+                    starting = PairCache[startRow, startCol]
             )
         }
 
@@ -55,7 +59,5 @@ class CRParser {
                 j++
             }
         }
-        private fun charSplit(string: String, delimiter: String = ","): List<Char> =
-                string.split(delimiter).map { n -> n[0] }
     }
 }

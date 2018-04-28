@@ -37,8 +37,22 @@ class BooleanMatrix(override val rows: Int, override val cols: Int) : BuiltInMat
         }
     }
 
+    override fun toString(): String = Arrays.toString(matrix)
+
     override fun hashCode(): Int {
         return Arrays.hashCode(matrix)
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as BooleanMatrix
+
+        if (!Arrays.equals(matrix, other.matrix)) return false
+
+        return true
+    }
+
 
 }
