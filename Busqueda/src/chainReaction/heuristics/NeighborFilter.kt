@@ -22,13 +22,13 @@ class NeighborFilter(val heuristic: Heuristic<CRState>): Heuristic<CRState> {
         for (i: Int in 0 until board.rows) {
             for(j: Int in 0 until board.cols) {
                 if(state.neighbours[i,j].toInt() == 0) {
-                    if(i!= state.last.first && j!= state.last.second) {
-                        return true
-                    } else {
+                    if(board.areNeighbours(PairCache[i,j],state.last)) {
                         zeros++
                         if(zeros>1) {
                             return true
                         }
+                    } else {
+                        return true
                     }
                 }
             }

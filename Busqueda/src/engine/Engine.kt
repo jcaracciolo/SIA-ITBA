@@ -15,20 +15,17 @@ class Engine<E>{
 
         var idCounter: Int = 1;
         var solved: Boolean = false;
-        var visitedNodes: HashSet<Node<E>> = HashSet()
+
+        val visitedNodes: HashSet<Node<E>> = HashSet()
 
         var curNode: Node<E> = Node(idCounter++, problem, null, problem.getInitialState(), 0.0, 0)
-        var newNode: Node<E>
 
         val searcher: Searcher<E> = DepthFirstSearcher()
         searcher.addNode(curNode)
 
-        //TODO( Consultar si debemos quedarnos con la primer solucion )
-        //TODO 2 chequear si el control x hash alcanza
         while(!solved  &&  !searcher.isEmpty()){
 
             curNode = searcher.nextNode()
-            curNode.state.toString()
 
             if(!visitedNodes.contains(curNode)){
 
