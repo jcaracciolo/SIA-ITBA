@@ -31,6 +31,17 @@ class EngineTest {
         Assert.assertNotNull(solution)
     }
 
+//    @Test
+//    fun hugeTest(){
+//        val problem = CRParser.parseBoard(base + "HugeMap")!!
+//        val solution = Engine<CRState>().solve(problem, object : Heuristic<CRState> {
+//            override fun getValue(state: CRState): Double {
+//                return 1.0
+//            }
+//        })
+//        Assert.assertNotNull(solution)
+//    }
+
     @Test
     fun Impossible2x2BFSTest(){
         val problem = CRParser.parseBoard(base + "impossible2x2Board")!!

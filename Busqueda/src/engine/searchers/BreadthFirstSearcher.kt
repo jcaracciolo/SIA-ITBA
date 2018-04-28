@@ -7,7 +7,7 @@ class BreadthFirstSearcher <E> : Searcher<E> {
 
     var nodes: Queue<Node<E>> = ArrayDeque()
 
-    override fun addNodes(nodes: List<Node<E>>) {
+    override fun addNodes(nodes: List<Node<E>>, from: Node<E>) {
         this.nodes.addAll(nodes)
     }
 

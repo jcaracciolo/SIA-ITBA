@@ -11,7 +11,7 @@ class DepthFirstSearcher<E>: Searcher<E> {
         return nodes.pop()
     }
 
-    override fun addNodes(nodes: List<Node<E>>) {
+    override fun addNodes(nodes: List<Node<E>>, from: Node<E>) {
         this.nodes.addAll(nodes)
     }
 

@@ -101,7 +101,7 @@ class Main {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            BoardGenerator.createBoard("here",5,5,3,3)
+            BoardGenerator.createBoard("here",100,100,100,100)
         }
     }
 }

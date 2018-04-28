@@ -9,7 +9,7 @@ class NeighborFilter(val heuristic: Heuristic<CRState>): Heuristic<CRState> {
 
     override fun getValue(state: CRState): Double {
         if(invalid(state)) {
-            return Double.MAX_VALUE
+            return Double.POSITIVE_INFINITY
         }
 
         return heuristic.getValue(state)
