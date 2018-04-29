@@ -1,9 +1,9 @@
 package engine.searchers
 
 import ar.com.itba.sia.Heuristic
+import chainReaction.game.CRState
 import engine.Node
 import java.util.*
-import kotlin.collections.HashSet
 
 class AStar <E> (val heuristic: Heuristic<E>)  : Searcher<E>{
 
@@ -30,7 +30,7 @@ class AStar <E> (val heuristic: Heuristic<E>)  : Searcher<E>{
     }
 
     override fun addNodes(nodes: List<Node<E>>, from: Node<E>) {
-       nodes.filter { heuristic.getValue(it.state)<Double.POSITIVE_INFINITY }.forEach {
+       nodes.filter{ heuristic.getValue(it.state)<Double.POSITIVE_INFINITY }.forEach {
            val lastNode = openSet[it]
 
            if(lastNode!=null) {

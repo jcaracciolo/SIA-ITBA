@@ -21,6 +21,17 @@ class CharMatrix(override val rows: Int, override val cols: Int) : BuiltInMatrix
 
     override fun filter(predicate: (Char) -> Boolean): List<Char> = matrix.filter(predicate)
 
+    override fun toString(): String {
+        val str = StringBuilder()
+        (0 until rows).forEach { i->
+            (0 until cols).forEach { j->
+                str.append(" ${this[i,j].toInt()}\t - ")
+            }
+            str.append("\n")
+        }
+
+        return str.toString()
+    }
 
     override fun hashCode(): Int {
         return Arrays.hashCode(matrix)

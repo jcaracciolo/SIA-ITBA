@@ -4,24 +4,24 @@ import javafx.scene.paint.Color
 
 class ColorPicker {
     companion object {
-        val colors : Array<Color>
+        private val colors : Array<Color>
 
         init{
             colors = Array<Color>(25) { index ->
                 return@Array when(index){
-                    0 -> Color.GREEN
+                    0 -> Color.GREY
                     1 -> Color.BLUE
-                    2 -> Color.YELLOW
+                    2 -> Color.GREEN
                     3 -> Color.RED
                     4 -> Color.ORANGE
-                    5 -> Color.LIGHTBLUE
                     6 -> Color.PINK
-                    7 -> Color.GREY
+                    5 -> Color.LIGHTBLUE
+                    7 -> Color.CORAL
                     8 -> Color.VIOLET
                     9 -> Color.AQUA
                     10 -> Color.BEIGE
                     11 -> Color.BLUEVIOLET
-                    12 -> Color.CORAL
+                    12 -> Color.YELLOW
                     13 -> Color.DARKORANGE
                     14 -> Color.DARKGREEN
                     15 -> Color.DARKRED
@@ -41,8 +41,6 @@ class ColorPicker {
 
         }
 
-        fun getColor(n : Int): Color {
-            return colors.get(n)
-        }
+        fun getColor(n : Int): Color = colors[n]
     }
 }

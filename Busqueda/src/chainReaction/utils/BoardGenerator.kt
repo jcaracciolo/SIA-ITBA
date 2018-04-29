@@ -75,7 +75,7 @@ class BoardGenerator {
                 (0 until cols).forEach { j ->
                     val pos = set[Pair(i,j)]
                     if(pos != null) {
-                        file.appendText("${pos.first} ${pos.second}")
+                        file.appendText("${pos.first + 1} ${pos.second + 1}")
                     }
                     if(j < cols-1) {
                         file.appendText(",")
@@ -101,8 +101,8 @@ class Main {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            val size = 20
-            BoardGenerator.createBoard("here",size,size,size/2,size/2)
+            val size = 4
+            BoardGenerator.createBoard("./test/resources/here20x20",size,size,3,3)
         }
     }
 }

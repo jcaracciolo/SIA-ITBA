@@ -9,12 +9,30 @@ enum class Shape {
             gc.stroke = ColorPicker.getColor(c)
             gc.strokeLine(x * 50 + 45.0, y * 50 + 5.0, x * 50 + 5.0, y * 50 + 45.0)
         }
-    }, LINEL {
+    },
+    STAR {
         override fun draw(x: Int, y: Int, c: Int, gc: GraphicsContext) {
-            gc.stroke = ColorPicker.getColor(c)
-            gc.strokeLine(x * 50 + 5.0, y * 50 + 5.0, x * 50 + 45.0, y * 50 + 45.0)
+            gc.fill = ColorPicker.getColor(c)
+            val left = x*50.0 + 5
+            val top = y*50.0 + 5
+            val step = 40.0/4
+
+            val xs = doubleArrayOf(left, left+1.5*step, left+2*step, left+2.5*step, left+4*step, left+2.5*step, left+2*step, left+1.5*step)
+            val ys = doubleArrayOf(top+2*step, top+step, top, top+step, top+2*step, top+3*step, top+4*step, top+3*step)
+            gc.fillPolygon(xs,ys,8)
         }
-    }, CIRCLEF {
+    }, TRIANGLEUF {
+        override fun draw(x: Int, y: Int, c: Int, gc: GraphicsContext) {
+            gc.fill = ColorPicker.getColor(c)
+            val left = x*50.0 + 5
+            val top = y*50.0 + 5
+            val size = 40.0
+            val xs = doubleArrayOf(left, left+size/2, left+size)
+            val ys = doubleArrayOf(top+size, top, top+size)
+            gc.fillPolygon(xs,ys,3)
+        }
+    },
+     CIRCLEF {
         override fun draw(x: Int, y: Int, c: Int, gc: GraphicsContext) {
             gc.fill = ColorPicker.getColor(c)
             gc.fillOval(x * 50 + 5.0, y * 50 + 5.0, 40.0, 40.0)
@@ -34,9 +52,10 @@ enum class Shape {
             gc.fill = ColorPicker.getColor(c)
             gc.fillRect(x * 50 + 5.0, y * 50 + 15.0, 40.0, 20.0)
         }
-    }, TRIANGLEUF {
+    }, LINEL {
         override fun draw(x: Int, y: Int, c: Int, gc: GraphicsContext) {
-            TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+            gc.stroke = ColorPicker.getColor(c)
+            gc.strokeLine(x * 50 + 5.0, y * 50 + 5.0, x * 50 + 45.0, y * 50 + 45.0)
         }
     }, TRIANGLEDF {
         override fun draw(x: Int, y: Int, c: Int, gc: GraphicsContext) {
@@ -128,14 +147,18 @@ enum class Shape {
 
     abstract fun draw(x: Int, y: Int, c: Int, gc: GraphicsContext)
 
-    fun touch(x: Int, y: Int, shapeColor: Int, gc: GraphicsContext){
-        backGround(x, y, Color.BLACK, gc)
-        this.draw(x, y, shapeColor, gc)
+    fun touch(i: Int, j: Int, shapeColor: Int, gc: GraphicsContext){
+        backGround(j, i, Color.BLACK, gc)
+        this.draw(j, i, shapeColor, gc)
     }
 
-    fun unTouch(x: Int, y: Int, shapeColor: Int, gc: GraphicsContext){
-        backGround(x, y, Color.WHITE, gc)
-        this.draw(x, y, shapeColor, gc)
+    fun unTouch(i: Int, j: Int, shapeColor: Int, gc: GraphicsContext){
+        backGround(j, i, Color.WHITE, gc)
+        this.draw(j, i, shapeColor, gc)
+    }
+
+    companion object {
+        fun from(i: Int) = Shape.values().filter { it.ordinal == i}.first()
     }
 
     private fun backGround(x: Int, y: Int, backgroundColor: Color, gc: GraphicsContext){

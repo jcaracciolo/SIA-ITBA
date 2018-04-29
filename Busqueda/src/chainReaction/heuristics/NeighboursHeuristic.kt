@@ -10,5 +10,5 @@ class NeighboursHeuristic(): CRHeuristic {
 
     override fun steps(state: CRState): Int = (state.game.board.rows + state.game.board.cols - 2)
 
-    override fun getValue(state: CRState): Double = state.neighbours[state.last].toDouble()
+    override fun getValue(state: CRState): Double = steps(state) - state.neighbours[state.last].toDouble()
 }

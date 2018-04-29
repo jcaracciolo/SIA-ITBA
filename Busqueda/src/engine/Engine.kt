@@ -1,28 +1,33 @@
 package engine
 
 import ar.com.itba.sia.Problem
+import chainReaction.game.CRState
 import engine.searchers.Searcher
 import java.util.*
 import kotlin.collections.HashSet
 
 class Engine<E>{
 
-    fun solve (problem: Problem<E>, searcher: Searcher<E>): List<Node<E>>? {
+    var externalCurNode: Node<E>? = null
+
+    fun solve (problem: Problem<E>, searcher: Searcher<E>, processing: StateProcessor<E>? = null): List<Node<E>>? {
 
         var idCounter = 1
         var nodesTaken = 0
         var solved = false
 
         val visitedNodes: HashSet<Node<E>> = HashSet()
-
-        var curNode: Node<E> = Node(idCounter++, problem, null, problem.getInitialState(), 0.0, 0)
+        var curNode = Node(idCounter++, problem, null, problem.getInitialState(), 0.0, 0)
 
         searcher.addNode(curNode)
 
         while(!solved  &&  !searcher.isEmpty()){
-
             curNode = searcher.nextNode()
+            externalCurNode = curNode
             nodesTaken++
+
+            processing?.let { it.proces(curNode.state) }
+
             solved = curNode.problem.isResolved(curNode.state)
 
             if(!solved) {
@@ -38,6 +43,7 @@ class Engine<E>{
 
         if(solved){
             println("It took ${nodesTaken} nodes")
+            println(curNode)
            return getSolution(curNode)
         }
 
