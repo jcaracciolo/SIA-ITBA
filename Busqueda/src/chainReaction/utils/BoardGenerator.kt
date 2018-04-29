@@ -53,8 +53,8 @@ class BoardGenerator {
                     }
 
                     val next = posibilities.entries.shuffled().first()
-                    lastPosition = next.key
                     set[lastPosition] = Pair(lastShape, lastColor)
+                    lastPosition = next.key
 
                     if (rand.nextBoolean()) {
                         lastShape = rand.nextInt(maxShapes)
@@ -101,7 +101,8 @@ class Main {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            BoardGenerator.createBoard("here",100,100,100,100)
+            val size = 20
+            BoardGenerator.createBoard("here",size,size,size/2,size/2)
         }
     }
 }

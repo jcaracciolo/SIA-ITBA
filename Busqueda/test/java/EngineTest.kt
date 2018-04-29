@@ -1,7 +1,11 @@
 import ar.com.itba.sia.Heuristic
 import chainReaction.game.CRState
+import chainReaction.heuristics.*
 import chainReaction.utils.CRParser
 import engine.Engine
+import engine.searchers.AStar
+import engine.searchers.BreadthFirstSearcher
+import engine.searchers.DepthFirstSearcher
 import org.junit.Assert
 import org.junit.Test
 
@@ -12,44 +16,45 @@ class EngineTest {
     @Test
     fun TrivialBFSTest(){
         val problem = CRParser.parseBoard(base + "trivialBoard")!!
-        val solution = Engine<CRState>().solve(problem, object : Heuristic<CRState> {
-            override fun getValue(state: CRState): Double {
-                return 1.0
-            }
-        })
+        val solution = Engine<CRState>().solve(problem, DepthFirstSearcher())
        Assert.assertNotNull(solution)
     }
 
     @Test
-    fun GeneratedTest(){
+    fun GenerateBFSdTest(){
         val problem = CRParser.parseBoard(base + "here")!!
-        val solution = Engine<CRState>().solve(problem, object : Heuristic<CRState> {
-            override fun getValue(state: CRState): Double {
-                return 1.0
-            }
-        })
+        val solution = Engine<CRState>().solve(problem, BreadthFirstSearcher())
         Assert.assertNotNull(solution)
     }
 
-//    @Test
-//    fun hugeTest(){
-//        val problem = CRParser.parseBoard(base + "HugeMap")!!
-//        val solution = Engine<CRState>().solve(problem, object : Heuristic<CRState> {
-//            override fun getValue(state: CRState): Double {
-//                return 1.0
-//            }
-//        })
-//        Assert.assertNotNull(solution)
-//    }
+    @Test
+    fun GeneratedDFSTest(){
+        val problem = CRParser.parseBoard(base + "here")!!
+        val solution = Engine<CRState>().solve(problem, DepthFirstSearcher())
+        Assert.assertNotNull(solution)
+    }
+
+    @Test
+    fun GeneratedAStartTest(){
+        val problem = CRParser.parseBoard(base + "here")!!
+        val solution = Engine<CRState>().solve(problem, AStar(CloserHeuristic()))
+        Assert.assertNotNull(solution)
+    }
+
+    @Test
+    fun GeneratedDFSHUgeTest(){
+        val problem = CRParser.parseBoard(base + "HugeMap")!!
+        val solution = Engine<CRState>().solve(problem, AStar(NeighbourFilter(
+                ComposeHeuristic.composite(CloserHeuristic(), NeighboursHeuristic())
+        )))
+        Assert.assertNotNull(solution)
+    }
+
 
     @Test
     fun Impossible2x2BFSTest(){
         val problem = CRParser.parseBoard(base + "impossible2x2Board")!!
-        val solution = Engine<CRState>().solve(problem, object : Heuristic<CRState> {
-            override fun getValue(state: CRState): Double {
-                return 0.0
-            }
-        })
+        val solution = Engine<CRState>().solve(problem, DepthFirstSearcher())
         Assert.assertNull(solution)
     }
 }

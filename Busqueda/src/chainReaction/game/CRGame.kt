@@ -45,9 +45,7 @@ data class CRGame(
                 }
             }
         }
-
-        neighbours[starting] = CRBoard.EMPTY
-
+        
         return neighbours
     }
 

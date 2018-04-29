@@ -8,15 +8,18 @@ import kotlin.collections.HashSet
 class AStar <E> (val heuristic: Heuristic<E>)  : Searcher<E>{
 
 
-    private val openNodes = PriorityQueue<Node<E>>( kotlin.Comparator({ n1,n2 ->
-        val h1 = heuristic.getValue(n1.state)
-        val h2 = heuristic.getValue(n2.state)
+    private val distance: (Node<E>) -> Double = {n-> n.cost + heuristic.getValue(n.state) }
+    private val comparator = kotlin.Comparator<Node<E>> { n1, n2 ->
+        val d1 = distance(n1)
+        val d2 = distance(n2)
         return@Comparator when{
-            n1.cost + h1 < n2.cost + h2 -> -1
-            n1.cost + h1 == n2.cost + h2 -> 0
+            d1 < d2 -> -1
+            d1 == d2 -> 0
             else -> 1
         }
-    }))
+    }
+
+    private val openNodes = PriorityQueue<Node<E>>(comparator)
 
     private val openSet = HashMap<Node<E>,Node<E>>()
 

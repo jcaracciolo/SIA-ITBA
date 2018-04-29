@@ -1,19 +1,13 @@
 package engine
 
-import ar.com.itba.sia.Heuristic
 import ar.com.itba.sia.Problem
-import chainReaction.game.CRState
-import chainReaction.heuristics.NeighborFilter
-import engine.searchers.BreadthFirstSearcher
-import engine.searchers.AStar
-import engine.searchers.DepthFirstSearcher
 import engine.searchers.Searcher
 import java.util.*
 import kotlin.collections.HashSet
 
 class Engine<E>{
 
-    fun solve (problem: Problem<E>, heuristic: Heuristic<E>): List<Node<E>>? {
+    fun solve (problem: Problem<E>, searcher: Searcher<E>): List<Node<E>>? {
 
         var idCounter = 1
         var nodesTaken = 0
@@ -22,11 +16,6 @@ class Engine<E>{
         val visitedNodes: HashSet<Node<E>> = HashSet()
 
         var curNode: Node<E> = Node(idCounter++, problem, null, problem.getInitialState(), 0.0, 0)
-
-        val searcher: Searcher<E> =
-                AStar(NeighborFilter(object: Heuristic<CRState>{
-            override fun getValue(state: CRState): Double = (-state.touched.count(true)).toDouble()
-        })) as Searcher<E>
 
         searcher.addNode(curNode)
 

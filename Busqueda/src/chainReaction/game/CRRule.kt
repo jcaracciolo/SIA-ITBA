@@ -25,7 +25,7 @@ data class CRRule(val direction: Direction, val steps: Int) : Rule<CRState> {
                 .forEach { newNeighbours[it]-- }
 
 
-        newNeighbours[next] = CRBoard.EMPTY
+        newNeighbours[state.last] = CRBoard.EMPTY
 
         return CRState(state.game, newMap, newNeighbours, next)
     }

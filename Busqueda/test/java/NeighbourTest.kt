@@ -2,13 +2,10 @@ import ar.com.itba.sia.Heuristic
 import chainReaction.game.CRRule
 import chainReaction.game.CRState
 import chainReaction.game.Direction
-import chainReaction.heuristics.NeighborFilter
+import chainReaction.heuristics.NeighbourFilter
 import chainReaction.utils.CRParser
 import org.junit.Test
 import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
-import kotlin.test.assertFalse
-import kotlin.test.assertTrue
 
 
 class NeighbourTest {
@@ -19,7 +16,7 @@ class NeighbourTest {
     fun filterBlock() {
         val game = CRParser.parseBoard(base + "NeighbourTest")
         val state = game!!.getInitialState()
-        val heuristic = NeighborFilter(object : Heuristic<CRState> {
+        val heuristic = NeighbourFilter(object : Heuristic<CRState> {
             override fun getValue(state: CRState): Double = 0.0
         })
 
@@ -37,7 +34,7 @@ class NeighbourTest {
     fun filterPass() {
         val game = CRParser.parseBoard(base + "NeighbourTest")
         val state = game!!.getInitialState()
-        val heuristic = NeighborFilter(object : Heuristic<CRState> {
+        val heuristic = NeighbourFilter(object : Heuristic<CRState> {
             override fun getValue(state: CRState): Double = 0.0
         })
 
@@ -48,7 +45,7 @@ class NeighbourTest {
     fun filter2Posibilities() {
         val game = CRParser.parseBoard(base + "Neighbour2PosibilitiesTest")
         val state = game!!.getInitialState()
-        val heuristic = NeighborFilter(object : Heuristic<CRState> {
+        val heuristic = NeighbourFilter(object : Heuristic<CRState> {
             override fun getValue(state: CRState): Double = 0.0
         })
 
