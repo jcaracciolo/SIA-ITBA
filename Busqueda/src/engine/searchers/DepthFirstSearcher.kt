@@ -19,10 +19,16 @@ class DepthFirstSearcher<E>: Searcher<E> {
     }
 
     override fun addNode(node: Node<E>) {
-        nodes.add(node)
+        if(!visitedNodes.contains(node)) {
+            nodes.add(node)
+        }
     }
 
     override fun isEmpty(): Boolean {
         return nodes.isEmpty()
+    }
+
+    override fun frontierNodes(): Int {
+        return nodes.size
     }
 }

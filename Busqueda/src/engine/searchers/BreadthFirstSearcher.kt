@@ -27,4 +27,8 @@ class BreadthFirstSearcher <E> : Searcher<E> {
 
     }
 
+    override fun frontierNodes(): Int {
+        return nodes.size
+    }
+
 }

@@ -11,4 +11,6 @@ interface Searcher <E>{
     fun addNode(node: Node<E>)
 
     fun isEmpty(): Boolean
+
+    fun frontierNodes(): Int
 }

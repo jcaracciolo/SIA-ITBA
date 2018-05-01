@@ -57,4 +57,8 @@ class AStar <E> (val heuristic: Heuristic<E>)  : Searcher<E>{
 
     override fun isEmpty(): Boolean = openNodes.isEmpty()
 
+    override fun frontierNodes(): Int {
+        return openNodes.size
+    }
+
 }

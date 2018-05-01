@@ -5,6 +5,8 @@ import java.util.*
 
 class IterativeDeepening <E> (val depthIncrease: Int) : Searcher<E> {
 
+
+
     var initialNode: Node<E>? = null
     var maxDepth: Int = 3
     var fNodes: Stack<Node<E>> = Stack()
@@ -28,7 +30,6 @@ class IterativeDeepening <E> (val depthIncrease: Int) : Searcher<E> {
             }else{
                 cont=true
             }
-
         }
     }
 
@@ -46,5 +47,11 @@ class IterativeDeepening <E> (val depthIncrease: Int) : Searcher<E> {
     override fun isEmpty(): Boolean {
         return fNodes.isEmpty() && !cont
     }
+
+
+    override fun frontierNodes(): Int {
+        return fNodes.size
+    }
+
 
 }
