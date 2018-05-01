@@ -46,7 +46,7 @@ class Engine<E>{
             println(curNode)
            return getSolution(curNode)
         }
-
+        println("No solution could be found")
         return null
     }
 

@@ -6,6 +6,7 @@ import engine.Engine
 import engine.searchers.AStar
 import engine.searchers.BreadthFirstSearcher
 import engine.searchers.DepthFirstSearcher
+import engine.searchers.GreedySearch
 import org.junit.Assert
 import org.junit.Test
 
@@ -38,6 +39,13 @@ class EngineTest {
     fun GeneratedAStartTest(){
         val problem = CRParser.parseBoard(base + "here")!!
         val solution = Engine<CRState>().solve(problem, AStar(CloserHeuristic()))
+        Assert.assertNotNull(solution)
+    }
+
+    @Test
+    fun GeneratedGreedyTest(){
+        val problem = CRParser.parseBoard(base + "here")!!
+        val solution = Engine<CRState>().solve(problem, GreedySearch(CloserHeuristic()))
         Assert.assertNotNull(solution)
     }
 
