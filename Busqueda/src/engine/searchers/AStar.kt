@@ -7,7 +7,7 @@ import java.util.*
 
 class AStar <E> (val heuristic: Heuristic<E>)  : Searcher<E>{
 
-
+    private val visitedNodes: HashSet<Node<E>> = HashSet()
     private val distance: (Node<E>) -> Double = {n-> n.cost + heuristic.getValue(n.state) }
     private val comparator = kotlin.Comparator<Node<E>> { n1, n2 ->
         val d1 = distance(n1)
@@ -26,11 +26,14 @@ class AStar <E> (val heuristic: Heuristic<E>)  : Searcher<E>{
     override fun nextNode(): Node<E> {
         val ans = openNodes.poll()
         openSet.remove(ans)
+        visitedNodes.add(ans)
         return ans
     }
 
     override fun addNodes(nodes: List<Node<E>>, from: Node<E>) {
-       nodes.filter{ heuristic.getValue(it.state)<Double.POSITIVE_INFINITY }.forEach {
+       nodes
+            .filter{ !visitedNodes.contains(it) }
+            .filter{ heuristic.getValue(it.state)<Double.POSITIVE_INFINITY }.forEach {
            val lastNode = openSet[it]
 
            if(lastNode!=null) {

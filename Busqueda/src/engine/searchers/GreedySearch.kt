@@ -1,54 +1,59 @@
 package engine.searchers
 
 import ar.com.itba.sia.Heuristic
+import chainReaction.game.CRState
 import engine.Node
 import java.util.*
 
-class GreedySearch <E> (val heuristic: Heuristic<E>) : Searcher<E> {
+class GreedySearch <E> (val heuristic: Heuristic<E>)  : Searcher<E>{
 
+    private val visitedNodes: HashSet<Node<E>> = HashSet()
     private val comparator = kotlin.Comparator<Node<E>> { n1, n2 ->
-        val h1 = heuristic.getValue(n1.state)
-        val h2 = heuristic.getValue(n2.state)
-        //println("${n1.level} - ${n2.level} ---- ${h1} - ${h2} ------ IDS ${n1.id} - ${n2.id}")
-        var result = 0
-
-        //TODO check if node level should be taken into account
-        /*when{
-            n1.level < n2.level -> result = -1
-            n1.level > n2.level -> result = 1
-            else -> when{
-                h1 < h2 -> result = 1
-                h1 == h2 -> result = 0
-                else -> result = -1
-            }
-        }*/
-        //Better performance with no node level checkup
-        when{
-            h1 < h2 -> result = 1
-            h1 == h2 -> result = 0
-            else -> result = -1
+        val d1 = heuristic.getValue(n1.state)
+        val d2 = heuristic.getValue(n2.state)
+        return@Comparator when{
+            d1 < d2 -> 1
+            d1 == d2 -> 0
+            else -> -1
         }
-        //println("Result is ${result}")
-        return@Comparator result
     }
 
     private val openNodes = PriorityQueue<Node<E>>(comparator)
 
+    private val openSet = HashMap<Node<E>,Node<E>>()
+
     override fun nextNode(): Node<E> {
-        return openNodes.poll()
+        val ans = openNodes.poll()
+        openSet.remove(ans)
+        visitedNodes.add(ans)
+        return ans
     }
 
     override fun addNodes(nodes: List<Node<E>>, from: Node<E>) {
-        openNodes.addAll(nodes)
+        nodes
+                .filter{ !visitedNodes.contains(it) }
+                .filter{ heuristic.getValue(it.state)<Double.POSITIVE_INFINITY }.forEach {
+            val lastNode = openSet[it]
+
+            if(lastNode!=null) {
+                if(lastNode.cost > it.cost) {
+                    openNodes.remove(lastNode)
+                    openSet.remove(lastNode)
+                    openSet[it] = it
+                    openNodes.add(it)
+                }
+            } else {
+                openSet[it] = it
+                openNodes.add(it)
+            }
+        }
     }
 
     override fun addNode(node: Node<E>) {
         openNodes.add(node)
+        openSet[node] = node
     }
 
-    override fun isEmpty(): Boolean {
-        return openNodes.isEmpty()
-    }
-
+    override fun isEmpty(): Boolean = openNodes.isEmpty()
 
 }

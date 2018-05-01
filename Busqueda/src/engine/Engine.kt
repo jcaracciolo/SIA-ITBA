@@ -16,7 +16,6 @@ class Engine<E>{
         var nodesTaken = 0
         var solved = false
 
-        val visitedNodes: HashSet<Node<E>> = HashSet()
         var curNode = Node(idCounter++, problem, null, problem.getInitialState(), 0.0, 0)
 
         searcher.addNode(curNode)
@@ -34,9 +33,8 @@ class Engine<E>{
                 val nextNodes = curNode.possibleRules.map {
                     Node(idCounter++, problem, curNode, it.applyToState(curNode.state),
                             curNode.cost + it.cost, curNode.level + 1)
-                }.filter{ !visitedNodes.contains(it) }
+                }
                 searcher.addNodes(nextNodes, curNode)
-                visitedNodes.add(curNode)
             }
 
         }
