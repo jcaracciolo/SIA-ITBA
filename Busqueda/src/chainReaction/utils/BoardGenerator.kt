@@ -15,7 +15,7 @@ class BoardGenerator {
                 cols: Int,
                 maxShapes: Int,
                 maxColors: Int,
-                percentageFilled: Double = 0.7,
+                percentageFilled: Double = 0.85,
                 seed: Long = Random().nextLong()) {
 
             val size = rows*cols
@@ -101,8 +101,8 @@ class Main {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            val size = 4
-            BoardGenerator.createBoard("./test/resources/here20x20",size,size,3,3)
+            val size = 8
+            BoardGenerator.createBoard("./test/resources/here8x8-5-5",size,size,5,5)
         }
     }
 }

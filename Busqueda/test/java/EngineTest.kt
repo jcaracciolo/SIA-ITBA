@@ -69,4 +69,29 @@ class EngineTest {
         val solution = Engine<CRState>().solve(problem, DepthFirstSearcher())
         Assert.assertNull(solution)
     }
+
+    @Test
+    fun Boardchecker(){
+        val problem = CRParser.parseBoard(base + "here8x8-5-5")!!
+        val solution = Engine<CRState>().solve(problem, AStar(NeighbourFilter(
+                ComposeHeuristic.composite(CloserHeuristic(), NeighboursHeuristic())
+        )))
+        print(solution)
+        Assert.assertNotNull(solution)
+    }
+
+    @Test
+    fun testingBFSBIG(){
+        val problem = CRParser.parseBoard(base + "here3x3-5-5")!!
+        val solution = Engine<CRState>().solve(problem, DepthFirstSearcher())
+        print("DFS  \n" + solution)
+        val solution2 = Engine<CRState>().solve(problem, BreadthFirstSearcher())
+        print("BFS  \n" + solution2)
+        val solution3 = Engine<CRState>().solve(problem, IterativeDeepening(5))
+        print("IDDFS  \n" + solution3)
+        val solution4 = Engine<CRState>().solve(problem, DepthFirstSearcher())
+        print("Greedy  \n" + solution4)
+        Assert.assertNotNull(solution)
+    }
+
 }

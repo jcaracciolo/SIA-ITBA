@@ -20,10 +20,27 @@ class Engine<E>{
 
         searcher.addNode(curNode)
 
+        //TODO remove this
+        var loop = 0
+        var total : Long = 0
+        var max : Long = 0
+        var free : Long = 0
+
         while(!solved  &&  !searcher.isEmpty()){
             curNode = searcher.nextNode()
             externalCurNode = curNode
             nodesTaken++
+
+            //todo remove this
+            if (loop++ == 500000){
+                loop = 0
+                total = Runtime.getRuntime().totalMemory()
+                max = Runtime.getRuntime().maxMemory()
+                free = Runtime.getRuntime().freeMemory()
+                println("Total : ${total}   Max : ${max}   Free : ${free}")
+                System.gc()
+            }
+
 
             processing?.let { it.proces(curNode.state) }
 
