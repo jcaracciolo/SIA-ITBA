@@ -27,6 +27,29 @@ Cursada 2018 SIA - GRUPO 1
 ## Generate a Jar
 	`mvn clean package`
 
+## Generate executable jar
+	`Build -> Build Artifacts`
+
+## Execute program
+	`cd Executable`
+	`java -jar Busqueda.jar <path> <searcher> <searcherParams>`
+	searcher options:
+		* dfs
+		* bfs
+		* iddfs <depth: Int>
+		* greed <heuristic: String>
+		* astar <heuristic: String>
+
+	heuristic options:
+		   * "basic" -> basicHeuristic
+           * "neighbour" -> neighbourHeuristic
+           * "composite" -> compositeHeuristic
+           * "compositeReverse" -> compositeReverseHeuristic
+           * "filteredBasic" -> filteredBasic
+           * "filteredNeighbour" -> filteredNeighbour
+           * "filteredComposite" -> filteredCompositeHeuristic
+           * "filteredCompositeReverse" -> filteredCompositeReverseHeuristic
+
 # Neural Network
 
 The Neural Network amlgorithm is inside the path
