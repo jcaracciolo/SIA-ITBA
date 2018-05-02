@@ -25,6 +25,8 @@ class Engine<E>{
             externalCurNode = curNode
             nodesTaken++
 
+
+
             processing?.let { it.proces(curNode.state) }
 
             solved = curNode.problem.isResolved(curNode.state)
