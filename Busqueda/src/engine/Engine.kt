@@ -45,6 +45,7 @@ class Engine<E>{
         solution.solved = false
         solution.nodesCreated = idCounter
         solution.expandedNodes = nodesTaken
+        solution.finalTime = System.currentTimeMillis()
 
         if(solved){
             solution.solved = true
