@@ -97,12 +97,18 @@ class BoardGenerator {
 fun Double.floor() = Math.floor(this).toInt()
 fun Double.ceil() = Math.ceil(this).toInt()
 
-class Main {
+class BoardGeneratorMain {
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
-            val size = 4
-            BoardGenerator.createBoard("./test/resources/here20x20",size,size,3,3)
+
+            // Customize parameters
+            val cols =  4
+            val rows = 4
+            val maxShapes = 3
+            val maxColors = 3
+
+            BoardGenerator.createBoard("./test/resources/here20x20",rows,cols,maxShapes,maxColors)
         }
     }
 }

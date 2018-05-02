@@ -1,6 +1,34 @@
 # SIA-ITBA
 Cursada 2018 SIA - GRUPO 1
 
+# Informed search
+ To play the game go to https://jayisgames.com/games/lightforce/games/chainreaction.php
+
+## Import project with maven, after that everything should work. Make sure to have Kotlin plugin installed
+
+## Generate a board
+	Go to chainReaction -> utils -> BoardGenerator 
+	Look for the main function and change the parameters above
+	Run the main function and look for the file at the path
+
+## Run a board
+	Go to engine -> Main
+	Pick a searcher
+	Pick an heuristic if the searcher needs it
+	Run the main function inside (Make sure to change the searcher)
+
+## Run with graphic interface
+	Go to chainReaction -> utils -> ui -> Drawer
+	Pick a searcher
+	Pick an heuristic if the searcher needs it
+	Run the main function inside
+	Disclaimer (Only max of 7 shapes are supported as of yet)
+
+## Generate a Jar
+	`mvn clean package`
+
+# Neural Network
+
 The Neural Network amlgorithm is inside the path
 `Redes Neuronales/TP1.2/`. Make sure you are inside that folder when running the commands.
 

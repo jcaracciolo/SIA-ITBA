@@ -8,8 +8,9 @@ import chainReaction.heuristics.NeighbourFilter
 import chainReaction.heuristics.NeighboursHeuristic
 import chainReaction.utils.CRParser
 import engine.Engine
-import engine.StateProcessor
 import engine.searchers.AStar
+import engine.StateProcessor
+import engine.EngineMain
 import javafx.application.Application
 import javafx.scene.Group
 import javafx.scene.Scene
@@ -22,9 +23,19 @@ import javafx.scene.canvas.GraphicsContext
 class Drawer : Application(), StateProcessor<CRState>{
     lateinit var primaryStage: Stage
     lateinit var gc: GraphicsContext
-    val path = "./test/resources/here20x20"
+
+
+    //Path to the board
+    val path = "./test/resources/HugeMap"
+
+    //Engine (this is ok as it is)
     val engine =  Engine<CRState>()
+
+    //Heuristic and searcher (User EngineMain.astarSearcher or other to help you out here)
     val heuristic = NeighbourFilter(ComposeHeuristic.composite(CloserHeuristic(), NeighboursHeuristic()))
+    val searcher = AStar(heuristic)
+
+    val refreshRateMS: Long = 1000/20
 
     companion object {
 
@@ -40,6 +51,10 @@ class Drawer : Application(), StateProcessor<CRState>{
         Drawer.app = this
     }
 
+    override fun proces(state: CRState) {
+        Thread.sleep(refreshRateMS)
+    }
+
     override fun start(primaryStage: Stage?) {
         this.primaryStage = primaryStage!!
         this.primaryStage.title = "Chain Reaction"
@@ -50,7 +65,7 @@ class Drawer : Application(), StateProcessor<CRState>{
 
         val engine = Engine<CRState>()
 
-        Thread({ engine.solve(problem, AStar(heuristic), this) }).start()
+        Thread({ engine.solve(problem, searcher, this) }).start()
 
         object : AnimationTimer() {
             override fun handle(currentNanoTime: Long) {
@@ -69,10 +84,6 @@ class Drawer : Application(), StateProcessor<CRState>{
         primaryStage.setScene(Scene(root))
         primaryStage.show()
         gc.lineWidth = 5.0
-    }
-
-    override fun proces(state: CRState) {
-        Thread.sleep(1000)
     }
 
     fun print(state: CRState) {
