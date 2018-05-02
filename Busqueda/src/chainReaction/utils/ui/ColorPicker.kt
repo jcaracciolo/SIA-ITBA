@@ -12,7 +12,7 @@ class ColorPicker {
                     0 -> Color.GREY
                     1 -> Color.BLUE
                     2 -> Color.GREEN
-                    3 -> Color.RED
+                    3 -> Color.DARKMAGENTA
                     4 -> Color.ORANGE
                     6 -> Color.PINK
                     5 -> Color.LIGHTBLUE

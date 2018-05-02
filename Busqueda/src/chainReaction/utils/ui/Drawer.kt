@@ -65,7 +65,7 @@ class Drawer : Application(), StateProcessor<CRState>{
 
         val engine = Engine<CRState>()
 
-        Thread({ engine.solve(problem, searcher, this) }).start()
+        Thread({ println(engine.solve(problem, searcher, this)) }).start()
 
         object : AnimationTimer() {
             override fun handle(currentNanoTime: Long) {
@@ -102,5 +102,7 @@ class Drawer : Application(), StateProcessor<CRState>{
             }
         }
 
+        val shape = Shape.from(board.shapes[state.last].toInt())
+        shape.selected(state.last.first, state.last.second, board.colors[state.last].toInt(), gc)
     }
 }

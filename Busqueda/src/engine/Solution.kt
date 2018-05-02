@@ -12,7 +12,7 @@ class Solution <E> {
 
     override fun toString(): String {
         if (!solved)
-            return "No Solution was found"
+            return "No Solution was found\nNodes created: ${nodesCreated}, ExpandedNodes: ${expandedNodes}"
         return ("Solution Depth: ${solutionDepth} and Cost: ${solutionCost} \n" +
                 "Nodes created: ${nodesCreated}, FrontierNodes: ${frontierNodes}, ExpandedNodes: ${expandedNodes} \n" +
             "Solution: \n ${solution.toString()}")

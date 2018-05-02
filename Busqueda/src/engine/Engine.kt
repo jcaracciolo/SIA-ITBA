@@ -9,7 +9,7 @@ class Engine<E>{
 
     var externalCurNode: Node<E>? = null
 
-    fun solve (problem: Problem<E>, searcher: Searcher<E>, processing: StateProcessor<E>? = null): Solution<E>? {
+    fun solve (problem: Problem<E>, searcher: Searcher<E>, processing: StateProcessor<E>? = null): Solution<E> {
 
         var idCounter = 1
         var nodesTaken = 0
@@ -41,19 +41,21 @@ class Engine<E>{
 
         }
 
+
+        solution.solved = false
+        solution.nodesCreated = idCounter
+        solution.expandedNodes = nodesTaken
+
         if(solved){
             solution.solved = true
-            solution.nodesCreated = idCounter
-            solution.expandedNodes = nodesTaken
-            solution.frontierNodes = searcher.frontierNodes()
             solution.solutionDepth = curNode.level
             solution.solutionCost = curNode.cost
+            solution.frontierNodes = searcher.frontierNodes()
             solution.solution = getSolution(curNode)
             return solution
         }
-        println(solution)
-        //TODO: Change to return an empty solution (must modify tests)
-        return null
+
+        return solution
     }
 
     fun getSolution(node: Node<E>): List<Node<E>>{

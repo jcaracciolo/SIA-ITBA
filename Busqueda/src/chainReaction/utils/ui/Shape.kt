@@ -157,6 +157,11 @@ enum class Shape {
         this.draw(j, i, shapeColor, gc)
     }
 
+    fun selected(i: Int, j: Int, shapeColor: Int, gc: GraphicsContext){
+        backGround(j, i, Color.RED, gc)
+        this.draw(j, i, shapeColor, gc)
+    }
+
     companion object {
         fun from(i: Int) = Shape.values().filter { it.ordinal == i}.first()
     }
