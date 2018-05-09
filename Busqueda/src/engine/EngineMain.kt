@@ -13,7 +13,7 @@ class EngineMain {
         val FROM_TERMINAL = false
 
         //Change to point to Board file location or generate one using BoardGenerator inside ChainReaction package
-        var path = "./test/resources/here"
+        var path = "./test/resources/here50x50bis-5-5"
 
         //Pick a searcher
         val bfsSearcher = BreadthFirstSearcher<CRState>()

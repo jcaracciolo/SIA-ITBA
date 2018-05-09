@@ -12,7 +12,7 @@ class GreedySearch <E> (val heuristic: Heuristic<E>)  : Searcher<E>{
         val d1 = heuristic.getValue(n1.state)
         val d2 = heuristic.getValue(n2.state)
         return@Comparator when{
-            d1 < d2 -> 1
+            d1 > d2 -> 1
             d1 == d2 -> 0
             else -> -1
         }
