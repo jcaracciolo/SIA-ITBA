@@ -10,6 +10,7 @@ abstract class Character(
         open var bodyArmor : BodyArmor,
         open var gloves : Gloves,
         open var boots : Boots
+
         ) {
 
     abstract fun getDescendant() : Character

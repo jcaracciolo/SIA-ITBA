@@ -17,7 +17,6 @@ class ItemParser {
             var values: List<String>
             var line = input.readLine()
 
-
             line = input.readLine()
 
             while(line != null){
