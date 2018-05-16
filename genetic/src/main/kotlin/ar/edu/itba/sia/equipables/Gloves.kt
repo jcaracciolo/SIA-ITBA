@@ -1,7 +1,7 @@
 package ar.edu.itba.sia.equipables
 
-class LegArmor(
-        override val Id: Long,
+class Gloves(
+        override val id: Long,
         override val strength: Double,
         override val agility: Double,
         override val expertise: Double,
