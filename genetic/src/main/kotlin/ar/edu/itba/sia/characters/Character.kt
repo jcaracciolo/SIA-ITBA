@@ -14,7 +14,7 @@ abstract class Character(
 
     abstract fun getDescendant() : Character
 
-    abstract fun  () : Double
+    abstract fun getPerformance() : Double
 
     fun getAttack() : Double{
         return (getEffectiveResistance() + getEffectiveExpertise()) * getEffectiveVitality() * getDEM()
