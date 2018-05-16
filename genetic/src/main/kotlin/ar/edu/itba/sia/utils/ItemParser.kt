@@ -6,35 +6,28 @@ import java.io.File
 
 class ItemParser {
     companion object {
-        fun parseItem( file: String, map: MutableMap<Long,Equipment>, type: EquipmentType) {
+        fun parseItems(file: String, delimiter: String = "\t"): Map<Double, Equipment> {
+            val map = HashMap<Double, Equipment>()
+
             val input = File(file).bufferedReader()
-            var id: Long;
-            var strength: Double
-            var agility: Double
-            var expertise: Double
-            var resistance: Double
-            var vitality: Double
-            var values: List<String>
             var line = input.readLine()
 
-            line = input.readLine()
-
             while(line != null){
-                values = line.split( "\t");
+                val values = line.split(delimiter)
+                val id = values[0].toDouble()
+                val strength = values[1].toDouble()
+                val agility = values[2].toDouble()
+                val expertise = values[3].toDouble()
+                val resistance = values[4].toDouble()
+                val vitality = values[5].toDouble()
 
-                id = values[0].toLong()
-                strength = values[1].toDouble()
-                agility = values[2].toDouble()
-                expertise = values[3].toDouble()
-                resistance = values[4].toDouble()
-                vitality = values[5].toDouble()
-
-                map[id] = type.create(id,strength,agility,expertise,resistance,vitality)
+                map[id] = Equipment(id,strength,agility,expertise,resistance,vitality)
 
                 line =input.readLine()
             }
 
             input.close()
+            return map
         }
     }
 }

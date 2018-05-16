@@ -1,11 +1,10 @@
 package ar.edu.itba.sia.equipables
 
-abstract class Equipment {
-
-    abstract val id : Long
-    abstract val strength : Double
-    abstract val agility : Double
-    abstract val expertise : Double
-    abstract val resistance : Double
-    abstract val vitality : Double
-}
+data class Equipment(
+    val id: Double,
+    val strength: Double,
+    val agility: Double,
+    val expertise: Double,
+    val resistance: Double,
+    val vitality: Double
+)

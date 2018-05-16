@@ -1,36 +1,49 @@
 package ar.edu.itba.sia.equipables
 
+import ar.edu.itba.sia.Armory
+
 enum class EquipmentType {
     WEAPON {
-        override fun create(id: Long, strength: Double, agility: Double, expertise: Double, resistance: Double, vitality: Double) : Equipment {
-            return Weapon(id, strength, agility, expertise, resistance, vitality)
-        }
+        override val armory: Map<Double, Equipment>
+            get() = Armory.weapons
+
+        override val index: Int
+            get() = 0
     },
     HEADGEAR {
-        override fun create(id: Long, strength: Double, agility: Double, expertise: Double, resistance: Double, vitality: Double): Equipment {
-            return Headgear(id, strength, agility, expertise, resistance, vitality)
-        }
+        override val armory: Map<Double, Equipment>
+            get() = Armory.headgear
+
+        override val index: Int
+            get() = 1
     },
     BODYARMOR {
-        override fun create(id: Long, strength: Double, agility: Double, expertise: Double, resistance: Double, vitality: Double): Equipment {
-            return BodyArmor(id, strength, agility, expertise, resistance, vitality)
-        }
+        override val armory: Map<Double, Equipment>
+            get() = Armory.bodyArmor
+
+        override val index: Int
+            get() = 2
     },
     GLOVES {
-        override fun create(id: Long, strength: Double, agility: Double, expertise: Double, resistance: Double, vitality: Double): Equipment {
-            return Gloves(id, strength, agility, expertise, resistance, vitality)
-        }
+        override val armory: Map<Double, Equipment>
+            get() = Armory.gloves
+
+        override val index: Int
+            get() = 3
     },
     BOOTS {
-        override fun create(id: Long, strength: Double, agility: Double, expertise: Double, resistance: Double, vitality: Double): Equipment {
-            return Boots(id, strength, agility, expertise, resistance, vitality)
-        }
+        override val armory: Map<Double, Equipment>
+            get() = Armory.boots
+
+        override val index: Int
+            get() = 4
     };
 
-    abstract fun create(id: Long,
-                        strength: Double,
-                        agility: Double,
-                        expertise: Double,
-                        resistance: Double,
-                        vitality: Double) : Equipment
+    abstract val index: Int
+
+    abstract val armory: Map<Double, Equipment>
+
+    fun getEquipment(gens: Array<Double>) =  armory[gens[index]]!!
+
+    fun replace(gens: Array<Double>, equipmentId: Double) = run { gens[index] = equipmentId }
 }

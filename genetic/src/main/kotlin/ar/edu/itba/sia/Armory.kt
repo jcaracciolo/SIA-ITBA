@@ -6,27 +6,28 @@ import ar.edu.itba.sia.utils.ItemParser
 
 class Armory {
 
-    var weapons: MutableMap<Long,Equipment>
-    var headgear: MutableMap<Long,Equipment>
-    var gloves: MutableMap<Long,Equipment>
-    var boots: MutableMap<Long,Equipment>
-    var bodyArmor: MutableMap<Long,Equipment>
+    companion object {
 
-    init {
-        weapons = HashMap<Long,Equipment>()
-        headgear = HashMap<Long,Equipment>()
-        gloves = HashMap<Long,Equipment>()
-        boots = HashMap<Long,Equipment>()
-        bodyArmor = HashMap<Long,Equipment>()
+        private val weaponsFileName = "WeaponsFileName"
+        private val headGearFileName = "WeaponsFileName"
+        private val glovesFileName = "WeaponsFileName"
+        private val bootsFileName = "WeaponsFileName"
+        private val bodyArmorFileName = "WeaponsFileName"
 
-        loadItems()
+        val weapons: Map<Double,Equipment>
+        val headgear: Map<Double,Equipment>
+        val gloves: Map<Double,Equipment>
+        val boots: Map<Double,Equipment>
+        val bodyArmor: Map<Double,Equipment>
+
+        init {
+            weapons = ItemParser.parseItems(weaponsFileName)
+            headgear = ItemParser.parseItems(headGearFileName)
+            gloves = ItemParser.parseItems(glovesFileName)
+            boots = ItemParser.parseItems(bootsFileName)
+            bodyArmor = ItemParser.parseItems(bodyArmorFileName)
+        }
+
     }
 
-    fun loadItems(){
-        ItemParser.parseItem("WeaponsFileName", weapons, EquipmentType.WEAPON)
-        ItemParser.parseItem("HeadGearFileName", headgear, EquipmentType.HEADGEAR)
-        ItemParser.parseItem("GlovesFileName", gloves, EquipmentType.GLOVES)
-        ItemParser.parseItem("BootFileName", boots, EquipmentType.BOOTS)
-        ItemParser.parseItem("BodyArmorFileName", bodyArmor, EquipmentType.BODYARMOR)
-    }
 }

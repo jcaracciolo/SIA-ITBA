@@ -1,27 +1,32 @@
 package ar.edu.itba.sia.characters
 
+import ar.edu.itba.sia.Armory
 import ar.edu.itba.sia.equipables.*
 import ar.edu.itba.sia.exceptions.NotValidEquipmentException
 
-abstract class Character(
-        open var height: Double,
-        open var weapon : Weapon,
-        open var headgear : Headgear,
-        open var bodyArmor : BodyArmor,
-        open var gloves : Gloves,
-        open var boots : Boots
+abstract class Character(open val gens: Array<Double>) {
+    val height
+        get() = gens.last()
+    val weapon
+        get() = EquipmentType.WEAPON.getEquipment(gens)
+    val headgear
+        get() = EquipmentType.HEADGEAR.getEquipment(gens)
+    val bodyArmor
+        get() = EquipmentType.BODYARMOR.getEquipment(gens)
+    val gloves
+        get() = EquipmentType.GLOVES.getEquipment(gens)
+    val boots
+        get() = EquipmentType.BOOTS.getEquipment(gens)
 
-        ) {
+    abstract fun getDescendant(): Character
 
-    abstract fun getDescendant() : Character
+    abstract fun getPerformance(): Double
 
-    abstract fun getPerformance() : Double
-
-    fun getAttack() : Double{
+    fun getAttack(): Double{
         return (getEffectiveResistance() + getEffectiveExpertise()) * getEffectiveVitality() * getDEM()
     }
 
-    fun getDefense() : Double{
+    fun getDefense(): Double{
         return (getEffectiveAgility() + getEffectiveExpertise()) * getEffectiveStrength() * getATM()
     }
 
@@ -29,30 +34,14 @@ abstract class Character(
         throw NotValidEquipmentException()
     }
 
-    fun equip(weapon: Weapon){
-        this.weapon = weapon
+    fun equip(equipmentId: Double, type: EquipmentType) {
+        type.replace(gens, equipmentId)
     }
 
-    fun equip(headgear: Headgear){
-        this.headgear = headgear
-    }
-
-    fun equip(bodyArmor: BodyArmor){
-        this.bodyArmor = bodyArmor
-    }
-
-    fun equip(gloves: Gloves){
-        this.gloves = gloves
-    }
-
-    fun equip(boots: Boots) {
-        this.boots = boots
-    }
-
-    private fun getATM() : Double{
+    private fun getATM(): Double{
         return 0.5 - Math.pow(3 * height - 5, 4.0) + Math.pow(3 * height - 5, 2.0) + height/2
     }
-    private fun getDEM() : Double{
+    private fun getDEM(): Double{
         return 2 + Math.pow(3 * height - 5, 4.0) - Math.pow(3 * height - 5, 2.0) - height/2
     }
 
