@@ -26,6 +26,8 @@ class Armory {
             gloves = ItemParser.parseItems(glovesFileName)
             boots = ItemParser.parseItems(bootsFileName)
             bodyArmor = ItemParser.parseItems(bodyArmorFileName)
+
+            EquipmentType.recalculateMax()
         }
 
     }

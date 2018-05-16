@@ -1,10 +1,9 @@
 package ar.edu.itba.sia.characters
 
-import ar.edu.itba.sia.Armory
 import ar.edu.itba.sia.equipables.*
-import ar.edu.itba.sia.exceptions.NotValidEquipmentException
 
 abstract class Character(open val gens: Array<Double>) {
+
     val height
         get() = gens.last()
     val weapon
@@ -18,6 +17,17 @@ abstract class Character(open val gens: Array<Double>) {
     val boots
         get() = EquipmentType.BOOTS.getEquipment(gens)
 
+    constructor(height: Double, weaponId: Double, headGearId: Double, bodyArmorId: Double, glovesId: Double, bootsId: Double):
+            this(gens = Array<Double>(6,{0.0})) {
+
+        equip(weaponId, EquipmentType.WEAPON)
+        equip(headGearId, EquipmentType.HEADGEAR)
+        equip(bodyArmorId, EquipmentType.BODYARMOR)
+        equip(glovesId, EquipmentType.GLOVES)
+        equip(bootsId, EquipmentType.BOOTS)
+        alterHeight(height)
+    }
+
     abstract fun getDescendant(): Character
 
     abstract fun getPerformance(): Double
@@ -30,12 +40,12 @@ abstract class Character(open val gens: Array<Double>) {
         return (getEffectiveAgility() + getEffectiveExpertise()) * getEffectiveStrength() * getATM()
     }
 
-    fun equip(equipment: Equipment){
-        throw NotValidEquipmentException()
-    }
-
     fun equip(equipmentId: Double, type: EquipmentType) {
         type.replace(gens, equipmentId)
+    }
+
+    fun alterHeight(newHeight: Double) {
+        gens[gens.size - 1] = newHeight
     }
 
     private fun getATM(): Double{
