@@ -61,9 +61,10 @@ enum class EquipmentType {
 
     fun getEquipment(gens: Array<Double>) =  armory[gens[index]]!!
 
-    fun replace(gens: Array<Double>, equipmentId: Double) = run { gens[index] = equipmentId }
-
     companion object {
+
+        fun fromIndex(index: Int): EquipmentType = EquipmentType.values().filter { it.index == index }.first()
+
         fun recalculateMax() {
             EquipmentType.values().forEach {
                 it.maxId = it.armory.maxBy { it.key }!!.key

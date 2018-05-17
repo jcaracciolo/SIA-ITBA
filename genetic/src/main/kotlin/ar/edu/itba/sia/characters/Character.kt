@@ -41,11 +41,27 @@ abstract class Character(open val gens: Array<Double>) {
     }
 
     fun equip(equipmentId: Double, type: EquipmentType) {
-        type.replace(gens, equipmentId)
+        equip(equipmentId, type.index)
+    }
+
+    fun equip(equipmentId: Double, index: Int) {
+        gens[index] = equipmentId
+    }
+
+    fun mutateEquipment(type: EquipmentType) {
+        equip(type.randId,type)
+    }
+
+    fun mutateEquipment(index: Int) {
+        mutateEquipment(EquipmentType.fromIndex(index))
     }
 
     fun alterHeight(newHeight: Double) {
         gens[gens.size - 1] = newHeight
+    }
+
+    fun mutateHeight() {
+        gens[gens.size - 1] = Math.random() * (2.0 - 1.3) + 1.3
     }
 
     private fun getATM(): Double{

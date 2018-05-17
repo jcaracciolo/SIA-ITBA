@@ -14,3 +14,6 @@ Redes Neuronales/TP1\.2/randState
 Redes Neuronales/TP1\.2/octave-workspace
 
 Busqueda/out/
+
+genetic/target
+genetic/*.log
