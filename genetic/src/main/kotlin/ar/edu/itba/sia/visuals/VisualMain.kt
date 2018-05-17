@@ -46,12 +46,6 @@ class Drawer : Application() {
         fun main(args: Array<String>) {
             Application.launch(Drawer::class.java, *args)
         }
-
-        data class Mapper(val x: Double,val y: Double) {
-            fun mapX(newX: Double) = x + newX
-            fun mapY(newY: Double) = y + newY
-        }
-
     }
 
     init {

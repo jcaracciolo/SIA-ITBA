@@ -1,13 +1,13 @@
-package ar.edu.itba.sia.Engine.CrossOver
+package ar.edu.itba.sia.Engine.crossOver
 
 import ar.edu.itba.sia.characters.Character
 import java.util.*
 
 class UniformCrosser: Crosser {
-    override fun crossOver(father: Character, mother: Character): List<Character>? {
-        var firstChild = father.getDescendant()
-        var secondChild = mother.getDescendant()
-        var childs: MutableList<Character> = ArrayList()
+    override fun crossOver(father: Character, mother: Character): List<Character> {
+        val firstChild = father.getDescendant()
+        val secondChild = mother.getDescendant()
+        val childs: MutableList<Character> = ArrayList()
 
         for(i in 0..father.gens.size-1) {
             if(Random().nextDouble() > 0.5) {

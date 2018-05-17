@@ -1,6 +1,7 @@
 package ar.edu.itba.sia.characters
 
 import ar.edu.itba.sia.equipables.*
+import java.util.*
 
 abstract class Character(open val gens: DoubleArray) {
 
@@ -74,12 +75,15 @@ abstract class Character(open val gens: DoubleArray) {
     private fun getEffectiveStrength(): Double {
         return  100 * Math.tanh(0.01 * getTotalStrength())
     }
+
     private fun getEffectiveAgility(): Double {
         return  Math.tanh(0.01 * getTotalAgility())
     }
+
     private fun getEffectiveExpertise(): Double {
         return  0.6 * Math.tanh(0.01 * getTotalExpertise())
     }
+
     private fun getEffectiveResistance(): Double {
         return  Math.tanh(0.01 * getTotalResistance())
     }
@@ -90,16 +94,37 @@ abstract class Character(open val gens: DoubleArray) {
     private fun getTotalStrength(): Double {
         return weapon.strength + headgear.strength + bodyArmor.strength + gloves.strength + boots.strength
     }
+
     private fun getTotalAgility(): Double {
         return weapon.agility + headgear.agility + bodyArmor.agility + gloves.agility + boots.agility
     }
+
     private fun getTotalExpertise(): Double {
         return weapon.expertise + headgear.expertise + bodyArmor.expertise + gloves.expertise + boots.expertise
     }
+
     private fun getTotalResistance(): Double {
         return weapon.resistance + headgear.resistance + bodyArmor.resistance + gloves.resistance + boots.resistance
     }
+
     private fun getTotalVitality(): Double {
         return weapon.vitality + headgear.vitality + bodyArmor.vitality + gloves.vitality + boots.vitality
     }
+
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Character
+
+        if (!Arrays.equals(gens, other.gens)) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int {
+        return Arrays.hashCode(gens)
+    }
+
+
 }

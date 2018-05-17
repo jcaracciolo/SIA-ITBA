@@ -31,3 +31,5 @@ class ItemParser {
         }
     }
 }
+
+fun Double.floor(): Int = Math.floor(this).toInt()
