@@ -2,7 +2,7 @@ package ar.edu.itba.sia.characters
 
 import ar.edu.itba.sia.equipables.*
 
-class Archer(override val gens: Array<Double>): Character(gens) {
+class Archer(override val gens: DoubleArray): Character(gens) {
 
     companion object {
         fun random(): Archer =
@@ -17,7 +17,7 @@ class Archer(override val gens: Array<Double>): Character(gens) {
     }
 
     constructor(height: Double, weaponId: Double, headGearId: Double, bodyArmorId: Double, glovesId: Double, bootsId: Double):
-            this(gens = Array<Double>(6,{0.0})) {
+            this(gens = DoubleArray(6,{0.0})) {
 
         equip(weaponId, EquipmentType.WEAPON)
         equip(headGearId, EquipmentType.HEADGEAR)
@@ -32,6 +32,6 @@ class Archer(override val gens: Array<Double>): Character(gens) {
     }
 
     override fun getDescendant(): Character {
-        return Archer(gens)
+        return Archer(gens.copyOf())
     }
 }
