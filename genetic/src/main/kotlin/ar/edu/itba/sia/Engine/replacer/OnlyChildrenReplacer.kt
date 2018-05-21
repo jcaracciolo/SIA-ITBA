@@ -5,6 +5,7 @@ import ar.edu.itba.sia.evolutionable.characters.Evolutionable
 
 class OnlyChildrenReplacer(val selector: Selector): Replacer {
 
-    override fun replace(parents: List<Evolutionable>, children: List<Evolutionable>): List<Evolutionable> =
+    override fun <G> replace(parents: List<Evolutionable<G>>, children: List<Evolutionable<G>>): List<Evolutionable<G>> =
             selector.select(children, children.size)
+
 }

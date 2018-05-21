@@ -3,7 +3,7 @@ package ar.edu.itba.sia.evolutionable.characters
 import ar.edu.itba.sia.equipables.*
 import java.util.*
 
-abstract class Character(open val gens: DoubleArray): Evolutionable<Double> {
+abstract class Character(override val gens: Array<Double>): Evolutionable<Double> {
 
     val height
         get() = gens.last()
@@ -19,7 +19,7 @@ abstract class Character(open val gens: DoubleArray): Evolutionable<Double> {
         get() = EquipmentType.BOOTS.getEquipment(gens)
 
     constructor(height: Double, weaponId: Double, headGearId: Double, bodyArmorId: Double, glovesId: Double, bootsId: Double):
-            this(gens = DoubleArray(6,{0.0})) {
+            this(gens = Array<Double>(6,{0.0})) {
 
         equip(EquipmentType.WEAPON, weaponId)
         equip(EquipmentType.HEADGEAR, headGearId)
@@ -34,24 +34,12 @@ abstract class Character(open val gens: DoubleArray): Evolutionable<Double> {
     override abstract fun getPerformance(): Double
 
     override fun mutateGen(n: Int) {
-        if(n == genSize() -1) {
+        if(n == gens.size -1) {
             mutateHeight()
         } else {
             mutateEquipment(n)
         }
     }
-
-    override fun getGen(n: Int): Double = gens[n]
-
-    override fun setGen(n: Int, value: Double) {
-        if(n == genSize() -1) {
-            alterHeight(value)
-        } else {
-            equip(n, value)
-        }
-    }
-
-    override fun genSize(): Int = gens.size
 
     fun getAttack(): Double{
         return (getEffectiveResistance() + getEffectiveExpertise()) * getEffectiveVitality() * getDEM()

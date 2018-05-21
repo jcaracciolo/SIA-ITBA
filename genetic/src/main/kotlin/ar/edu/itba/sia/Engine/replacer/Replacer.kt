@@ -4,6 +4,6 @@ import ar.edu.itba.sia.evolutionable.characters.Evolutionable
 
 interface Replacer {
 
-    fun replace(parents: List<Evolutionable>, children: List<Evolutionable>): List<Evolutionable>
+    fun <G> replace(parents: List<Evolutionable<G>>, children: List<Evolutionable<G>>): List<Evolutionable<G>>
 
 }

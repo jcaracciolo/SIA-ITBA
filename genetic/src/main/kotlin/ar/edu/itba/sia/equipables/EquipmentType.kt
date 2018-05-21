@@ -59,7 +59,7 @@ enum class EquipmentType {
     val randId: Double
         get() = (Math.random() * maxId).roundToInt().toDouble()
 
-    fun getEquipment(gens: DoubleArray) =  armory[gens[index]]!!
+    fun getEquipment(gens: Array<Double>) =  armory[gens[index]]!!
 
     companion object {
 

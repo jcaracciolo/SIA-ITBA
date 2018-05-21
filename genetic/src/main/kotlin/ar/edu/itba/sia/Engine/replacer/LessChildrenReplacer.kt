@@ -6,10 +6,10 @@ import ar.edu.itba.sia.utils.floor
 
 class LessChildrenReplacer(val amount: Int?, val selector: Selector): Replacer {
 
-    override fun replace(parents: List<Evolutionable>, children: List<Evolutionable>): List<Evolutionable> {
+    override fun <G> replace(parents: List<Evolutionable<G>>, children: List<Evolutionable<G>>): List<Evolutionable<G>> {
         val amountThisTime = amount ?: (Math.random() * parents.size).floor()
-
 
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
+
 }

@@ -8,17 +8,16 @@ class AnularCrosser: Crosser {
         val firstChild = father.getDescendant()
         val secondChild = mother.getDescendant()
         val children: MutableList<Evolutionable<G>> = ArrayList()
-        val locus = Random().nextInt(father.genSize() - 1)
-        val length = Random().nextInt(father.genSize() / 2)
+        val locus = Random().nextInt(father.gens.size - 1)
+        val length = Random().nextInt(father.gens.size / 2)
         var index = locus
         for (i in locus..locus+length) {
-            firstChild.setGen(index, mother.getGen(index))
-            secondChild.setGen(index, father.getGen(index))
+            firstChild.gens[index] = mother.gens[index]
+            secondChild.gens[index] = mother.gens[index]
             index ++
-            if (index > father.genSize() - 1){
-                index = 0
-            }
+            index %= father.gens.size
         }
+
         children.add(firstChild)
         children.add(secondChild)
         return children

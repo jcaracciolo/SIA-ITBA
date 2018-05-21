@@ -4,6 +4,6 @@ import ar.edu.itba.sia.evolutionable.characters.Evolutionable
 
 interface Selector {
 
-    fun select(generation: List<Evolutionable>, amount: Int): List<Evolutionable>
+    fun <G> select(generation: List<Evolutionable<G>>, amount: Int): List<Evolutionable<G>>
 
 }

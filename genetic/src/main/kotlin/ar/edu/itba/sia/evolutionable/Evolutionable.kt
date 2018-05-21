@@ -8,11 +8,6 @@ interface Evolutionable<G> {
 
     fun mutateGen(n: Int)
 
-    fun setGen(n: Int, value: G)
-
-    fun getGen(n: Int): G
-
-    fun genSize(): Int
-
+    val gens: Array<G>
 
 }

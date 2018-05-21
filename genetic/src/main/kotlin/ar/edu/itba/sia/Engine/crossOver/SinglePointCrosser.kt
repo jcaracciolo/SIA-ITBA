@@ -5,16 +5,17 @@ import java.util.*
 
 
 class SinglePointCrosser: Crosser {
-    override fun crossOver(father: Evolutionable, mother: Evolutionable): List<Evolutionable> {
+
+    override fun <G> crossOver(father: Evolutionable<G>, mother: Evolutionable<G>): List<Evolutionable<G>> {
         val firstChild = father.getDescendant()
         val secondChild = mother.getDescendant()
-        val children: MutableList<Evolutionable> = ArrayList()
+        val children: MutableList<Evolutionable<G>> = ArrayList()
         val locus = Random().nextInt(father.gens.size - 1)
 
 
-        for(i in locus..father.gens.size-1) {
-                firstChild.gens[i] = mother.gens[i]
-                secondChild.gens[i] = father.gens[i]
+        for(i in locus..father.gens.size -1) {
+            firstChild.gens[i] = mother.gens[i]
+            secondChild.gens[i] = father.gens[i]
         }
         children.add(firstChild)
         children.add(secondChild)
