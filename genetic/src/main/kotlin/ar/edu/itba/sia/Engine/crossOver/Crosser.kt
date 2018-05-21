@@ -1,6 +1,6 @@
 package ar.edu.itba.sia.Engine.crossOver
 
-import ar.edu.itba.sia.characters.Character
+import ar.edu.itba.sia.evolutionable.characters.Evolutionable
 interface Crosser {
-    fun crossOver(father: Character, mother: Character): List<Character>
+    fun <G> crossOver(father: Evolutionable<G>, mother: Evolutionable<G>): List<Evolutionable<G>>
 }

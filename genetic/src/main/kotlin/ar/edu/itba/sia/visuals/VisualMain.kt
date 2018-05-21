@@ -54,7 +54,7 @@ class Drawer : Application() {
 
     override fun start(primaryStage: Stage?) {
         this.primaryStage = primaryStage!!
-        this.primaryStage.title = "Character"
+        this.primaryStage.title = "Evolutionable"
 
         this.init(600.0,1800.0)
 

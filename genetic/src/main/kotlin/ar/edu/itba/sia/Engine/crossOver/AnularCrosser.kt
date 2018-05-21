@@ -1,26 +1,26 @@
 package ar.edu.itba.sia.Engine.crossOver
 
-import ar.edu.itba.sia.characters.Character
+import ar.edu.itba.sia.evolutionable.characters.Evolutionable
 import java.util.*
 
 class AnularCrosser: Crosser {
-    override fun crossOver(father: Character, mother: Character): List<Character> {
+    override fun <G> crossOver(father: Evolutionable<G>, mother: Evolutionable<G>): List<Evolutionable<G>> {
         val firstChild = father.getDescendant()
         val secondChild = mother.getDescendant()
-        val childs: MutableList<Character> = ArrayList()
-        val locus = Random().nextInt(father.gens.size - 1)
-        val length = Random().nextInt(father.gens.size / 2)
+        val children: MutableList<Evolutionable<G>> = ArrayList()
+        val locus = Random().nextInt(father.genSize() - 1)
+        val length = Random().nextInt(father.genSize() / 2)
         var index = locus
         for (i in locus..locus+length) {
-            firstChild.gens[index] = mother.gens[index]
-            secondChild.gens[index] = father.gens[index]
+            firstChild.setGen(index, mother.getGen(index))
+            secondChild.setGen(index, father.getGen(index))
             index ++
-            if (index > father.gens.size - 1){
+            if (index > father.genSize() - 1){
                 index = 0
             }
         }
-        childs.add(firstChild)
-        childs.add(secondChild)
-        return childs
+        children.add(firstChild)
+        children.add(secondChild)
+        return children
     }
 }

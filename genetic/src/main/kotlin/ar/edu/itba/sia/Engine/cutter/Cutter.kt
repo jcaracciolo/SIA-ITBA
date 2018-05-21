@@ -1,7 +1,7 @@
 package ar.edu.itba.sia.Engine.cutter
 
-import ar.edu.itba.sia.characters.Character
+import ar.edu.itba.sia.evolutionable.characters.Evolutionable
 
 interface Cutter {
-    fun shouldCut(newGeneration: List<Character>): Boolean
+    fun shouldCut(newGeneration: List<Evolutionable>): Boolean
 }

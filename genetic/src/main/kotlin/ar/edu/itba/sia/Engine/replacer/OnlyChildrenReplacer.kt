@@ -1,10 +1,10 @@
 package ar.edu.itba.sia.Engine.replacer
 
 import ar.edu.itba.sia.Engine.selector.Selector
-import ar.edu.itba.sia.characters.Character
+import ar.edu.itba.sia.evolutionable.characters.Evolutionable
 
 class OnlyChildrenReplacer(val selector: Selector): Replacer {
 
-    override fun replace(parents: List<Character>, children: List<Character>): List<Character> =
+    override fun replace(parents: List<Evolutionable>, children: List<Evolutionable>): List<Evolutionable> =
             selector.select(children, children.size)
 }

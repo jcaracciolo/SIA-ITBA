@@ -1,4 +1,4 @@
-package ar.edu.itba.sia.characters
+package ar.edu.itba.sia.evolutionable.characters
 
 import ar.edu.itba.sia.equipables.*
 
@@ -19,11 +19,11 @@ class Assassin(override val gens: DoubleArray): Character(gens) {
     constructor(height: Double, weaponId: Double, headGearId: Double, bodyArmorId: Double, glovesId: Double, bootsId: Double):
             this(gens = DoubleArray(6,{0.0})) {
 
-        equip(weaponId, EquipmentType.WEAPON)
-        equip(headGearId, EquipmentType.HEADGEAR)
-        equip(bodyArmorId, EquipmentType.BODYARMOR)
-        equip(glovesId, EquipmentType.GLOVES)
-        equip(bootsId, EquipmentType.BOOTS)
+        equip(EquipmentType.WEAPON, weaponId)
+        equip(EquipmentType.HEADGEAR, headGearId)
+        equip(EquipmentType.BODYARMOR, bodyArmorId)
+        equip(EquipmentType.GLOVES, glovesId)
+        equip(EquipmentType.BOOTS, bootsId)
         alterHeight(height)
     }
 

@@ -1,8 +1,6 @@
 package ar.edu.itba.sia.Engine.selector
 
-import ar.edu.itba.sia.characters.Character
-import ar.edu.itba.sia.utils.floor
-import java.util.*
+import ar.edu.itba.sia.evolutionable.characters.Evolutionable
 import kotlin.collections.ArrayList
 import kotlin.math.roundToInt
 
@@ -11,8 +9,8 @@ class CombinedSelector(
         val selector1: Selector,
         val selector2: Selector): Selector {
 
-    override fun select(generation: List<Character>, amount: Int): List<Character> {
-        val list = ArrayList<Character>()
+    override fun select(generation: List<Evolutionable>, amount: Int): List<Evolutionable> {
+        val list = ArrayList<Evolutionable>()
 
         val firstBatch = (percentage*amount).roundToInt()
         val secondBatch = amount - firstBatch

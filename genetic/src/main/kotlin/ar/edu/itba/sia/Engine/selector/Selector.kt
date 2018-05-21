@@ -1,9 +1,9 @@
 package ar.edu.itba.sia.Engine.selector
 
-import ar.edu.itba.sia.characters.Character
+import ar.edu.itba.sia.evolutionable.characters.Evolutionable
 
 interface Selector {
 
-    fun select(generation: List<Character>, amount: Int): List<Character>
+    fun select(generation: List<Evolutionable>, amount: Int): List<Evolutionable>
 
 }

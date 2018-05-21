@@ -1,9 +1,9 @@
-package ar.edu.itba.sia.characters
+package ar.edu.itba.sia.evolutionable.characters
 
 import ar.edu.itba.sia.equipables.*
 import java.util.*
 
-abstract class Character(open val gens: DoubleArray) {
+abstract class Character(open val gens: DoubleArray): Evolutionable<Double> {
 
     val height
         get() = gens.last()
@@ -21,17 +21,37 @@ abstract class Character(open val gens: DoubleArray) {
     constructor(height: Double, weaponId: Double, headGearId: Double, bodyArmorId: Double, glovesId: Double, bootsId: Double):
             this(gens = DoubleArray(6,{0.0})) {
 
-        equip(weaponId, EquipmentType.WEAPON)
-        equip(headGearId, EquipmentType.HEADGEAR)
-        equip(bodyArmorId, EquipmentType.BODYARMOR)
-        equip(glovesId, EquipmentType.GLOVES)
-        equip(bootsId, EquipmentType.BOOTS)
+        equip(EquipmentType.WEAPON, weaponId)
+        equip(EquipmentType.HEADGEAR, headGearId)
+        equip(EquipmentType.BODYARMOR, bodyArmorId)
+        equip(EquipmentType.GLOVES, glovesId)
+        equip(EquipmentType.BOOTS, bootsId)
         alterHeight(height)
     }
 
-    abstract fun getDescendant(): Character
+    override abstract fun getDescendant(): Character
 
-    abstract fun getPerformance(): Double
+    override abstract fun getPerformance(): Double
+
+    override fun mutateGen(n: Int) {
+        if(n == genSize() -1) {
+            mutateHeight()
+        } else {
+            mutateEquipment(n)
+        }
+    }
+
+    override fun getGen(n: Int): Double = gens[n]
+
+    override fun setGen(n: Int, value: Double) {
+        if(n == genSize() -1) {
+            alterHeight(value)
+        } else {
+            equip(n, value)
+        }
+    }
+
+    override fun genSize(): Int = gens.size
 
     fun getAttack(): Double{
         return (getEffectiveResistance() + getEffectiveExpertise()) * getEffectiveVitality() * getDEM()
@@ -41,16 +61,16 @@ abstract class Character(open val gens: DoubleArray) {
         return (getEffectiveAgility() + getEffectiveExpertise()) * getEffectiveStrength() * getATM()
     }
 
-    fun equip(equipmentId: Double, type: EquipmentType) {
-        equip(equipmentId, type.index)
+    fun equip(type: EquipmentType, equipmentId: Double) {
+        equip(type.index, equipmentId)
     }
 
-    fun equip(equipmentId: Double, index: Int) {
+    fun equip(index: Int, equipmentId: Double) {
         gens[index] = equipmentId
     }
 
     fun mutateEquipment(type: EquipmentType) {
-        equip(type.randId,type)
+        equip(type,type.randId)
     }
 
     fun mutateEquipment(index: Int) {

@@ -1,12 +1,12 @@
-package ar.edu.itba.sia.characters
+package ar.edu.itba.sia.evolutionable.characters
 
 import ar.edu.itba.sia.equipables.*
 
-class Archer(override val gens: DoubleArray): Character(gens) {
+class Warrior (override val gens: DoubleArray) : Character(gens) {
 
     companion object {
-        fun random(): Archer =
-                Archer(
+        fun random(): Warrior =
+                Warrior(
                         height = Math.random()* (2.0 - 1.3) + 1.3,
                         weaponId = EquipmentType.WEAPON.randId,
                         headGearId = EquipmentType.HEADGEAR.randId,
@@ -19,19 +19,18 @@ class Archer(override val gens: DoubleArray): Character(gens) {
     constructor(height: Double, weaponId: Double, headGearId: Double, bodyArmorId: Double, glovesId: Double, bootsId: Double):
             this(gens = DoubleArray(6,{0.0})) {
 
-        equip(weaponId, EquipmentType.WEAPON)
-        equip(headGearId, EquipmentType.HEADGEAR)
-        equip(bodyArmorId, EquipmentType.BODYARMOR)
-        equip(glovesId, EquipmentType.GLOVES)
-        equip(bootsId, EquipmentType.BOOTS)
+        equip(EquipmentType.WEAPON, weaponId)
+        equip(EquipmentType.HEADGEAR, headGearId)
+        equip(EquipmentType.BODYARMOR, bodyArmorId)
+        equip(EquipmentType.GLOVES, glovesId)
+        equip(EquipmentType.BOOTS, bootsId)
         alterHeight(height)
     }
-
     override fun getPerformance(): Double {
-        return 0.9 * getAttack() + 0.1 * getDefense()
+        return 0.6 * getAttack() + 0.4 * getDefense()
     }
 
     override fun getDescendant(): Character {
-        return Archer(gens.copyOf())
+        return Warrior(gens.copyOf())
     }
 }
