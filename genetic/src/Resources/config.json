@@ -1,0 +1,21 @@
+{
+  crosser: "anular",
+  cutter: {
+    type: "optimal",
+    parameters: {
+        amount: 3.1
+    }
+  },
+  mutator: "not uniform",
+  replacer: {
+    type: "combined",
+    parameters: {
+      first: {
+        type: "less children",
+        parameters: { amount: null }
+      },
+      second: { type: "only children" },
+      percentage: 0.75
+    }
+  }
+}
