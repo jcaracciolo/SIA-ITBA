@@ -6,7 +6,7 @@ import ar.edu.itba.sia.utils.floor
 
 class LessChildrenReplacer(val amount: Int?, val selector: Selector): Replacer {
 
-    override fun <G> parentsToCross(selector: Selector): List<Evolutionable<G>> {
+    override fun <G> parentsToCross(): List<Evolutionable<G>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 

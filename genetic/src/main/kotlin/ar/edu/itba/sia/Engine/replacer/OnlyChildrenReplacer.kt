@@ -5,7 +5,7 @@ import ar.edu.itba.sia.evolutionable.Evolutionable
 
 class OnlyChildrenReplacer(val selector: Selector): Replacer {
 
-    override fun <G> parentsToCross(selector: Selector): List<Evolutionable<G>> {
+    override fun <G> parentsToCross(): List<Evolutionable<G>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
