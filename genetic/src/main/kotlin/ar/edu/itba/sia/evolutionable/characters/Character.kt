@@ -1,6 +1,7 @@
 package ar.edu.itba.sia.evolutionable.characters
 
 import ar.edu.itba.sia.equipables.*
+import ar.edu.itba.sia.evolutionable.Evolutionable
 import java.util.*
 
 abstract class Character(override val gens: Array<Double>): Evolutionable<Double> {

@@ -1,7 +1,6 @@
 package ar.edu.itba.sia.Engine.selector
 
-import ar.edu.itba.sia.evolutionable.characters.Evolutionable
-import kotlin.math.E
+import ar.edu.itba.sia.evolutionable.Evolutionable
 
 class EliteSelector: Selector {
 

@@ -1,4 +1,4 @@
-package ar.edu.itba.sia.evolutionable.characters
+package ar.edu.itba.sia.evolutionable
 
 interface Evolutionable<G> {
 

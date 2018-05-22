@@ -1,6 +1,6 @@
 package ar.edu.itba.sia.Engine
 
-import ar.edu.itba.sia.evolutionable.characters.Evolutionable
+import ar.edu.itba.sia.evolutionable.Evolutionable
 import ar.edu.itba.sia.utils.ConfigurationFile
 import java.util.*
 import kotlin.collections.ArrayList
@@ -10,14 +10,15 @@ class Engine<G> {
     fun NaturalSelection(configurationFile: ConfigurationFile){
         val crosser = configurationFile.crosser
         val mutator = configurationFile.mutator
+        val genMutator = configurationFile.genMutator
         val cutter = configurationFile.cutter
         val replacer = configurationFile.replacer
         val selector = configurationFile.selector
         val generationSize = configurationFile.generationSize
-        var fatherIndex: Int
-        var motherIndex: Int
-        var gen = 0
+
+        var generation = 0
         var currentGeneration: MutableList<Evolutionable<G>> = ArrayList()
+
         var children: MutableList<Evolutionable<G>>
         var parents: List<Evolutionable<G>>
         var greatestChild: Evolutionable<G>
@@ -27,14 +28,18 @@ class Engine<G> {
             //TODO: Create first generation
         }
 
+        greatestChild = currentGeneration.maxBy { it.getPerformance() }!!
+
         while(!cutter.shouldCut(currentGeneration)) {
-            parents = selector.select(currentGeneration, replacer.parentsNeeded)
+            parents = replacer.parentsToCross(selector)
             children = ArrayList()
-            while(children.size < replacer.childrenNeeded) {
-                fatherIndex = Random().nextInt()
-                motherIndex = Random().nextInt()
+
+            while(children.size < parents.size) {
+                val fatherIndex = Random().nextInt(parents.size)
+                val motherIndex = Random().nextInt(parents.size)
+
                 for (child : Evolutionable<G> in crosser.crossOver(parents[fatherIndex], parents[motherIndex])){
-                    currentChild = mutator.mutate(child)
+                    currentChild = mutator.mutate(child, generation, genMutator)
                     if (currentChild.getPerformance() > greatestChild.getPerformance()){
                         greatestChild = currentChild
                     }
@@ -43,6 +48,7 @@ class Engine<G> {
                 }
             }
             currentGeneration = replacer.replace(parents, children).toMutableList()
+            generation++
 
         }
     }

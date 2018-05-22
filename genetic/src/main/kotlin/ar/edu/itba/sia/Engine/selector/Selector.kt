@@ -1,6 +1,6 @@
 package ar.edu.itba.sia.Engine.selector
 
-import ar.edu.itba.sia.evolutionable.characters.Evolutionable
+import ar.edu.itba.sia.evolutionable.Evolutionable
 
 interface Selector {
 

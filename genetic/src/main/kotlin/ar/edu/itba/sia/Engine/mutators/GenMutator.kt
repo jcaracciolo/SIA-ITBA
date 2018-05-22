@@ -1,9 +1,9 @@
 package ar.edu.itba.sia.Engine.mutators
 
-import ar.edu.itba.sia.evolutionable.characters.Evolutionable
+import ar.edu.itba.sia.evolutionable.Evolutionable
 
-interface GenMutator<G> {
+interface GenMutator {
 
-    fun mutate(specimen: Evolutionable<G>)
+    fun <G> mutate(specimen: Evolutionable<G>)
 
 }

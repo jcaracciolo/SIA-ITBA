@@ -2,6 +2,7 @@ package ar.edu.itba.sia.utils
 
 import ar.edu.itba.sia.Engine.crossOver.*
 import ar.edu.itba.sia.Engine.cutter.*
+import ar.edu.itba.sia.Engine.mutators.GenMutator
 import ar.edu.itba.sia.Engine.mutators.Mutator
 import ar.edu.itba.sia.Engine.mutators.NotUniformMutator
 import ar.edu.itba.sia.Engine.mutators.UniformMutator
@@ -60,15 +61,15 @@ enum class Cutters(val string: String) {
 
     }
 
-enum class Mutators(val string: String, val mutator: Mutator) {
-    NOT_UNIFORM("not uniform", NotUniformMutator()),
-    UNIFORM("uniform", UniformMutator());
-
-    companion object {
-        fun fromSting(string: String): Mutator = Mutators.values().firstOrNull { it.string == string }
-                .let { it?.mutator ?: "$string is not a valid mutator".andExit() }
-    }
-}
+//enum class Mutators(val string: String, val mutator: Mutator) {
+//    NOT_UNIFORM("not uniform", NotUniformMutator()),
+//    UNIFORM("uniform", UniformMutator());
+//
+//    companion object {
+//        fun fromSting(string: String): Mutator = Mutators.values().firstOrNull { it.string == string }
+//                .let { it?.mutator ?: "$string is not a valid mutator".andExit() }
+//    }
+//}
 
 enum class Replacers(val string: String) {
     LESS_CHILDREN("less children"),
@@ -115,6 +116,7 @@ data class ConfigurationFile(
     val crosser: Crosser,
     val cutter: Cutter,
     val mutator: Mutator,
+    val genMutator: GenMutator,
     val replacer: Replacer,
     val selector: Selector,
     val generationSize: Int
@@ -133,7 +135,7 @@ class ConfigurationParser {
 
             val crosser = jsonObject.tryWithError("crosser", String::class.java).toCrosser()
             val cutter = jsonObject.tryWithError("cutter", JSONObject::class.java).toCutter()
-            val mutator = jsonObject.tryWithError("mutator", String::class.java).toMutator()
+//            val mutator = jsonObject.tryWithError("mutator", String::class.java).toMutator()
             val replacer = jsonObject.tryWithError("replacer", JSONObject::class.java).toReplacer(EliteSelector())
             println("DONE")
 
@@ -170,7 +172,7 @@ inline fun <reified T> JSONObject.tryWithNull(key: String, clazz: Class<T>): T? 
         }
 
 fun String.toCrosser(): Crosser = Crossers.fromSting(this)
-fun String.toMutator(): Mutator = Mutators.fromSting(this)
+//fun String.toMutator(): Mutator = Mutators.fromSting(this)
 
 fun JSONObject.toCutter(): Cutter = Cutters.fromString(
         this.tryWithError("type", String::class.java),

@@ -1,6 +1,6 @@
 package ar.edu.itba.sia.Engine.cutter
 
-import ar.edu.itba.sia.evolutionable.characters.Evolutionable
+import ar.edu.itba.sia.evolutionable.Evolutionable
 
 class NoProgressCutter(private val generations: Int, private val percentage: Double): Cutter{
 

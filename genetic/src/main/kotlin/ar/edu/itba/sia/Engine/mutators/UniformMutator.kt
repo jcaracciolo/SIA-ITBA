@@ -1,17 +1,13 @@
 package ar.edu.itba.sia.Engine.mutators
 
-import ar.edu.itba.sia.evolutionable.characters.Evolutionable
 import java.util.*
+import ar.edu.itba.sia.evolutionable.Evolutionable
 
-class UniformMutator () : Mutator {
+class UniformMutator(val mutatingProbability: Double) : Mutator {
 
+    override fun <G> mutate(specimen: Evolutionable<G>, generation: Int, genMutator: GenMutator): Evolutionable<G> {
 
-    val mutatingProbability = 0.5
-
-    override fun <G> mutate(specimen: Evolutionable<G>, generation: Int, genMutator: GenMutator<G>): Evolutionable<G> {
-
-
-        if( Random().nextDouble() > mutatingProbability + generation * generationProbabilityMaxIncrease){
+        if( Random().nextDouble() > mutatingProbability){
             genMutator.mutate(specimen)
         }
 

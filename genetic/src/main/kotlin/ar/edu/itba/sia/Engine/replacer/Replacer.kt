@@ -1,11 +1,12 @@
 package ar.edu.itba.sia.Engine.replacer
 
-import ar.edu.itba.sia.evolutionable.characters.Evolutionable
+import ar.edu.itba.sia.Engine.selector.Selector
+import ar.edu.itba.sia.evolutionable.Evolutionable
 
 interface Replacer {
-    val parentsNeeded: Int
-    val parentsPassing: Int
-    val childrenNeeded: Int
+
+    fun <G> parentsToCross(selector: Selector): List<Evolutionable<G>>
+
     fun <G> replace(parents: List<Evolutionable<G>>, children: List<Evolutionable<G>>): List<Evolutionable<G>>
 
 }
