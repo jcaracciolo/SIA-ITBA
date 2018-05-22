@@ -112,10 +112,12 @@ enum class Replacers(val string: String) {
 }
 
 data class ConfigurationFile(
-    val crosser: Crossers,
+    val crosser: Crosser,
     val cutter: Cutter,
     val mutator: Mutator,
-    val replacer: Replacer
+    val replacer: Replacer,
+    val selector: Selector,
+    val generationSize: Int
 )
 
 class ConfigurationParser {

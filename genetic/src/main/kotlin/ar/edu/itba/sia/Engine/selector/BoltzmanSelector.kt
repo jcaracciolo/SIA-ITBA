@@ -6,5 +6,8 @@ class BoltzmanSelector : Selector {
 
     override fun <G> select(generation: List<Evolutionable<G>>, amount: Int): List<Evolutionable<G>> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+
+
+
     }
 }
