@@ -1,13 +1,13 @@
 package ar.edu.itba.sia.evolutionable
 
-interface Evolutionable<G> {
+interface Evolutionable {
 
-    fun getDescendant(): Evolutionable<G>
+    fun getDescendant(): Evolutionable
 
     fun getPerformance(): Double
 
     fun mutateGen(n: Int)
 
-    val gens: Array<G>
+    val gens: Array<Any>
 
 }

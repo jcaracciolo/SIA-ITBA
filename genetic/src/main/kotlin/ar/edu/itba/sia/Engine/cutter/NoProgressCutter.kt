@@ -7,7 +7,7 @@ class NoProgressCutter(private val generations: Int, private val percentage: Dou
     private var currentCount = 0
     private var lastBest: Double = 0.0
 
-    override fun <G> shouldCut(newGeneration: List<Evolutionable<G>>): Boolean {
+    override fun shouldCut(newGeneration: List<Evolutionable>): Boolean {
         val best = newGeneration.maxBy { it.getPerformance() }!!.getPerformance()
         if(lastBest * (1+percentage) > best) {
             currentCount++

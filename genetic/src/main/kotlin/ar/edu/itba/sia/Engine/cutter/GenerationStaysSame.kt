@@ -5,9 +5,9 @@ import ar.edu.itba.sia.evolutionable.Evolutionable
 class GenerationStaysSame(private val generationsSame: Int, private val amountToConsider: Int): Cutter{
 
     private var currentCount = 0
-    private var lastGeneration: List<Evolutionable<Any>> = ArrayList()
+    private var lastGeneration: List<Evolutionable> = ArrayList()
 
-    override fun <G> shouldCut(newGeneration: List<Evolutionable<G>>): Boolean {
+    override fun shouldCut(newGeneration: List<Evolutionable>): Boolean {
         val mix = newGeneration.intersect(lastGeneration).size
 
         if(mix >= amountToConsider) {
@@ -16,7 +16,7 @@ class GenerationStaysSame(private val generationsSame: Int, private val amountTo
             currentCount = 0
         }
 
-        lastGeneration = newGeneration as List<Evolutionable<Any>>
+        lastGeneration = newGeneration
         return currentCount>=generationsSame
     }
 }

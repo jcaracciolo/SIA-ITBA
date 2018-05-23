@@ -5,7 +5,7 @@ import ar.edu.itba.sia.evolutionable.Evolutionable
 
 class UniformMutator(val mutatingProbability: Double) : Mutator {
 
-    override fun <G> mutate(specimen: Evolutionable<G>, generation: Int, genMutator: GenMutator): Evolutionable<G> {
+    override fun mutate(specimen: Evolutionable, generation: Int, genMutator: GenMutator): Evolutionable {
 
         if( Random().nextDouble() > mutatingProbability){
             genMutator.mutate(specimen)

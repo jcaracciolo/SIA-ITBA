@@ -10,8 +10,8 @@ class CombinedSelector(
         val selector2: Selector): Selector {
 
 
-    override fun <G> select(generation: List<Evolutionable<G>>, amount: Int): List<Evolutionable<G>> {
-        val list = ArrayList<Evolutionable<G>>()
+    override fun select(generation: List<Evolutionable>, amount: Int): List<Evolutionable> {
+        val list = ArrayList<Evolutionable>()
 
         val firstBatch = (percentage*amount).roundToInt()
         val secondBatch = amount - firstBatch

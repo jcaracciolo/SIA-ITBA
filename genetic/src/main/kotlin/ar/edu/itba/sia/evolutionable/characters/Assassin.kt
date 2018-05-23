@@ -2,7 +2,7 @@ package ar.edu.itba.sia.evolutionable.characters
 
 import ar.edu.itba.sia.equipables.*
 
-class Assassin(override val gens: Array<Double>): Character(gens) {
+class Assassin(override val innerGens: Array<Double>): Character(innerGens) {
 
     companion object {
         fun random(): Assassin =
@@ -17,7 +17,7 @@ class Assassin(override val gens: Array<Double>): Character(gens) {
     }
 
     constructor(height: Double, weaponId: Double, headGearId: Double, bodyArmorId: Double, glovesId: Double, bootsId: Double):
-            this(gens = Array<Double>(6,{0.0})) {
+            this(Array<Double>(6) {0.0}) {
 
         equip(EquipmentType.WEAPON, weaponId)
         equip(EquipmentType.HEADGEAR, headGearId)
@@ -33,6 +33,6 @@ class Assassin(override val gens: Array<Double>): Character(gens) {
     }
 
     override fun getDescendant(): Character {
-        return Assassin(gens.copyOf())
+        return Assassin(innerGens.copyOf())
     }
 }

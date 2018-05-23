@@ -8,24 +8,24 @@ class Armory {
 
     companion object {
 
-        private val weaponsFileName = "WeaponsFileName"
-        private val headGearFileName = "WeaponsFileName"
-        private val glovesFileName = "WeaponsFileName"
-        private val bootsFileName = "WeaponsFileName"
-        private val bodyArmorFileName = "WeaponsFileName"
+        private val weaponsFileName = "/armas.tsv"
+        private val headGearFileName = "/botas.tsv"
+        private val glovesFileName = "/cascos.tsv"
+        private val bootsFileName = "/guantes.tsv"
+        private val bodyArmorFileName = "/pecheras.tsv"
 
-        val weapons: Map<Double,Equipment>
-        val headgear: Map<Double,Equipment>
-        val gloves: Map<Double,Equipment>
-        val boots: Map<Double,Equipment>
-        val bodyArmor: Map<Double,Equipment>
+        lateinit var weapons: Map<Double,Equipment>
+        lateinit var headgear: Map<Double,Equipment>
+        lateinit var gloves: Map<Double,Equipment>
+        lateinit var boots: Map<Double,Equipment>
+        lateinit var bodyArmor: Map<Double,Equipment>
 
-        init {
-            weapons = ItemParser.parseItems(weaponsFileName)
-            headgear = ItemParser.parseItems(headGearFileName)
-            gloves = ItemParser.parseItems(glovesFileName)
-            boots = ItemParser.parseItems(bootsFileName)
-            bodyArmor = ItemParser.parseItems(bodyArmorFileName)
+        fun initialze(baseFile: String) {
+            weapons = ItemParser.parseItems(baseFile + weaponsFileName)
+            headgear = ItemParser.parseItems(baseFile + headGearFileName)
+            gloves = ItemParser.parseItems(baseFile + glovesFileName)
+            boots = ItemParser.parseItems(baseFile + bootsFileName)
+            bodyArmor = ItemParser.parseItems(baseFile + bodyArmorFileName)
 
             EquipmentType.recalculateMax()
         }

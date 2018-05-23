@@ -1,16 +1,24 @@
 package ar.edu.itba.sia.utils
 
+import ar.edu.itba.sia.Armory
 import ar.edu.itba.sia.equipables.Equipment
 import ar.edu.itba.sia.equipables.EquipmentType
 import java.io.File
 
 class ItemParser {
     companion object {
+
+        fun parseAll(file: String) {
+            Armory
+        }
+
+
         fun parseItems(file: String, delimiter: String = "\t"): Map<Double, Equipment> {
             val map = HashMap<Double, Equipment>()
 
             val input = File(file).bufferedReader()
             var line = input.readLine()
+            line = input.readLine()
 
             while(line != null){
                 val values = line.split(delimiter)

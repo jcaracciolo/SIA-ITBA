@@ -5,8 +5,8 @@ import ar.edu.itba.sia.evolutionable.Evolutionable
 
 interface Replacer {
 
-    fun <G> parentsToCross(): List<Evolutionable<G>>
+    fun parentsToCross(): List<Evolutionable>
 
-    fun <G> replace(parents: List<Evolutionable<G>>, children: List<Evolutionable<G>>): List<Evolutionable<G>>
+    fun replace(parents: List<Evolutionable>, children: List<Evolutionable>): List<Evolutionable>
 
 }

@@ -4,10 +4,10 @@ import ar.edu.itba.sia.evolutionable.Evolutionable
 import java.util.*
 
 class UniformCrosser: Crosser {
-    override fun <G> crossOver(father: Evolutionable<G>, mother: Evolutionable<G>): List<Evolutionable<G>> {
+    override fun crossOver(father: Evolutionable, mother: Evolutionable): List<Evolutionable> {
         val firstChild = father.getDescendant()
         val secondChild = mother.getDescendant()
-        val children: MutableList<Evolutionable<G>> = ArrayList()
+        val children: MutableList<Evolutionable> = ArrayList()
 
         for(i in 0 until father.gens.size) {
             if(Random().nextDouble() > 0.5) {

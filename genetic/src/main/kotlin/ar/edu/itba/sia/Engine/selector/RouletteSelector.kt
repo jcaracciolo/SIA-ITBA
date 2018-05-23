@@ -4,7 +4,7 @@ import ar.edu.itba.sia.evolutionable.Evolutionable
 import kotlin.collections.ArrayList
 
 class RouletteSelector : Selector {
-    override fun <G> select(generation: List<Evolutionable<G>>, amount: Int): List<Evolutionable<G>> {
+    override fun select(generation: List<Evolutionable>, amount: Int): List<Evolutionable> {
         val accumulative = Array(generation.size, {0.0})
         accumulative[0] = generation[0].getPerformance()
 
@@ -13,7 +13,7 @@ class RouletteSelector : Selector {
         }
 
         val randoms = Array(amount, {Math.random() * accumulative[generation.size - 1]})
-        var selected = ArrayList<Evolutionable<G>>(0)
+        var selected = ArrayList<Evolutionable>(0)
 
         for (i in 0 until amount){
             selected.add(generation[getSelectedIndex(randoms[i], accumulative)])

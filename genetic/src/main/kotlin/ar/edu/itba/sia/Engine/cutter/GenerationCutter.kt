@@ -6,7 +6,7 @@ class GenerationCutter(val max: Int): Cutter{
 
     private var currentCount = 0
 
-    override fun <G> shouldCut(newGeneration: List<Evolutionable<G>>): Boolean {
+    override fun shouldCut(newGeneration: List<Evolutionable>): Boolean {
         currentCount++
         return currentCount>=max
     }

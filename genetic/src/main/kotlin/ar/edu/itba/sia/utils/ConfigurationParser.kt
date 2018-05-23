@@ -179,7 +179,7 @@ enum class Characters(val string: String) {
 }
 
 data class ConfigurationFile(
-    val initialGeneration: List<Evolutionable<Any>>,
+    val initialGeneration: List<Evolutionable>,
     val crosser: Crosser,
     val cutter: Cutter,
     val mutator: Mutator,
@@ -214,10 +214,10 @@ class ConfigurationParser {
             val initialGen = when(type) {
                 EvolutionTypes.CHARACTERS -> {
                     val character = jsonObject.tryWithError("character", String::class.java).toCharacter()
-                    List(initialSize, { character.getRandom() }) as List<Evolutionable<Any>>
+                    List(initialSize, { character.getRandom() })
                 }
                 EvolutionTypes.GUILDS -> {
-                    List(0, { Assassin.random() }) as List<Evolutionable<Any>>
+                    List(0, { Assassin.random() })
                 }
             }
 

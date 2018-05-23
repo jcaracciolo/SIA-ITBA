@@ -1,5 +1,9 @@
 package ar.edu.itba.sia.visuals
 
+import ar.edu.itba.sia.Armory
+import ar.edu.itba.sia.Engine.Engine
+import ar.edu.itba.sia.evolutionable.Evolutionable
+import ar.edu.itba.sia.evolutionable.characters.Assassin
 import javafx.animation.AnimationTimer
 import javafx.application.Application
 import javafx.geometry.Pos
@@ -53,6 +57,7 @@ class Drawer : Application() {
     }
 
     override fun start(primaryStage: Stage?) {
+        Armory.initialze("./src/Resources/testdata")
         this.primaryStage = primaryStage!!
         this.primaryStage.title = "Evolutionable"
 
@@ -60,11 +65,19 @@ class Drawer : Application() {
 
         object : AnimationTimer() {
             override fun handle(currentNanoTime: Long) {
-                if(currentNanoTime%100 == 0L) {
-                    seriesMax.addData(index, Math.random() * 10)
-                    seriesAvrg.addData(index, Math.random() * 10)
-                    index++
+
+//                val character = Engine.currentGen.maxBy { it.getPerformance() }
+                Engine.currentGen = (0 until 10).map{ Assassin.random() }
+                val character = Assassin.random()
+
+                character?.let {
+                    if(currentNanoTime%100 == 0L) {
+                        seriesMax.addData(index, it.getPerformance())
+                        seriesAvrg.addData(index, Engine.currentGen.map { it.getPerformance() }.average())
+                        index++
+                    }
                 }
+
                 return
             }
         }.start()

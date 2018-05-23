@@ -5,10 +5,10 @@ import java.util.*
 
 class DoublePointCrosser: Crosser{
 
-    override fun <G> crossOver(father: Evolutionable<G>, mother: Evolutionable<G>): List<Evolutionable<G>> {
+    override fun crossOver(father: Evolutionable, mother: Evolutionable): List<Evolutionable> {
         val firstChild = father.getDescendant()
         val secondChild = mother.getDescendant()
-        val children: MutableList<Evolutionable<G>> = ArrayList()
+        val children: MutableList<Evolutionable> = ArrayList()
         val minLocus = Random().nextInt(father.gens.size - 2)
         val maxLocus = Random().nextInt(father.gens.size - 1 - minLocus) + minLocus
 

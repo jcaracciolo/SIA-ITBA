@@ -3,7 +3,7 @@ package ar.edu.itba.sia.Engine.selector
 import ar.edu.itba.sia.evolutionable.Evolutionable
 
 class UniversalSelector : Selector {
-    override fun <G> select(generation: List<Evolutionable<G>>, amount: Int): List<Evolutionable<G>> {
+    override fun select(generation: List<Evolutionable>, amount: Int): List<Evolutionable> {
         val accumulative = Array(generation.size, { 0.0 })
         accumulative[0] = generation[0].getPerformance()
 
@@ -11,7 +11,7 @@ class UniversalSelector : Selector {
             accumulative[i] += generation[i].getPerformance() + accumulative[i - 1]
         }
         val randoms = Array(amount, {index -> ((Math.random() + index - 1 ) / amount)})
-        var selected = ArrayList<Evolutionable<G>>(0)
+        var selected = ArrayList<Evolutionable>(0)
 
         for (i in 0 until amount) {
             selected.add(generation[getSelectedIndex(randoms[i], accumulative)])

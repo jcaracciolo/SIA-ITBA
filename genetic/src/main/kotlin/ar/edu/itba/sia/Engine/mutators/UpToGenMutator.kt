@@ -6,7 +6,7 @@ import java.util.*
 class UpToGenMutator(val numberOfGens: Int): GenMutator {
 
 
-    override fun <G> mutate(specimen: Evolutionable<G>) {
+    override fun mutate(specimen: Evolutionable) {
         val gensToMutate = Random().nextInt(numberOfGens)
 
         val indexes = (0 until specimen.gens.size).toList().shuffled()

@@ -4,6 +4,6 @@ import ar.edu.itba.sia.evolutionable.Evolutionable
 
 interface Mutator {
 
-    fun <G> mutate(specimen: Evolutionable<G>, generation: Int, genMutator: GenMutator): Evolutionable<G>
+    fun mutate(specimen: Evolutionable, generation: Int, genMutator: GenMutator): Evolutionable
 
 }

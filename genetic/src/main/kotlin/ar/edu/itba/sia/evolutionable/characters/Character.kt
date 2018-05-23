@@ -4,23 +4,23 @@ import ar.edu.itba.sia.equipables.*
 import ar.edu.itba.sia.evolutionable.Evolutionable
 import java.util.*
 
-abstract class Character(override val gens: Array<Double>): Evolutionable<Double> {
+abstract class Character(open protected val innerGens: Array<Double>): Evolutionable {
 
     val height
-        get() = gens.last()
+        get() = innerGens.last()
     val weapon
-        get() = EquipmentType.WEAPON.getEquipment(gens)
+        get() = EquipmentType.WEAPON.getEquipment(innerGens)
     val headgear
-        get() = EquipmentType.HEADGEAR.getEquipment(gens)
+        get() = EquipmentType.HEADGEAR.getEquipment(innerGens)
     val bodyArmor
-        get() = EquipmentType.BODYARMOR.getEquipment(gens)
+        get() = EquipmentType.BODYARMOR.getEquipment(innerGens)
     val gloves
-        get() = EquipmentType.GLOVES.getEquipment(gens)
+        get() = EquipmentType.GLOVES.getEquipment(innerGens)
     val boots
-        get() = EquipmentType.BOOTS.getEquipment(gens)
+        get() = EquipmentType.BOOTS.getEquipment(innerGens)
 
     constructor(height: Double, weaponId: Double, headGearId: Double, bodyArmorId: Double, glovesId: Double, bootsId: Double):
-            this(gens = Array<Double>(6,{0.0})) {
+            this(innerGens = Array<Double>(6,{0.0})) {
 
         equip(EquipmentType.WEAPON, weaponId)
         equip(EquipmentType.HEADGEAR, headGearId)
@@ -30,12 +30,15 @@ abstract class Character(override val gens: Array<Double>): Evolutionable<Double
         alterHeight(height)
     }
 
+    override val gens: Array<Any>
+        get() = innerGens as Array<Any>
+
     override abstract fun getDescendant(): Character
 
     override abstract fun getPerformance(): Double
 
     override fun mutateGen(n: Int) {
-        if(n == gens.size -1) {
+        if(n == innerGens.size -1) {
             mutateHeight()
         } else {
             mutateEquipment(n)
@@ -55,7 +58,7 @@ abstract class Character(override val gens: Array<Double>): Evolutionable<Double
     }
 
     fun equip(index: Int, equipmentId: Double) {
-        gens[index] = equipmentId
+        innerGens[index] = equipmentId
     }
 
     fun mutateEquipment(type: EquipmentType) {
@@ -67,11 +70,11 @@ abstract class Character(override val gens: Array<Double>): Evolutionable<Double
     }
 
     fun alterHeight(newHeight: Double) {
-        gens[gens.size - 1] = newHeight
+        innerGens[innerGens.size - 1] = newHeight
     }
 
     fun mutateHeight() {
-        gens[gens.size - 1] = Math.random() * (2.0 - 1.3) + 1.3
+        innerGens[innerGens.size - 1] = Math.random() * (2.0 - 1.3) + 1.3
     }
 
     private fun getATM(): Double{
@@ -126,13 +129,13 @@ abstract class Character(override val gens: Array<Double>): Evolutionable<Double
 
         other as Character
 
-        if (!Arrays.equals(gens, other.gens)) return false
+        if (!Arrays.equals(innerGens, other.innerGens)) return false
 
         return true
     }
 
     override fun hashCode(): Int {
-        return Arrays.hashCode(gens)
+        return Arrays.hashCode(innerGens)
     }
 
 

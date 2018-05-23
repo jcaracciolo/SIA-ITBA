@@ -7,7 +7,7 @@ class NotUniformMutator(val generationProbabilityMaxIncrease: Double): Mutator {
 
     val baseMutatingProbability = 0.5
 
-    override fun <G> mutate(specimen: Evolutionable<G>, generation: Int, genMutator: GenMutator): Evolutionable<G> {
+    override fun mutate(specimen: Evolutionable, generation: Int, genMutator: GenMutator): Evolutionable {
 
         if (Random().nextDouble() > baseMutatingProbability + generation * generationProbabilityMaxIncrease){
             genMutator.mutate(specimen)
