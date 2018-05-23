@@ -13,6 +13,7 @@ class Engine {
 
     companion object {
         lateinit var currentGen: List<Evolutionable>
+        var generations: Int = 0
 
         @JvmStatic
         fun main(args: Array<String>) {
@@ -30,7 +31,7 @@ class Engine {
             val cutter = configurationFile.cutter
             val replacer = configurationFile.replacer
 
-            var generation = 0
+            generations = 0
             var currentGeneration: List<Evolutionable> = configurationFile.initialGeneration
             var greatestSpecimen: Evolutionable
 
@@ -46,7 +47,7 @@ class Engine {
                     val motherIndex = Random().nextInt(parents.size)
 
                     for (child : Evolutionable in crosser.crossOver(parents[fatherIndex], parents[motherIndex])){
-                        val currentChild = mutator.mutate(child, generation, genMutator)
+                        val currentChild = mutator.mutate(child, generations, genMutator)
                         if (currentChild.getPerformance() > greatestSpecimen.getPerformance()){
                             greatestSpecimen = currentChild
                         }
@@ -55,7 +56,7 @@ class Engine {
                     }
                 }
                 currentGeneration = replacer.replace(parents, children).toMutableList()
-                generation++
+                generations++
                 processor()
 
             }
