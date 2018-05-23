@@ -4,6 +4,7 @@ import ar.edu.itba.sia.Armory
 import ar.edu.itba.sia.Engine.Engine
 import ar.edu.itba.sia.evolutionable.Evolutionable
 import ar.edu.itba.sia.evolutionable.characters.Assassin
+import ar.edu.itba.sia.evolutionable.characters.Character
 import javafx.animation.AnimationTimer
 import javafx.application.Application
 import javafx.geometry.Pos
@@ -24,6 +25,7 @@ import javafx.scene.layout.GridPane
 import javafx.scene.layout.VBox
 import javafx.scene.layout.BorderPane
 import javafx.scene.paint.Color
+import java.lang.Thread.sleep
 
 
 class Drawer : Application() {
@@ -66,14 +68,23 @@ class Drawer : Application() {
         object : AnimationTimer() {
             override fun handle(currentNanoTime: Long) {
 
-//                val character = Engine.currentGen.maxBy { it.getPerformance() }
                 Engine.currentGen = (0 until 10).map{ Assassin.random() }
-                val character = Assassin.random()
+
+
+                if(currentNanoTime%100 == 0L) {
+                    Engine.generations++
+                }
+
+                val currentGen = Engine.currentGen
+                val generations = Engine.generations
+
+                val character = currentGen.maxBy { it.getPerformance() }
 
                 character?.let {
-                    if(currentNanoTime%100 == 0L) {
+                    if(index<generations) {
+                        drawHeight(Engine.currentGen.first() as Character)
                         seriesMax.addData(index, it.getPerformance())
-                        seriesAvrg.addData(index, Engine.currentGen.map { it.getPerformance() }.average())
+                        seriesAvrg.addData(index, currentGen.map { it.getPerformance() }.average())
                         index++
                     }
                 }
@@ -102,11 +113,8 @@ class Drawer : Application() {
         bPane.left = canvasLeft
         bPane.right = canvasRight
 
-        centerGC.fill = Color.RED
-        centerGC.fillRect(0.0,0.0,500.0,500.0)
-
-        leftGC.fill = Color.BLACK
-        leftGC.fillRect(0.0,0.0,500.0,500.0)
+        centerGC.fill = Color.BLACK
+        centerGC.fillRect(0.0,0.0,width/3,height)
 
         this.bPane = bPane
         drawChart()
@@ -115,31 +123,48 @@ class Drawer : Application() {
         primaryStage.show()
     }
 
+    fun drawHeight(character: Character) {
+        val height = centerGC.canvas.height
+        val width = centerGC.canvas.width
+
+        centerGC.clearRect(0.0,0.0, height, width)
+
+        val humanWidth = width/5
+
+//        val p1 = width/2 - humanWidth/2
+//        val p2 = height - (height*0.8 * (character.height / 2.0))
+//        val p3 = width/2 + humanWidth/2
+//        val p4 = height
+
+        val p1 = 0.0
+        val p2 = height - (height*0.8 * (character.height/2.0))
+        val p3 = 20.0
+        val p4 = height
+        println("$p1 $p2")
+        println("$p3 $p4")
+
+        centerGC.fill = Color.PINK
+        centerGC.fillRect(p1,p2,p3,p4)
+
+
+    }
+
     fun drawChart() {
         val xAxis = NumberAxis()
         val yAxis = NumberAxis()
         xAxis.label = "Generations"
         val lineChart = LineChart(xAxis, yAxis)
 
-        lineChart.title = "Stock Monitoring, 2010"
+        lineChart.title = "Average and Max performance"
 
         seriesAvrg = XYChart.Series<Number, Number>()
         seriesAvrg.name = "Average"
-        seriesAvrg.addData(0,10)
-        seriesAvrg.addData(1,15)
 
         seriesMax = XYChart.Series<Number, Number>()
-        seriesMax.name = "Average"
-        seriesMax.addData(0,5)
-        seriesMax.addData(1,8)
-
-        index = 2
-
+        seriesMax.name = "Max"
 
         lineChart.data.addAll(seriesAvrg, seriesMax)
         bPane.bottom = lineChart
-
-
     }
 
 }

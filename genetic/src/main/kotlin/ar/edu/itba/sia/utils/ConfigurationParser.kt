@@ -4,8 +4,7 @@ import ar.edu.itba.sia.Engine.crossOver.*
 import ar.edu.itba.sia.Engine.cutter.*
 import ar.edu.itba.sia.Engine.mutators.*
 import ar.edu.itba.sia.Engine.replacer.*
-import ar.edu.itba.sia.Engine.selector.EliteSelector
-import ar.edu.itba.sia.Engine.selector.Selector
+import ar.edu.itba.sia.Engine.selector.*
 import ar.edu.itba.sia.evolutionable.Evolutionable
 import ar.edu.itba.sia.evolutionable.characters.*
 import org.json.JSONException
@@ -145,6 +144,71 @@ enum class Replacers(val string: String) {
     }
 }
 
+enum class Selectors(val string: String) {
+    BOLTZMANN("boltzmann"),
+    COMBINED("combined"),
+    ELITE("elite"),
+    RANKING("ranking"),
+    ROULETTE("roulette"),
+    TOURNAMENT_DETERMINISTIC("tournament_deterministic"),
+    TOURNAMENT_PROBABILISTIC("tournament_probabilistic"),
+    UNIVERSAL("universal");
+
+    companion object {
+        fun fromSting(string: String, parameters: JSONObject?): Selector =
+                when (string) {
+                    BOLTZMANN.string -> {
+                        if (parameters == null) {
+                            "Boltzmann selector needs parameters".andExit()
+                        }
+                        BoltzmannSelector(
+                                parameters.tryWithError("other",JSONObject::class.java).toSelector(),
+                                parameters.tryWithError("temperature", Double::class.java),
+                                parameters.tryWithError("decrement", Double::class.java)
+                        )
+                    }
+
+                    COMBINED.string -> {
+                        if (parameters == null) {
+                            "Combined selector needs parameters".andExit()
+                        }
+                        CombinedSelector(
+                                parameters.tryWithError("percentage", Double::class.java),
+                                parameters.tryWithError("first",JSONObject::class.java).toSelector(),
+                                parameters.tryWithError("second",JSONObject::class.java).toSelector()
+                        )
+                    }
+
+                    ELITE.string -> EliteSelector()
+
+                    RANKING.string ->{
+                        if (parameters == null) {
+                            "Ranking selector needs parameters".andExit()
+                        }
+                        RankingSelector(
+                                parameters.tryWithError("other",JSONObject::class.java).toSelector()
+                        )
+                    }
+
+                    ROULETTE.string -> RouletteSelector()
+
+                    TOURNAMENT_DETERMINISTIC.string ->{
+                        if (parameters == null) {
+                            "Ranking selector needs parameters".andExit()
+                        }
+                        TournamentDeterministicSelector(
+                                parameters.tryWithError("amount", Int::class.java)
+                        )
+                    }
+
+                    TOURNAMENT_PROBABILISTIC.string -> TournamentProbabilisticSelector()
+
+                    UNIVERSAL.string -> UniversalSelector()
+
+                    else -> "$string is not a valid Selector".andExit()
+                }
+    }
+}
 
 enum class EvolutionTypes(val string: String) {
     CHARACTERS("character"),
@@ -267,6 +331,10 @@ fun JSONObject.toCutter(): Cutter = Cutters.fromString(
 fun JSONObject.toReplacer(selector: Selector): Replacer = Replacers.fromSting(
         this.tryWithError("type", String::class.java),
         selector,
+        this.tryWithNull("parameters", JSONObject::class.java)
+)
+fun JSONObject.toSelector(): Selector = Selectors.fromSting(
+        this.tryWithError("type", String::class.java),
         this.tryWithNull("parameters", JSONObject::class.java)
 )
 

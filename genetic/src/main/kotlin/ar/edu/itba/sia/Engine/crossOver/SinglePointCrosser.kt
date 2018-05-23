@@ -13,7 +13,7 @@ class SinglePointCrosser: Crosser {
         val locus = Random().nextInt(father.gens.size - 1)
 
 
-        for(i in locus..father.gens.size -1) {
+        for(i in locus until father.gens.size) {
             firstChild.gens[i] = mother.gens[i]
             secondChild.gens[i] = father.gens[i]
         }
