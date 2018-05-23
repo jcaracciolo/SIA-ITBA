@@ -2,7 +2,7 @@ package ar.edu.itba.sia.evolutionable.characters
 
 import ar.edu.itba.sia.equipables.*
 
-class Archer(override val innerGens: Array<Double>): Character(innerGens) {
+class Archer(override val innerGens: Array<Double>): Character(innerGens, CharacterType.ARCHER) {
 
     companion object {
         fun random(): Archer =

@@ -4,7 +4,7 @@ import ar.edu.itba.sia.equipables.*
 import ar.edu.itba.sia.evolutionable.Evolutionable
 import java.util.*
 
-abstract class Character(open protected val innerGens: Array<Double>): Evolutionable {
+abstract class Character(open protected val innerGens: Array<Double>, val characterClass: CharacterType): Evolutionable {
 
     val height
         get() = innerGens.last()
@@ -80,6 +80,7 @@ abstract class Character(open protected val innerGens: Array<Double>): Evolution
     private fun getATM(): Double{
         return 0.5 - Math.pow(3 * height - 5, 4.0) + Math.pow(3 * height - 5, 2.0) + height/2
     }
+
     private fun getDEM(): Double{
         return 2 + Math.pow(3 * height - 5, 4.0) - Math.pow(3 * height - 5, 2.0) - height/2
     }

@@ -2,7 +2,7 @@ package ar.edu.itba.sia.evolutionable.characters
 
 import ar.edu.itba.sia.equipables.*
 
-class Defender(override val innerGens: Array<Double>): Character(innerGens) {
+class Defender(override val innerGens: Array<Double>): Character(innerGens, CharacterType.DEFENDER) {
 
     companion object {
         fun random(): Defender =
