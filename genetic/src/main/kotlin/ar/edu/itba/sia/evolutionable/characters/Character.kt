@@ -19,8 +19,14 @@ abstract class Character(open protected val innerGens: Array<Double>, val charac
     val boots
         get() = EquipmentType.BOOTS.getEquipment(innerGens)
 
-    constructor(height: Double, weaponId: Double, headGearId: Double, bodyArmorId: Double, glovesId: Double, bootsId: Double):
-            this(innerGens = Array<Double>(6,{0.0})) {
+    constructor(height: Double,
+                weaponId: Double,
+                headGearId: Double,
+                bodyArmorId: Double,
+                glovesId: Double,
+                bootsId: Double,
+                characterClass: CharacterType):
+            this(Array<Double>(6,{0.0}), characterClass) {
 
         equip(EquipmentType.WEAPON, weaponId)
         equip(EquipmentType.HEADGEAR, headGearId)

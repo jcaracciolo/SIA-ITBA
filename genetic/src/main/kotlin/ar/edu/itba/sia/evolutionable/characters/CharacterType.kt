@@ -1,50 +1,25 @@
 package ar.edu.itba.sia.evolutionable.characters
 
-enum class CharacterType {
-    ARCHER{
-        override val randomChar : Character
-            get() {
-                val array: Array<Double> = arrayOf(0.0,0.0,0.0,0.0,0.0,0.0)
-                val archer = Archer(array)
-                for (i in 0..6){
-                    archer.mutateGen(i)
-                }
-                return archer
-            }
+import ar.edu.itba.sia.utils.andExit
+
+enum class CharacterType(val string: String) {
+    ARCHER("archer") {
+        override fun getRandom(): Character = Archer.random()
     },
-    ASSASSIN{
-        override val randomChar : Character
-            get() {
-                val array: Array<Double> = arrayOf(0.0,0.0,0.0,0.0,0.0,0.0)
-                val assassin = Assassin(array)
-                for (i in 0..6){
-                    assassin.mutateGen(i)
-                }
-                return assassin
-            }
+    ASSASSIN("assassin") {
+        override fun getRandom(): Character = Assassin.random()
     },
-    DEFENDER{
-        override val randomChar : Character
-            get() {
-                val array: Array<Double> = arrayOf(0.0,0.0,0.0,0.0,0.0,0.0)
-                val defender = Defender(array)
-                for (i in 0..6){
-                    defender.mutateGen(i)
-                }
-                return defender
-            }
+    DEFENDER("defender") {
+        override fun getRandom(): Character = Defender.random()
     },
-    WARRIOR{
-        override val randomChar : Character
-            get() {
-                val array: Array<Double> = arrayOf(0.0,0.0,0.0,0.0,0.0,0.0)
-                val archer = Archer(array)
-                for (i in 0..6){
-                    archer.mutateGen(i)
-                }
-                return archer
-            }
+    WARRIOR("warrior") {
+        override fun getRandom(): Character = Warrior.random()
     };
 
-    abstract val randomChar: Character
+    abstract fun getRandom(): Character
+
+    companion object {
+        fun fromSting(string: String): CharacterType = CharacterType.values().firstOrNull { it.string == string }
+                ?: "$string is not a valid character".andExit()
+    }
 }

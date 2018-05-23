@@ -220,28 +220,6 @@ enum class EvolutionTypes(val string: String) {
     }
 }
 
-enum class Characters(val string: String) {
-    ARCHER("archer") {
-        override fun getRandom(): Character = Archer.random()
-    },
-    ASSASSIN("assassin") {
-        override fun getRandom(): Character = Assassin.random()
-    },
-    DEFENDER("defender") {
-        override fun getRandom(): Character = Defender.random()
-    },
-    WARRIOR("warrior") {
-        override fun getRandom(): Character = Warrior.random()
-    };
-
-    abstract fun getRandom(): Character
-
-    companion object {
-        fun fromSting(string: String): Characters = Characters.values().firstOrNull { it.string == string }
-                ?: "$string is not a valid character".andExit()
-    }
-}
-
 data class ConfigurationFile(
     val initialGeneration: List<Evolutionable>,
     val crosser: Crosser,
@@ -311,7 +289,7 @@ inline fun <reified T> JSONObject.tryWithNull(key: String, clazz: Class<T>): T? 
 
 fun String.toCrosser(): Crosser = Crossers.fromSting(this)
 fun String.toEvolutionType(): EvolutionTypes = EvolutionTypes.fromSting(this)
-fun String.toCharacter(): Characters = Characters.fromSting(this)
+fun String.toCharacter(): CharacterType = CharacterType.fromSting(this)
 
 fun JSONObject.toMutator(): Mutator = Mutators.fromString(
         this.tryWithError("type", String::class.java),

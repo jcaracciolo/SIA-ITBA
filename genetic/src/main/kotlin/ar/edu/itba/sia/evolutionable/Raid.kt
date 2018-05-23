@@ -5,7 +5,7 @@ import ar.edu.itba.sia.evolutionable.characters.CharacterType
 import java.util.*
 import kotlin.collections.ArrayList
 
-class Raid(open protected  val innerGens: Array<Character>): Evolutionable {
+class Raid(private val innerGens: Array<Character>): Evolutionable {
 
     override val gens: Array<Any>
         get() = innerGens as Array<Any>
@@ -15,18 +15,9 @@ class Raid(open protected  val innerGens: Array<Character>): Evolutionable {
     }
 
     override fun getPerformance(): Double {
-        var characterClasses: MutableSet<CharacterType> = HashSet()
-        var classCount = 0
-        var performance = 0.0
-        for (character in innerGens){
-            if(!characterClasses.contains(character.characterClass)) {
-                classCount+=1
-                characterClasses.add(character.characterClass)
-            }
-            performance += character.getPerformance()
-        }
-        performance *= Math.pow(1.05, classCount.toDouble())
-        return performance
+        val performance = innerGens.map{ it.getPerformance() }.sum()
+        val differentClasses = innerGens.map { it.characterClass }.distinct().count()
+        return performance * Math.pow(1.05, differentClasses.toDouble())
     }
 
     override fun mutateGen(n: Int) {
@@ -35,7 +26,7 @@ class Raid(open protected  val innerGens: Array<Character>): Evolutionable {
         if(n != 0) {
             validClasses.addAll(CharacterType.values())
         }
-        innerGens[n] = validClasses[Random().nextInt(validClasses.size)].randomChar
+        innerGens[n] = validClasses[Random().nextInt(validClasses.size)].getRandom()
     }
 
 }

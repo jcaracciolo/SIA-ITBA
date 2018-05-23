@@ -25,6 +25,7 @@ import javafx.scene.layout.GridPane
 import javafx.scene.layout.VBox
 import javafx.scene.layout.BorderPane
 import javafx.scene.paint.Color
+import javafx.scene.text.Font
 import java.lang.Thread.sleep
 
 
@@ -75,14 +76,15 @@ class Drawer : Application() {
                     Engine.generations++
                 }
 
-                val currentGen = Engine.currentGen
+                val currentGen = Engine.currentGen as List<Character>
                 val generations = Engine.generations
 
-                val character = currentGen.maxBy { it.getPerformance() }
+                val character = currentGen.maxBy { it.getPerformance() } as Character?
 
                 character?.let {
                     if(index<generations) {
-                        drawHeight(Engine.currentGen.first() as Character)
+                        drawHeight(it)
+                        drawValues(it, generations, currentGen)
                         seriesMax.addData(index, it.getPerformance())
                         seriesAvrg.addData(index, currentGen.map { it.getPerformance() }.average())
                         index++
@@ -124,28 +126,35 @@ class Drawer : Application() {
     }
 
     fun drawHeight(character: Character) {
-        val height = centerGC.canvas.height
+        val height = centerGC.canvas.height - 10
         val width = centerGC.canvas.width
 
-        centerGC.clearRect(0.0,0.0, height, width)
+        centerGC.clearRect(0.0,0.0, centerGC.canvas.height, width)
+
+        centerGC.fill = Color.BLACK
+        centerGC.font = Font.font(15.0)
+        centerGC.fillText("Height: ${"%.2f".format(character.height)}",width/2 - 50,100.0)
 
         val humanWidth = width/5
-
-//        val p1 = width/2 - humanWidth/2
-//        val p2 = height - (height*0.8 * (character.height / 2.0))
-//        val p3 = width/2 + humanWidth/2
-//        val p4 = height
-
-        val p1 = 0.0
-        val p2 = height - (height*0.8 * (character.height/2.0))
-        val p3 = 20.0
-        val p4 = height
-        println("$p1 $p2")
-        println("$p3 $p4")
+        val humanHeight = height*0.8 * (character.height / 2.0)
+        val p1 = width/2 - humanWidth/2
+        val p2 = height - humanHeight
 
         centerGC.fill = Color.PINK
-        centerGC.fillRect(p1,p2,p3,p4)
+        centerGC.fillRect(p1,p2,humanWidth,humanHeight)
+    }
 
+    fun drawValues(best: Character, generations: Int, generation: List<Character>) {
+        leftGC.clearRect(0.0,0.0, leftGC.canvas.height, leftGC.canvas.width)
+
+        leftGC.fill = Color.BLACK
+        leftGC.font = Font.font(30.0)
+        val base = 100.0
+        val spacing = 100.0
+        leftGC.fillText("Type: ${best.characterClass.string.capitalize()}", 100.0,base)
+        leftGC.fillText("Generation: $generations", 100.0, base*2)
+        leftGC.fillText("MaxPerformance: ${"%.2f".format(best.getPerformance())}", 100.0,base*3)
+        leftGC.fillText("AvrgPerformance: ${"%.2f".format(generation.map{it.getPerformance()}.average())}", 100.0, base*4)
 
     }
 
