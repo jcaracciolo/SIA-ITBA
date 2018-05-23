@@ -2,8 +2,12 @@ package ar.edu.itba.sia.Engine.selector
 
 import ar.edu.itba.sia.evolutionable.Evolutionable
 
-class RankingSelector : Selector {
+class RankingSelector(val other: Selector, var measure: Double) : Selector {
     override fun select(generation: List<Evolutionable>, amount: Int): List<Evolutionable> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        val ordered = generation.sortedBy { -it.getPerformance() }
+
+        return other.select(ordered.mapIndexed { index, evolutionable ->
+            AdaptedEvolutionable(index.toDouble(), evolutionable)
+        }, amount)
     }
 }
