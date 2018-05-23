@@ -2,13 +2,12 @@ package ar.edu.itba.sia.utils
 
 import ar.edu.itba.sia.Engine.crossOver.*
 import ar.edu.itba.sia.Engine.cutter.*
-import ar.edu.itba.sia.Engine.mutators.GenMutator
-import ar.edu.itba.sia.Engine.mutators.Mutator
-import ar.edu.itba.sia.Engine.mutators.NotUniformMutator
-import ar.edu.itba.sia.Engine.mutators.UniformMutator
+import ar.edu.itba.sia.Engine.mutators.*
 import ar.edu.itba.sia.Engine.replacer.*
 import ar.edu.itba.sia.Engine.selector.EliteSelector
 import ar.edu.itba.sia.Engine.selector.Selector
+import ar.edu.itba.sia.evolutionable.Evolutionable
+import ar.edu.itba.sia.evolutionable.characters.*
 import org.json.JSONException
 import org.json.JSONObject
 import java.io.File
@@ -59,17 +58,51 @@ enum class Cutters(val string: String) {
                 }
     }
 
+}
+
+enum class Mutators(val string: String) {
+    NOT_UNIFORM("not uniform"),
+    UNIFORM("uniform");
+
+    companion object {
+        fun fromString(string: String, parameters: JSONObject): Mutator =
+                when(string) {
+                    NOT_UNIFORM.string -> NotUniformMutator(
+                            parameters.tryWithError("percentage", Double::class.java)
+                    )
+
+                    UNIFORM.string -> UniformMutator(
+                            parameters.tryWithError("percentage", Double::class.java)
+                    )
+
+                    else -> "$string is not a valid Mutator".andExit()
+
+                }
     }
 
-//enum class Mutators(val string: String, val mutator: Mutator) {
-//    NOT_UNIFORM("not uniform", NotUniformMutator()),
-//    UNIFORM("uniform", UniformMutator());
-//
-//    companion object {
-//        fun fromSting(string: String): Mutator = Mutators.values().firstOrNull { it.string == string }
-//                .let { it?.mutator ?: "$string is not a valid mutator".andExit() }
-//    }
-//}
+}
+
+enum class GenMutators(val string: String) {
+    MULTIPLE("multiple"),
+    UP_TO("up to");
+
+    companion object {
+        fun fromString(string: String, parameters: JSONObject): GenMutator =
+                when(string) {
+                    MULTIPLE.string -> MultiGenMutator(
+                            parameters.tryWithError("amount", Int::class.java)
+                    )
+
+                    UP_TO.string -> UpToGenMutator(
+                            parameters.tryWithError("amount", Int::class.java)
+                    )
+
+                    else -> "$string is not a valid Mutator".andExit()
+
+                }
+    }
+
+}
 
 enum class Replacers(val string: String) {
     LESS_CHILDREN("less children"),
@@ -112,14 +145,46 @@ enum class Replacers(val string: String) {
     }
 }
 
+
+enum class EvolutionTypes(val string: String) {
+    CHARACTERS("character"),
+    GUILDS("guild");
+
+    companion object {
+        fun fromSting(string: String): EvolutionTypes = EvolutionTypes.values().firstOrNull { it.string == string }
+                ?: "$string is not a valid Evolution Type".andExit()
+    }
+}
+
+enum class Characters(val string: String) {
+    ARCHER("archer") {
+        override fun getRandom(): Character = Archer.random()
+    },
+    ASSASSIN("assassin") {
+        override fun getRandom(): Character = Assassin.random()
+    },
+    DEFENDER("defender") {
+        override fun getRandom(): Character = Defender.random()
+    },
+    WARRIOR("warrior") {
+        override fun getRandom(): Character = Warrior.random()
+    };
+
+    abstract fun getRandom(): Character
+
+    companion object {
+        fun fromSting(string: String): Characters = Characters.values().firstOrNull { it.string == string }
+                ?: "$string is not a valid character".andExit()
+    }
+}
+
 data class ConfigurationFile(
+    val initialGeneration: List<Evolutionable<Any>>,
     val crosser: Crosser,
     val cutter: Cutter,
     val mutator: Mutator,
     val genMutator: GenMutator,
-    val replacer: Replacer,
-    val selector: Selector,
-    val generationSize: Int
+    val replacer: Replacer
 )
 
 class ConfigurationParser {
@@ -127,28 +192,37 @@ class ConfigurationParser {
 
         @JvmStatic
         fun main(args: Array<String>) {
-            val jsonString = File("./src/Resources/config.json").readText(Charset.defaultCharset())
-            val jsonObject = JSONObject(jsonString)
 //            ConfigurationFile(jsonObject.tryWithError("crosser"))
 
-            println("AAA")
-
-            val crosser = jsonObject.tryWithError("crosser", String::class.java).toCrosser()
-            val cutter = jsonObject.tryWithError("cutter", JSONObject::class.java).toCutter()
-//            val mutator = jsonObject.tryWithError("mutator", String::class.java).toMutator()
-            val replacer = jsonObject.tryWithError("replacer", JSONObject::class.java).toReplacer(EliteSelector())
-            println("DONE")
+            println(parseFile("./src/Resources/config.json"))
 
         }
 
         fun parseFile(path: String): ConfigurationFile? {
+            val jsonString = File(path).readText(Charset.defaultCharset())
+            val jsonObject = JSONObject(jsonString)
+
+            val crosser = jsonObject.tryWithError("crosser", String::class.java).toCrosser()
+            val cutter = jsonObject.tryWithError("cutter", JSONObject::class.java).toCutter()
+            val mutator = jsonObject.tryWithError("mutator", JSONObject::class.java).toMutator()
+            val genMutator = jsonObject.tryWithError("genmutator", JSONObject::class.java).toGenMutator()
+            val selector = EliteSelector()
+            val replacer = jsonObject.tryWithError("replacer", JSONObject::class.java).toReplacer(selector)
+
+            val initialSize = jsonObject.tryWithError("generation_size", Int::class.java)
+            val type = jsonObject.tryWithError("type", String::class.java).toEvolutionType()
+            val initialGen = when(type) {
+                EvolutionTypes.CHARACTERS -> {
+                    val character = jsonObject.tryWithError("character", String::class.java).toCharacter()
+                    List(initialSize, { character.getRandom() }) as List<Evolutionable<Any>>
+                }
+                EvolutionTypes.GUILDS -> {
+                    List(0, { Assassin.random() }) as List<Evolutionable<Any>>
+                }
+            }
 
 
-
-
-
-
-            return null
+            return ConfigurationFile(initialGen, crosser, cutter, mutator, genMutator, replacer)
         }
     }
 }
@@ -172,7 +246,18 @@ inline fun <reified T> JSONObject.tryWithNull(key: String, clazz: Class<T>): T? 
         }
 
 fun String.toCrosser(): Crosser = Crossers.fromSting(this)
-//fun String.toMutator(): Mutator = Mutators.fromSting(this)
+fun String.toEvolutionType(): EvolutionTypes = EvolutionTypes.fromSting(this)
+fun String.toCharacter(): Characters = Characters.fromSting(this)
+
+fun JSONObject.toMutator(): Mutator = Mutators.fromString(
+        this.tryWithError("type", String::class.java),
+        this.tryWithError("parameters", JSONObject::class.java)
+)
+
+fun JSONObject.toGenMutator(): GenMutator = GenMutators.fromString(
+        this.tryWithError("type", String::class.java),
+        this.tryWithError("parameters", JSONObject::class.java)
+)
 
 fun JSONObject.toCutter(): Cutter = Cutters.fromString(
         this.tryWithError("type", String::class.java),

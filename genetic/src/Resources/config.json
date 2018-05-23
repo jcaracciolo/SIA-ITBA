@@ -1,12 +1,32 @@
 {
+  generation_size: 6,
+
+  type: "character",
+  character: "assassin",
+
   crosser: "anular",
+
   cutter: {
     type: "optimal",
     parameters: {
-        amount: 3.1
+      amount: 3.1
     }
   },
-  mutator: "not uniform",
+
+  mutator: {
+    type: "uniform",
+    parameters: {
+      percentage: 0.5
+    }
+  },
+
+  genmutator: {
+    type: "up to",
+    parameters: {
+      amount: 3
+    }
+  },
+
   replacer: {
     type: "combined",
     parameters: {
