@@ -37,5 +37,12 @@
       second: { type: "only children" },
       percentage: 0.75
     }
+  },
+
+  replacer: {
+    type: "roulette",
+    parameters: {
+      null
+    }
   }
 }
