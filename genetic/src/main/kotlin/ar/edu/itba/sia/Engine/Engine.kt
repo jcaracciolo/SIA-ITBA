@@ -17,7 +17,7 @@ class Engine {
 
         @JvmStatic
         fun main(args: Array<String>) {
-            Armory.initialze("./src/Resources/testdata")
+            Armory.initialze("/home/juanfra/Downloads/fulldata")
             val conf = ConfigurationParser.parseFile("./src/Resources/config.json")!!
             print(naturalSelection(conf))
         }
@@ -39,7 +39,7 @@ class Engine {
 
             while(!cutter.shouldCut(currentGeneration)) {
                 Engine.currentGen = currentGeneration
-                val parents = replacer.parentsToCross()
+                val parents = replacer.parentsToCross(currentGeneration)
                 val children = ArrayList<Evolutionable>()
 
                 while(children.size < parents.size) {
@@ -55,9 +55,12 @@ class Engine {
 
                     }
                 }
+                parents.forEach { mutator.mutate(it, generations, genMutator) }
                 currentGeneration = replacer.replace(parents, children).toMutableList()
                 generations++
                 processor()
+
+                println("MAX: ${greatestSpecimen.getPerformance()} AVG: ${currentGeneration.map { it.getPerformance() }.average()} - ${currentGeneration.distinct().size}")
 
             }
 

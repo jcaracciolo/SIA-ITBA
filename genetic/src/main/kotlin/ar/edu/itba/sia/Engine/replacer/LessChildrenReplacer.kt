@@ -6,14 +6,15 @@ import ar.edu.itba.sia.utils.floor
 
 class LessChildrenReplacer(val amount: Int?, val selector: Selector): Replacer {
 
-    override fun parentsToCross(): List<Evolutionable> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    var amountThisTime: Int = 0
+
+    override fun parentsToCross(parents: List<Evolutionable>): List<Evolutionable> {
+        amountThisTime = amount ?: (Math.random() * parents.size -1 ).floor() + 1
+        return parents.sortedByDescending { it.getPerformance() }
     }
 
-    override fun replace(parents: List<Evolutionable>, children: List<Evolutionable>): List<Evolutionable> {
-        val amountThisTime = amount ?: (Math.random() * parents.size).floor()
-
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
+    override fun replace(parents: List<Evolutionable>, children: List<Evolutionable>): List<Evolutionable> =
+            selector.select(parents, parents.size - amountThisTime).plus(
+                    selector.select(parents.plus(children), amountThisTime)
+            )
 }

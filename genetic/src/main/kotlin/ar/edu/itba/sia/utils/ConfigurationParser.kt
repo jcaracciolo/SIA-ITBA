@@ -35,7 +35,7 @@ enum class Cutters(val string: String) {
         fun fromString(string: String, parameters: JSONObject): Cutter =
                 when(string) {
                     GENERATION.string -> GenerationCutter(
-                            parameters.tryWithError("generations", Int::class.java)
+                            parameters.tryWithError("amount", Int::class.java)
                     )
 
                     STAYS_SAME.string -> GenerationStaysSame(

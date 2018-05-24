@@ -1,48 +1,47 @@
 {
-  generation_size: 6,
+  generation_size: 60,
 
   type: "character",
   character: "assassin",
 
-  crosser: "anular",
+  crosser: "double point",
 
   cutter: {
-    type: "optimal",
+    type: "generation",
     parameters: {
-      amount: 3.1
+      amount: 200000
     }
   },
 
   mutator: {
     type: "uniform",
     parameters: {
-      percentage: 0.5
+      percentage: 0.9
     }
   },
 
   genmutator: {
-    type: "up to",
+    type: "multiple",
     parameters: {
-      amount: 3
+      amount: 4
     }
   },
 
   replacer: {
-    type: "combined",
+    type: "less children",
     parameters: {
-      first: {
-        type: "less children",
-        parameters: { amount: null }
+      amount: 40
+    }
+  },
+
+  selector: {
+    type: "boltzman",
+    parameters: {
+      other: {
+        type: "elite"
       },
-      second: { type: "only children" },
-      percentage: 0.75
-    }
-  },
-
-  replacer: {
-    type: "roulette",
-    parameters: {
-      null
+      temperature: 30,
+      decrement: 0.3
     }
   }
 }
