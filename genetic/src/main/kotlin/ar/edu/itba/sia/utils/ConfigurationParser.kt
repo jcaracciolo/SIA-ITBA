@@ -248,7 +248,7 @@ class ConfigurationParser {
             val cutter = jsonObject.tryWithError("cutter", JSONObject::class.java).toCutter()
             val mutator = jsonObject.tryWithError("mutator", JSONObject::class.java).toMutator()
             val genMutator = jsonObject.tryWithError("genmutator", JSONObject::class.java).toGenMutator()
-            val selector = EliteSelector()
+            val selector = jsonObject.tryWithError("selector", JSONObject::class.java).toSelector()
             val replacer = jsonObject.tryWithError("replacer", JSONObject::class.java).toReplacer(selector)
 
             val initialSize = jsonObject.tryWithError("generation_size", Int::class.java)
@@ -311,10 +311,21 @@ fun JSONObject.toReplacer(selector: Selector): Replacer = Replacers.fromSting(
         selector,
         this.tryWithNull("parameters", JSONObject::class.java)
 )
-fun JSONObject.toSelector(): Selector = Selectors.fromSting(
-        this.tryWithError("type", String::class.java),
-        this.tryWithNull("parameters", JSONObject::class.java)
-)
+
+fun JSONObject.toSelector(): Selector {
+    val unique = this.tryWithNull("unique", Boolean::class.java)
+
+    var selector = Selectors.fromSting(
+            this.tryWithError("type", String::class.java),
+            this.tryWithNull("parameters", JSONObject::class.java)
+    )
+
+    if(unique != null && unique == true) {
+        selector = UniqueSelector(selector)
+    }
+
+    return selector
+}
 
 fun String.andExit(): Nothing {
     println(this)

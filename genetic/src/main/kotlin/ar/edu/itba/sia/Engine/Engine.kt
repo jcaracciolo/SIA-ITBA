@@ -44,7 +44,7 @@ class Engine {
 
                 while(children.size < parents.size) {
                     val fatherIndex = Random().nextInt(parents.size)
-                    val motherIndex = Random().nextInt(parents.size)
+                    val motherIndex = (fatherIndex + 1 + Random().nextInt(parents.size-2)) % parents.size
 
                     for (child : Evolutionable in crosser.crossOver(parents[fatherIndex], parents[motherIndex])){
                         val currentChild = mutator.mutate(child, generations, genMutator)
@@ -55,7 +55,7 @@ class Engine {
 
                     }
                 }
-                parents.forEach { mutator.mutate(it, generations, genMutator) }
+
                 currentGeneration = replacer.replace(parents, children).toMutableList()
                 generations++
                 processor()

@@ -35,13 +35,7 @@
   },
 
   selector: {
-    type: "boltzman",
-    parameters: {
-      other: {
-        type: "elite"
-      },
-      temperature: 30,
-      decrement: 0.3
-    }
+    unique: false,
+    type: "roulette"
   }
 }

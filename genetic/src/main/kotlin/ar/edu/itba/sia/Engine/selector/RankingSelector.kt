@@ -8,6 +8,6 @@ class RankingSelector(val other: Selector) : Selector {
 
         return other.select(ordered.mapIndexed { index, evolutionable ->
             AdaptedEvolutionable(index.toDouble(), evolutionable)
-        }, amount)
+        }, amount).map { (it as AdaptedEvolutionable).specimen }
     }
 }

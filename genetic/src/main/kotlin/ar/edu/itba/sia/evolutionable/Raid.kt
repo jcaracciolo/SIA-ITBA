@@ -14,6 +14,9 @@ class Raid(private val innerGens: Array<Character>): Evolutionable {
         return Raid(innerGens.copyOf())
     }
 
+    //TODO implement this method
+    override fun random(): Evolutionable = getDescendant()
+
     override fun getPerformance(): Double {
         val performance = innerGens.map{ it.getPerformance() }.sum()
         val differentClasses = innerGens.map { it.characterClass }.distinct().count()

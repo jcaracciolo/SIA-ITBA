@@ -43,6 +43,8 @@ abstract class Character(open protected val innerGens: Array<Double>, val charac
 
     override abstract fun getPerformance(): Double
 
+    override fun random(): Evolutionable = characterClass.getRandom()
+
     override fun mutateGen(n: Int) {
         if(n == innerGens.size -1) {
             mutateHeight()

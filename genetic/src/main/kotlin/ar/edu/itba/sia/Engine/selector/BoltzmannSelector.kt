@@ -13,6 +13,6 @@ class BoltzmannSelector(val other: Selector, var temperature: Double, val decrem
 
         return other.select(generation.mapIndexed { index, evolutionable ->
             AdaptedEvolutionable(newPerformances[index] / average, evolutionable)
-        }, amount)
+        }, amount).map { (it as AdaptedEvolutionable).specimen }
     }
 }

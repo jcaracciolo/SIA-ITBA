@@ -8,6 +8,8 @@ interface Evolutionable {
 
     fun mutateGen(n: Int)
 
+    fun random(): Evolutionable
+
     val gens: Array<Any>
 
 }

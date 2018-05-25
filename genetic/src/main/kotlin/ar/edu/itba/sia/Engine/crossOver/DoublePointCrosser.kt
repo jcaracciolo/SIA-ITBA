@@ -10,12 +10,14 @@ class DoublePointCrosser: Crosser{
         val secondChild = mother.getDescendant()
         val children: MutableList<Evolutionable> = ArrayList()
         val minLocus = Random().nextInt(father.gens.size - 2)
-        val maxLocus = Random().nextInt(father.gens.size - 1 - minLocus) + minLocus
+        val maxLocus = 1 + Random().nextInt(father.gens.size - minLocus - 1)
 
-        for(i in minLocus..maxLocus) {
+
+        for(i in minLocus..(minLocus + maxLocus)) {
             firstChild.gens[i] = mother.gens[i]
             secondChild.gens[i] = father.gens[i]
         }
+
         children.add(firstChild)
         children.add(secondChild)
         return children

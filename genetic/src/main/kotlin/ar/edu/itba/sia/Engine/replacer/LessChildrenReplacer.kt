@@ -13,8 +13,11 @@ class LessChildrenReplacer(val amount: Int?, val selector: Selector): Replacer {
         return parents.sortedByDescending { it.getPerformance() }
     }
 
-    override fun replace(parents: List<Evolutionable>, children: List<Evolutionable>): List<Evolutionable> =
-            selector.select(parents, parents.size - amountThisTime).plus(
-                    selector.select(parents.plus(children), amountThisTime)
-            )
+    override fun replace(parents: List<Evolutionable>, children: List<Evolutionable>): List<Evolutionable> {
+        val selectedParents = selector.select(parents, parents.size - amountThisTime)
+
+        return selectedParents.plus(
+            selector.select(parents.minus(selectedParents).plus(children), amountThisTime)
+        )
+    }
 }
