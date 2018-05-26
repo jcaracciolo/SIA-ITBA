@@ -8,6 +8,12 @@ import ar.edu.itba.sia.utils.ConfigurationParser
 import java.util.*
 import javax.security.auth.login.Configuration
 import kotlin.collections.ArrayList
+import java.nio.file.Files
+import java.io.BufferedWriter
+import java.io.File
+import java.nio.file.Paths
+
+
 
 class Engine {
 
@@ -17,7 +23,7 @@ class Engine {
 
         @JvmStatic
         fun main(args: Array<String>) {
-            Armory.initialze("/home/juanfra/Downloads/fulldata")
+            Armory.initialze("/Users/seguido/Downloads/fulldata")
             val conf = ConfigurationParser.parseFile("./src/Resources/config.json")!!
             print(naturalSelection(conf))
         }
@@ -30,6 +36,9 @@ class Engine {
             val genMutator = configurationFile.genMutator
             val cutter = configurationFile.cutter
             val replacer = configurationFile.replacer
+
+
+
 
             generations = 0
             var currentGeneration: List<Evolutionable> = configurationFile.initialGeneration
@@ -60,8 +69,8 @@ class Engine {
                 generations++
                 processor()
 
-                println("MAX: ${greatestSpecimen.getPerformance()} AVG: ${currentGeneration.map { it.getPerformance() }.average()} - ${currentGeneration.distinct().size}")
 
+                File("outputTest").appendText("${generations}\t${greatestSpecimen.getPerformance()}\t${currentGeneration.map { it.getPerformance() }.average()}\t${currentGeneration.distinct().size}\n")
             }
 
             return greatestSpecimen
