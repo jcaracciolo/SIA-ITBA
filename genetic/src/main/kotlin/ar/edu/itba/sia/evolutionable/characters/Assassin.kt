@@ -32,7 +32,10 @@ class Assassin(override val innerGens: Array<Double>): Character(innerGens, Char
         return 0.7 * getAttack() + 0.3 * getDefense()
     }
 
+
     override fun getDescendant(): Character {
         return Assassin(innerGens.copyOf())
     }
+
+
 }

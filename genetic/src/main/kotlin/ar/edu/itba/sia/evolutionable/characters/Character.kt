@@ -113,23 +113,43 @@ abstract class Character(open protected val innerGens: Array<Double>, val charac
     }
 
     private fun getTotalStrength(): Double {
-        return weapon.strength + headgear.strength + bodyArmor.strength + gloves.strength + boots.strength
+        var customMultiplier = 1.0
+        if (this.characterClass == CharacterType.ASSASSIN){
+            customMultiplier = 0.9
+        }
+        return customMultiplier *(weapon.strength + headgear.strength + bodyArmor.strength + gloves.strength + boots.strength)
     }
 
     private fun getTotalAgility(): Double {
-        return weapon.agility + headgear.agility + bodyArmor.agility + gloves.agility + boots.agility
+        var customMultiplier = 1.0
+        if (this.characterClass == CharacterType.ASSASSIN){
+            customMultiplier = 0.9
+        }
+        return customMultiplier * (weapon.agility + headgear.agility + bodyArmor.agility + gloves.agility + boots.agility)
     }
 
     private fun getTotalExpertise(): Double {
-        return weapon.expertise + headgear.expertise + bodyArmor.expertise + gloves.expertise + boots.expertise
+        var customMultiplier = 1.0
+        if (this.characterClass == CharacterType.ASSASSIN){
+            customMultiplier = 1.0
+        }
+        return customMultiplier* (weapon.expertise + headgear.expertise + bodyArmor.expertise + gloves.expertise + boots.expertise)
     }
 
     private fun getTotalResistance(): Double {
-        return weapon.resistance + headgear.resistance + bodyArmor.resistance + gloves.resistance + boots.resistance
+        var customMultiplier = 1.0
+        if (this.characterClass == CharacterType.ASSASSIN){
+            customMultiplier = 1.1
+        }
+        return customMultiplier*(weapon.resistance + headgear.resistance + bodyArmor.resistance + gloves.resistance + boots.resistance)
     }
 
     private fun getTotalVitality(): Double {
-        return weapon.vitality + headgear.vitality + bodyArmor.vitality + gloves.vitality + boots.vitality
+        var customMultiplier = 1.0
+        if (this.characterClass == CharacterType.ASSASSIN){
+            customMultiplier = 1.0
+        }
+        return customMultiplier*(weapon.vitality + headgear.vitality + bodyArmor.vitality + gloves.vitality + boots.vitality)
     }
 
     override fun equals(other: Any?): Boolean {
