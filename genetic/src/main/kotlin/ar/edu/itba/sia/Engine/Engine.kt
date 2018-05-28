@@ -32,9 +32,6 @@ class Engine {
             val cutter = configurationFile.cutter
             val replacer = configurationFile.replacer
 
-
-
-
             generations = 0
             var currentGeneration: List<Evolutionable> = configurationFile.initialGeneration
             var greatestSpecimen: Evolutionable
@@ -62,6 +59,7 @@ class Engine {
 
 
                 var newChildren = children.filter { it.isValid() }
+                println(newChildren.size)
                 newChildren = newChildren.plus(
                      (newChildren.size until children.size).map {
                         configurationFile.initialGeneration.first().random()

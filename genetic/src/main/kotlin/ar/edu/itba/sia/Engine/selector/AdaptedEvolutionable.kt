@@ -12,6 +12,8 @@ class AdaptedEvolutionable (val newPerformance: Double, val specimen: Evolutiona
 
     override fun random(): Evolutionable = specimen.random()
 
+    override fun isValid(): Boolean = specimen.isValid()
+
     override val gens: Array<Any>
         get() = specimen.gens
 

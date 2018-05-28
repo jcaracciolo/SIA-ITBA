@@ -15,30 +15,33 @@ class Raid(private val innerGens: Array<Character>): Evolutionable {
         return Raid(innerGens.copyOf())
     }
 
-
-    override fun random(): Evolutionable{
-        val randomRaid = ArrayList<Character>()
-        randomRaid.add(Defender.random())
-        while(randomRaid.size < 10){
-            var randomCharacter = CharacterType.randomCharacter()
-            while(randomRaid.filter { it.characterClass == randomCharacter.characterClass}.count()
-                    < getMaxByClass(randomCharacter.characterClass)){
+    companion object {
+        fun random(): Evolutionable {
+            val randomRaid = ArrayList<Character>()
+            randomRaid.add(Defender.random(Random().nextInt(3) + 1))
+            while (randomRaid.size < 10) {
+                var randomCharacter = CharacterType.randomCharacter()
+                while (randomRaid.filter { it.characterClass == randomCharacter.characterClass }.count()
+                        >= getMaxByClass(randomCharacter.characterClass)) {
+                    randomCharacter = CharacterType.randomCharacter()
+                }
                 randomRaid.add(randomCharacter)
             }
-
+            return Raid(Array(10, { randomRaid[it] }))
         }
-        return Raid(Array(10, {randomRaid[it]}))
+
+        fun getMaxByClass(characterClass : CharacterType): Int{
+            if(characterClass == CharacterType.DEFENDER) return 2
+            else return 4
+        }
     }
+
+    override fun random(): Evolutionable = Raid.random()
 
     override fun getPerformance(): Double {
         val performance = innerGens.map{ it.getPerformance() }.sum()
         val differentClasses = innerGens.map { it.characterClass }.distinct().count()
         return performance * Math.pow(1.05, differentClasses.toDouble())
-    }
-
-    fun getMaxByClass(characterClass : CharacterType): Int{
-        if(characterClass == CharacterType.DEFENDER) return 2
-        else return 4
     }
 
     override fun mutateGen(n: Int) {

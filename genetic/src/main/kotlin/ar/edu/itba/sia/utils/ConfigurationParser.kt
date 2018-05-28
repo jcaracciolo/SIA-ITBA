@@ -7,6 +7,7 @@ import ar.edu.itba.sia.Engine.mutators.*
 import ar.edu.itba.sia.Engine.replacer.*
 import ar.edu.itba.sia.Engine.selector.*
 import ar.edu.itba.sia.evolutionable.Evolutionable
+import ar.edu.itba.sia.evolutionable.Raid
 import ar.edu.itba.sia.evolutionable.characters.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -213,7 +214,7 @@ enum class Selectors(val string: String) {
 
 enum class EvolutionTypes(val string: String) {
     CHARACTERS("character"),
-    GUILDS("guild");
+    RAID("raid");
 
     companion object {
         fun fromSting(string: String): EvolutionTypes = EvolutionTypes.values().firstOrNull { it.string == string }
@@ -264,8 +265,8 @@ class ConfigurationParser {
                     val characterType = jsonObject.tryWithError("character_number", Int::class.java)
                     List(initialSize, { character.getRandom(characterType) })
                 }
-                EvolutionTypes.GUILDS -> {
-                    List(0, { Assassin.random(0) })
+                EvolutionTypes.RAID -> {
+                    List(initialSize, { Raid.random() })
                 }
             }
 

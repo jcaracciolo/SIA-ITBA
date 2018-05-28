@@ -23,6 +23,6 @@ enum class CharacterType(val string: String) {
         fun fromSting(string: String): CharacterType = CharacterType.values().firstOrNull { it.string == string }
                 ?: "$string is not a valid character".andExit()
 
-        fun randomCharacter() = CharacterType.values()[Random().nextInt(CharacterType.values().size)].getRandom()
+        fun randomCharacter() = CharacterType.values()[Random().nextInt(CharacterType.values().size)].getRandom(Random().nextInt(3) + 1)
     }
 }

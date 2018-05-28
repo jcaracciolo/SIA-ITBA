@@ -1,11 +1,9 @@
 {
   generation_size: 100,
 
-  type: "character",
-  character: "assassin",
-  character_number: 3,
+  type: "raid",
 
-  equipment_path: "/home/juanfra/Downloads/fulldata",
+  equipment_path: "./src/Resources/testdata",
 
   crosser: "double point",
 
