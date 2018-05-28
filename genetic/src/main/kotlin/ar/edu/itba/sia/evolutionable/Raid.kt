@@ -29,7 +29,8 @@ class Raid(private val innerGens: Array<Character>): Evolutionable {
         if(n != 0) {
             validClasses.addAll(CharacterType.values())
         }
-        innerGens[n] = validClasses[Random().nextInt(validClasses.size)].getRandom()
+        val rand = Random()
+        innerGens[n] = validClasses[rand.nextInt(validClasses.size)].getRandom(rand.nextInt(3) + 1)
     }
 
 }

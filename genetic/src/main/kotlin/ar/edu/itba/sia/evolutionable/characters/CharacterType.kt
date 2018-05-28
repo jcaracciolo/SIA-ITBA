@@ -4,19 +4,19 @@ import ar.edu.itba.sia.utils.andExit
 
 enum class CharacterType(val string: String) {
     ARCHER("archer") {
-        override fun getRandom(): Character = Archer.random()
+        override fun getRandom(type: Int): Character = Archer.random(type)
     },
     ASSASSIN("assassin") {
-        override fun getRandom(): Character = Assassin.random()
+        override fun getRandom(type: Int): Character = Assassin.random(type)
     },
     DEFENDER("defender") {
-        override fun getRandom(): Character = Defender.random()
+        override fun getRandom(type: Int): Character = Defender.random(type)
     },
     WARRIOR("warrior") {
-        override fun getRandom(): Character = Warrior.random()
+        override fun getRandom(type: Int): Character = Warrior.random(type)
     };
 
-    abstract fun getRandom(): Character
+    abstract fun getRandom(type: Int): Character
 
     companion object {
         fun fromSting(string: String): CharacterType = CharacterType.values().firstOrNull { it.string == string }

@@ -69,7 +69,7 @@ class Drawer : Application() {
         object : AnimationTimer() {
             override fun handle(currentNanoTime: Long) {
 
-                Engine.currentGen = (0 until 10).map{ Assassin.random() }
+                Engine.currentGen = (0 until 10).map{ Assassin.random(1) }
 
 
                 if(currentNanoTime%100 == 0L) {

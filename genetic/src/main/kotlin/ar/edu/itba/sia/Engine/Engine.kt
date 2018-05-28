@@ -23,7 +23,6 @@ class Engine {
 
         @JvmStatic
         fun main(args: Array<String>) {
-            Armory.initialze("/Users/seguido/Downloads/fulldata")
             val conf = ConfigurationParser.parseFile("./src/Resources/config.json")!!
             print(naturalSelection(conf))
         }
@@ -70,7 +69,7 @@ class Engine {
                 processor()
 
 
-                File("outputTest").appendText("${generations}\t${greatestSpecimen.getPerformance()}\t${currentGeneration.map { it.getPerformance() }.average()}\t${currentGeneration.distinct().size}\n")
+                print("${generations}\t${greatestSpecimen.getPerformance()}\t${currentGeneration.map { it.getPerformance() }.average()}\t${currentGeneration.distinct().size}\n")
             }
 
             return greatestSpecimen

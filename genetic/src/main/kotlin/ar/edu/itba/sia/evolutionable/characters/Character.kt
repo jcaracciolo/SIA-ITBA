@@ -4,7 +4,8 @@ import ar.edu.itba.sia.equipables.*
 import ar.edu.itba.sia.evolutionable.Evolutionable
 import java.util.*
 
-abstract class Character(open protected val innerGens: Array<Double>, val characterClass: CharacterType): Evolutionable {
+abstract class Character(open protected val innerGens: Array<Double>, val characterClass: CharacterType,
+                            open val type: Int): Evolutionable {
 
     val height
         get() = innerGens.last()
@@ -25,8 +26,9 @@ abstract class Character(open protected val innerGens: Array<Double>, val charac
                 bodyArmorId: Double,
                 glovesId: Double,
                 bootsId: Double,
-                characterClass: CharacterType):
-            this(Array<Double>(6,{0.0}), characterClass) {
+                characterClass: CharacterType,
+                type: Int):
+            this(Array<Double>(6,{0.0}), characterClass, type) {
 
         equip(EquipmentType.WEAPON, weaponId)
         equip(EquipmentType.HEADGEAR, headGearId)
@@ -43,7 +45,7 @@ abstract class Character(open protected val innerGens: Array<Double>, val charac
 
     override abstract fun getPerformance(): Double
 
-    override fun random(): Evolutionable = characterClass.getRandom()
+    override fun random(): Evolutionable = characterClass.getRandom(type)
 
     override fun mutateGen(n: Int) {
         if(n == innerGens.size -1) {
@@ -112,44 +114,29 @@ abstract class Character(open protected val innerGens: Array<Double>, val charac
         return  100 * Math.tanh(0.01 * getTotalVitality())
     }
 
+    abstract val strengthModifier: Double
     private fun getTotalStrength(): Double {
-        var customMultiplier = 1.0
-        if (this.characterClass == CharacterType.ASSASSIN){
-            customMultiplier = 0.9
-        }
-        return customMultiplier *(weapon.strength + headgear.strength + bodyArmor.strength + gloves.strength + boots.strength)
+        return strengthModifier * (weapon.strength + headgear.strength + bodyArmor.strength + gloves.strength + boots.strength)
     }
 
+    abstract val agilityModifier: Double
     private fun getTotalAgility(): Double {
-        var customMultiplier = 1.0
-        if (this.characterClass == CharacterType.ASSASSIN){
-            customMultiplier = 0.9
-        }
-        return customMultiplier * (weapon.agility + headgear.agility + bodyArmor.agility + gloves.agility + boots.agility)
+        return agilityModifier * (weapon.agility + headgear.agility + bodyArmor.agility + gloves.agility + boots.agility)
     }
 
+    abstract val expertiseModifier: Double
     private fun getTotalExpertise(): Double {
-        var customMultiplier = 1.0
-        if (this.characterClass == CharacterType.ASSASSIN){
-            customMultiplier = 1.0
-        }
-        return customMultiplier* (weapon.expertise + headgear.expertise + bodyArmor.expertise + gloves.expertise + boots.expertise)
+        return expertiseModifier* (weapon.expertise + headgear.expertise + bodyArmor.expertise + gloves.expertise + boots.expertise)
     }
 
+    abstract val resistanceModifier: Double
     private fun getTotalResistance(): Double {
-        var customMultiplier = 1.0
-        if (this.characterClass == CharacterType.ASSASSIN){
-            customMultiplier = 1.1
-        }
-        return customMultiplier*(weapon.resistance + headgear.resistance + bodyArmor.resistance + gloves.resistance + boots.resistance)
+        return resistanceModifier*(weapon.resistance + headgear.resistance + bodyArmor.resistance + gloves.resistance + boots.resistance)
     }
 
+    abstract val vitalityModifier: Double
     private fun getTotalVitality(): Double {
-        var customMultiplier = 1.0
-        if (this.characterClass == CharacterType.ASSASSIN){
-            customMultiplier = 1.0
-        }
-        return customMultiplier*(weapon.vitality + headgear.vitality + bodyArmor.vitality + gloves.vitality + boots.vitality)
+        return vitalityModifier*(weapon.vitality + headgear.vitality + bodyArmor.vitality + gloves.vitality + boots.vitality)
     }
 
     override fun equals(other: Any?): Boolean {

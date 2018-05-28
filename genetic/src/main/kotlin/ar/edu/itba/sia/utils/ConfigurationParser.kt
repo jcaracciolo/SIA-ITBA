@@ -1,5 +1,6 @@
 package ar.edu.itba.sia.utils
 
+import ar.edu.itba.sia.Armory
 import ar.edu.itba.sia.Engine.crossOver.*
 import ar.edu.itba.sia.Engine.cutter.*
 import ar.edu.itba.sia.Engine.mutators.*
@@ -226,7 +227,8 @@ data class ConfigurationFile(
     val cutter: Cutter,
     val mutator: Mutator,
     val genMutator: GenMutator,
-    val replacer: Replacer
+    val replacer: Replacer,
+    val equipmentPath: String
 )
 
 class ConfigurationParser {
@@ -244,6 +246,7 @@ class ConfigurationParser {
             val jsonString = File(path).readText(Charset.defaultCharset())
             val jsonObject = JSONObject(jsonString)
 
+            val equipmentPath = jsonObject.tryWithError("equipment_path", String::class.java)
             val crosser = jsonObject.tryWithError("crosser", String::class.java).toCrosser()
             val cutter = jsonObject.tryWithError("cutter", JSONObject::class.java).toCutter()
             val mutator = jsonObject.tryWithError("mutator", JSONObject::class.java).toMutator()
@@ -253,18 +256,21 @@ class ConfigurationParser {
 
             val initialSize = jsonObject.tryWithError("generation_size", Int::class.java)
             val type = jsonObject.tryWithError("type", String::class.java).toEvolutionType()
+
+            Armory.initialze(equipmentPath)
             val initialGen = when(type) {
                 EvolutionTypes.CHARACTERS -> {
                     val character = jsonObject.tryWithError("character", String::class.java).toCharacter()
-                    List(initialSize, { character.getRandom() })
+                    val characterType = jsonObject.tryWithError("character_number", Int::class.java)
+                    List(initialSize, { character.getRandom(characterType) })
                 }
                 EvolutionTypes.GUILDS -> {
-                    List(0, { Assassin.random() })
+                    List(0, { Assassin.random(0) })
                 }
             }
 
 
-            return ConfigurationFile(initialGen, crosser, cutter, mutator, genMutator, replacer)
+            return ConfigurationFile(initialGen, crosser, cutter, mutator, genMutator, replacer, equipmentPath)
         }
     }
 }
