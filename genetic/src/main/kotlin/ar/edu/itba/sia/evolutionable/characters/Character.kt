@@ -154,5 +154,6 @@ abstract class Character(open protected val innerGens: Array<Double>, val charac
         return Arrays.hashCode(innerGens)
     }
 
+    override fun isValid(): Boolean = true
 
 }

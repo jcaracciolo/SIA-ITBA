@@ -38,18 +38,14 @@
   },
 
   selector: {
-    type: "combined",
+    unique: false,
+    type: "ranking",
     parameters: {
-      percentage: 0.01,
-      first: {
-        type: "elite"
-      },
-      second: {
-        type: "ranking",
+      other: {
+        unique: true,
+        type: "tournament_deterministic",
         parameters: {
-          other: {
-            type: "roulette"
-          }
+          amount: 6
         }
       }
     }

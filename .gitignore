@@ -11,6 +11,8 @@ Busqueda/.classpath
 Busqueda/Busqueda.iml
 Redes Neuronales/TP1\.2/randState
 
+genetic/output*
+
 Redes Neuronales/TP1\.2/octave-workspace
 
 Busqueda/out/

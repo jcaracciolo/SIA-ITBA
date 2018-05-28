@@ -1,17 +1,10 @@
 package ar.edu.itba.sia.Engine
 
-import ar.edu.itba.sia.Armory
 import ar.edu.itba.sia.evolutionable.Evolutionable
-import ar.edu.itba.sia.evolutionable.characters.Character
 import ar.edu.itba.sia.utils.ConfigurationFile
 import ar.edu.itba.sia.utils.ConfigurationParser
 import java.util.*
-import javax.security.auth.login.Configuration
 import kotlin.collections.ArrayList
-import java.nio.file.Files
-import java.io.BufferedWriter
-import java.io.File
-import java.nio.file.Paths
 
 
 
@@ -24,7 +17,10 @@ class Engine {
         @JvmStatic
         fun main(args: Array<String>) {
             val conf = ConfigurationParser.parseFile("./src/Resources/config.json")!!
-            print(naturalSelection(conf))
+            val best = naturalSelection(conf)
+            print(best)
+            println()
+            print(best.getPerformance())
         }
 
         fun naturalSelection(
@@ -47,8 +43,8 @@ class Engine {
 
             while(!cutter.shouldCut(currentGeneration)) {
                 Engine.currentGen = currentGeneration
-                val parents = replacer.parentsToCross(currentGeneration)
-                val children = ArrayList<Evolutionable>()
+                var parents = replacer.parentsToCross(currentGeneration)
+                var children = ArrayList<Evolutionable>()
 
                 while(children.size < parents.size) {
                     val fatherIndex = Random().nextInt(parents.size)
@@ -64,7 +60,17 @@ class Engine {
                     }
                 }
 
-                currentGeneration = replacer.replace(parents, children).toMutableList()
+
+                var newChildren = children.filter { it.isValid() }
+                newChildren = newChildren.plus(
+                     (newChildren.size until children.size).map {
+                        configurationFile.initialGeneration.first().random()
+                    }
+                 )
+
+
+                currentGeneration = replacer.replace(parents, newChildren)
+
                 generations++
                 processor()
 

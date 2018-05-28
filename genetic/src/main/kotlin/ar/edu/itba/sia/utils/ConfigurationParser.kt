@@ -195,7 +195,7 @@ enum class Selectors(val string: String) {
 
                     TOURNAMENT_DETERMINISTIC.string ->{
                         if (parameters == null) {
-                            "Ranking selector needs parameters".andExit()
+                            "Tournament Deterministic selector needs parameters".andExit()
                         }
                         TournamentDeterministicSelector(
                                 parameters.tryWithError("amount", Int::class.java)

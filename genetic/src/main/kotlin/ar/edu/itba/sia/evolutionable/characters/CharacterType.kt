@@ -1,6 +1,7 @@
 package ar.edu.itba.sia.evolutionable.characters
 
 import ar.edu.itba.sia.utils.andExit
+import java.util.*
 
 enum class CharacterType(val string: String) {
     ARCHER("archer") {
@@ -21,5 +22,7 @@ enum class CharacterType(val string: String) {
     companion object {
         fun fromSting(string: String): CharacterType = CharacterType.values().firstOrNull { it.string == string }
                 ?: "$string is not a valid character".andExit()
+
+        fun randomCharacter() = CharacterType.values()[Random().nextInt(CharacterType.values().size)].getRandom()
     }
 }
