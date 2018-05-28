@@ -10,21 +10,21 @@
   cutter: {
     type: "generation",
     parameters: {
-      amount: 10000
+      amount: 300000
     }
   },
 
   mutator: {
     type: "uniform",
     parameters: {
-      percentage: 0.7
+      percentage: 0.5
     }
   },
 
   genmutator: {
     type: "up to",
     parameters: {
-      amount: 6
+      amount: 5
     }
   },
 

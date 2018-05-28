@@ -109,7 +109,8 @@ enum class Replacers(val string: String) {
     LESS_CHILDREN("less children"),
     ONLY_CHILDREN("only children"),
     MIX_MATCH_REPLACER("mix and match"),
-    COMBINED("combined");
+    COMBINED("combined"),
+    UNIFORM("uniform");
 
     companion object {
         fun fromSting(string: String, selector: Selector, parameters: JSONObject?): Replacer =
@@ -138,6 +139,12 @@ enum class Replacers(val string: String) {
                                 parameters.tryWithError("percentage", Double::class.java),
                                 parameters.tryWithError("first",JSONObject::class.java).toReplacer(selector),
                                 parameters.tryWithError("second", JSONObject::class.java).toReplacer(selector)
+                        )
+                    }
+                    UNIFORM.string -> {
+                        UniformReplacer(
+                                parameters?.tryWithNull("amount", Int::class.java),
+                                selector
                         )
                     }
 
