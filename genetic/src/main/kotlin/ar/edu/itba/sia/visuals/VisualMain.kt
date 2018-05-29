@@ -2,6 +2,7 @@ package ar.edu.itba.sia.visuals
 
 import ar.edu.itba.sia.Armory
 import ar.edu.itba.sia.Engine.Engine
+import ar.edu.itba.sia.equipables.EquipmentType
 import ar.edu.itba.sia.evolutionable.Evolutionable
 import ar.edu.itba.sia.evolutionable.characters.Assassin
 import ar.edu.itba.sia.evolutionable.characters.Character
@@ -20,6 +21,7 @@ import javafx.scene.chart.LineChart
 import javafx.scene.chart.NumberAxis
 import javafx.scene.chart.CategoryAxis
 import javafx.scene.control.TextField
+import javafx.scene.image.Image
 import javafx.scene.layout.HBox
 import javafx.scene.layout.GridPane
 import javafx.scene.layout.VBox
@@ -27,6 +29,11 @@ import javafx.scene.layout.BorderPane
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
 import java.lang.Thread.sleep
+import java.lang.System.gc
+import sun.net.www.ParseUtil.toURI
+import java.io.File
+
+
 
 
 class Drawer : Application() {
@@ -40,6 +47,12 @@ class Drawer : Application() {
     lateinit var leftGC: GraphicsContext
     lateinit var rightGC: GraphicsContext
     lateinit var centerGC: GraphicsContext
+
+    val headgear = ArrayList<String>()
+    val bodyarmor = ArrayList<String>()
+    val gloves = ArrayList<String>()
+    val boots = ArrayList<String>()
+    val weapons = ArrayList<String>()
 
     var index = 0
 
@@ -88,6 +101,7 @@ class Drawer : Application() {
                         seriesMax.addData(index, it.getPerformance())
                         seriesAvrg.addData(index, currentGen.map { it.getPerformance() }.average())
                         index++
+                        drawRandomHelm()
                     }
                 }
 
@@ -99,6 +113,12 @@ class Drawer : Application() {
     }
 
     fun init(height: Double, width: Double) {
+        headgear.addAll(readEquipments(EquipmentType.HEADGEAR))
+        bodyarmor.addAll(readEquipments(EquipmentType.BODYARMOR))
+        gloves.addAll(readEquipments(EquipmentType.GLOVES))
+        boots.addAll(readEquipments(EquipmentType.BOOTS))
+        weapons.addAll(readEquipments(EquipmentType.WEAPON))
+
         val canvasCenter = Canvas(width/3, height)
         centerGC = canvasCenter.graphicsContext2D
 
@@ -123,6 +143,20 @@ class Drawer : Application() {
         primaryStage.setScene(Scene(bPane))
 
         primaryStage.show()
+
+        drawEquipmentSlots()
+    }
+
+    fun drawEquipmentSlots() {
+        val gc = rightGC.canvas.graphicsContext2D
+        var file = File("./src/resources/visual/slots.png")
+        var img = Image(file.toURI().toString())
+        gc.drawImage(img, 0.0, 0.0)
+    }
+
+    fun readEquipments(equipmentType: EquipmentType): List<String> {
+        val folder = File("./src/resources/visual/" + equipmentType.name)
+        return folder.listFiles().map { it.name }
     }
 
     fun drawHeight(character: Character) {
@@ -174,6 +208,17 @@ class Drawer : Application() {
 
         lineChart.data.addAll(seriesAvrg, seriesMax)
         bPane.bottom = lineChart
+    }
+
+    fun drawRandomHelm(){
+
+        val gc = rightGC.canvas.graphicsContext2D
+        headgear.shuffle()
+        val file = File("/src/resources/visual/helms/" + headgear[0])
+        val img = Image(file.toURI().toString(), 100.0, 100.0, true, false)
+        gc.drawImage(img, 75.0, 25.0)
+
+
     }
 
 }
