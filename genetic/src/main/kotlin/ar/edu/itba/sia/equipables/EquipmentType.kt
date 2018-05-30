@@ -1,6 +1,7 @@
 package ar.edu.itba.sia.equipables
 
 import ar.edu.itba.sia.Armory
+import java.util.*
 import kotlin.math.roundToInt
 
 enum class EquipmentType {
@@ -56,8 +57,9 @@ enum class EquipmentType {
 
     abstract var maxId: Double
 
+    val rand = Random(1000)
     val randId: Double
-        get() = (Math.random() * maxId).roundToInt().toDouble()
+        get() = (rand.nextDouble() * maxId).roundToInt().toDouble()
 
     fun getEquipment(gens: Array<Double>) =  armory[gens[index]]!!
 

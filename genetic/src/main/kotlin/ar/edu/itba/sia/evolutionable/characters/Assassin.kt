@@ -1,13 +1,16 @@
 package ar.edu.itba.sia.evolutionable.characters
 
 import ar.edu.itba.sia.equipables.*
+import java.util.*
 
 class Assassin(override val innerGens: Array<Double>,override val type: Int): Character(innerGens, CharacterType.ASSASSIN, type) {
 
     companion object {
+        val rand = Random(1000)
+
         fun random(type: Int): Assassin =
                 Assassin(
-                    height = Math.random()* (2.0 - 1.3) + 1.3,
+                    height = rand.nextDouble()* (2.0 - 1.3) + 1.3,
                     weaponId = EquipmentType.WEAPON.randId,
                     headGearId = EquipmentType.HEADGEAR.randId,
                     bodyArmorId = EquipmentType.BODYARMOR.randId,
