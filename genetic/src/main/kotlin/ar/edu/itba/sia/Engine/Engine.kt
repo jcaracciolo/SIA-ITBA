@@ -13,13 +13,13 @@ import kotlin.collections.ArrayList
 class Engine {
 
     companion object {
-        lateinit var currentGen: List<Evolutionable>
+        var currentGen: List<Evolutionable> = ArrayList()
         var generations: Int = 0
 
         @JvmStatic
         fun main(args: Array<String>) {
             val conf = ConfigurationParser.parseFile("./src/resources/config.json")!!
-            val best = naturalSelection(conf, { sleep(1000)})
+            val best = naturalSelection(conf, { sleep(100)})
             print(best)
             println()
             print(best.getPerformance())

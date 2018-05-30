@@ -7,7 +7,7 @@
 
   character_number: 3,
 
-  equipment_path: "./src/Resources/testdata",
+  equipment_path: "./src/resources/testdata",
 
   crosser: "double point",
 
