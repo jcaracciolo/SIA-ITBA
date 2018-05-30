@@ -2,6 +2,7 @@ package ar.edu.itba.sia.visuals
 
 import ar.edu.itba.sia.Armory
 import ar.edu.itba.sia.Engine.Engine
+import ar.edu.itba.sia.equipables.Equipment
 import ar.edu.itba.sia.equipables.EquipmentType
 import ar.edu.itba.sia.evolutionable.Evolutionable
 import ar.edu.itba.sia.evolutionable.characters.Assassin
@@ -48,6 +49,7 @@ class Drawer : Application() {
     lateinit var rightGC: GraphicsContext
     lateinit var centerGC: GraphicsContext
 
+    val statsColor = ArrayList<Color>()
     val headgear = ArrayList<String>()
     val bodyarmor = ArrayList<String>()
     val gloves = ArrayList<String>()
@@ -73,21 +75,18 @@ class Drawer : Application() {
     }
 
     override fun start(primaryStage: Stage?) {
-        Armory.initialze("./src/Resources/testdata")
         this.primaryStage = primaryStage!!
         this.primaryStage.title = "Evolutionable"
 
         this.init(600.0,1800.0)
 
+        Thread({
+            Engine.main(Array(0,{ " " }))
+        }).start()
+
+
         object : AnimationTimer() {
             override fun handle(currentNanoTime: Long) {
-
-                Engine.currentGen = (0 until 10).map{ Assassin.random(1) }
-
-
-                if(currentNanoTime%100 == 0L) {
-                    Engine.generations++
-                }
 
                 val currentGen = Engine.currentGen as List<Character>
                 val generations = Engine.generations
@@ -101,7 +100,7 @@ class Drawer : Application() {
                         seriesMax.addData(index, it.getPerformance())
                         seriesAvrg.addData(index, currentGen.map { it.getPerformance() }.average())
                         index++
-                        drawRandomHelm()
+                        drawEquipmentStats(it)
                     }
                 }
 
@@ -118,6 +117,12 @@ class Drawer : Application() {
         gloves.addAll(readEquipments(EquipmentType.GLOVES))
         boots.addAll(readEquipments(EquipmentType.BOOTS))
         weapons.addAll(readEquipments(EquipmentType.WEAPON))
+
+        statsColor.add(Color.RED)
+        statsColor.add(Color.BROWN)
+        statsColor.add(Color.BLUE)
+        statsColor.add(Color.GREY)
+        statsColor.add(Color.GREEN)
 
         val canvasCenter = Canvas(width/3, height)
         centerGC = canvasCenter.graphicsContext2D
@@ -149,8 +154,8 @@ class Drawer : Application() {
 
     fun drawEquipmentSlots() {
         val gc = rightGC.canvas.graphicsContext2D
-        var file = File("./src/resources/visual/slots.png")
-        var img = Image(file.toURI().toString())
+        val file = File("./src/resources/visual/slots.png")
+        val img = Image(file.toURI().toString(), gc.canvas.width, gc.canvas.height, true, true)
         gc.drawImage(img, 0.0, 0.0)
     }
 
@@ -209,6 +214,40 @@ class Drawer : Application() {
         lineChart.data.addAll(seriesAvrg, seriesMax)
         bPane.bottom = lineChart
     }
+
+    fun drawEquipmentStats(best: Character) {
+        rightGC.clearRect(0.0,0.0, centerGC.canvas.height, rightGC.canvas.width)
+
+        val initialX = 20.0
+        val initialy = 80.0
+        val spacing = 80.0
+        drawStats(initialX, initialy, best.headgear)
+        drawStats(initialX, initialy + spacing, best.bodyArmor)
+        drawStats(initialX, initialy + 2*spacing, best.gloves)
+        drawStats(initialX, initialy + 3*spacing, best.weapon)
+        drawStats(initialX, initialy + 4*spacing, best.boots)
+    }
+
+    fun drawStats(x: Double, y: Double, equipment: Equipment) {
+        val blockHeigth = 50.0
+        val arr = doubleArrayOf(equipment.strength, equipment.agility, equipment.expertise, equipment.resistance, equipment.vitality)
+        val max = arr.max()!!
+        val standarize = blockHeigth/max
+
+        for (i in 0 until arr.size) {
+            drawStatBlock(x + 30*i, y, standarize*arr[i], statsColor[i])
+        }
+
+        rightGC.fill = Color.BLACK
+        rightGC.fillText("Max Value: ${"%.2f".format(max)}", x + 30*arr.size, y - 25.0)
+    }
+
+    fun drawStatBlock(x: Double, y: Double, height: Double, color: Color){
+        rightGC.fill = color
+        rightGC.fillRect(x,y-height,20.0,height)
+
+    }
+
 
     fun drawRandomHelm(){
 

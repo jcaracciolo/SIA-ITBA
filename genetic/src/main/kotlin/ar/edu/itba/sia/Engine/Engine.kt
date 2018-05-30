@@ -3,6 +3,7 @@ package ar.edu.itba.sia.Engine
 import ar.edu.itba.sia.evolutionable.Evolutionable
 import ar.edu.itba.sia.utils.ConfigurationFile
 import ar.edu.itba.sia.utils.ConfigurationParser
+import java.lang.Thread.sleep
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -16,8 +17,8 @@ class Engine {
 
         @JvmStatic
         fun main(args: Array<String>) {
-            val conf = ConfigurationParser.parseFile("./src/Resources/config.json")!!
-            val best = naturalSelection(conf)
+            val conf = ConfigurationParser.parseFile("./src/resources/config.json")!!
+            val best = naturalSelection(conf, { sleep(1000)})
             print(best)
             println()
             print(best.getPerformance())

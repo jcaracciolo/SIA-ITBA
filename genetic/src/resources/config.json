@@ -1,9 +1,11 @@
 {
   generation_size: 100,
 
-  type: "raid",
+  type: "character",
+  character: "assassin",
+  character_number: 3,
 
-  equipment_path: "./src/Resources/testdata",
+  equipment_path: "./src/resources/testdata",
 
   crosser: "double point",
 
@@ -36,11 +38,10 @@
   },
 
   selector: {
-    unique: false,
+    unique: true,
     type: "ranking",
     parameters: {
       other: {
-        unique: true,
         type: "tournament_deterministic",
         parameters: {
           amount: 6

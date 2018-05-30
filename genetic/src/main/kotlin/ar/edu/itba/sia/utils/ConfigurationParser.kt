@@ -246,7 +246,7 @@ class ConfigurationParser {
         fun main(args: Array<String>) {
 //            ConfigurationFile(jsonObject.tryWithError("crosser"))
 
-            println(parseFile("./src/Resources/config.json"))
+            println(parseFile("./src/resources/config.json"))
 
         }
 
