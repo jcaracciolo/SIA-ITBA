@@ -154,9 +154,7 @@ class Drawer : Application() {
         drawChart()
         primaryStage.setScene(Scene(bPane))
 
-        primaryStage.show()
-
-        drawEquipmentSlots()
+        primaryStage.show()     
     }
 
     fun drawEquipmentSlots() {
