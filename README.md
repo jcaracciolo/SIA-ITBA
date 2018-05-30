@@ -1,6 +1,183 @@
 # SIA-ITBA
 Cursada 2018 SIA - GRUPO 1
 
+# GENETICS
+
+## run /executable/genetic.jar with argument of the config file
+
+## Config file
+```
+\{
+  generation_size: <INT>,
+  type: <"character" | "raid>,
+  character: <"assassin">,
+  character_number: <Int>,
+  equipment_path: <String>,
+  crosser: "double point",
+
+  ##posible cutters
+  cutter: {
+    type: "generation",
+    parameters: {
+      amount: <Int>
+    }
+  }
+
+  cutter: {
+    type: "stay same",
+    parameters: {
+	  generations: <Int>
+      amount: <Int>
+    }
+  }
+
+  cutter: {
+    type: "no progress",
+    parameters: {
+	  generations: <Int>
+      percentage: <Double>
+    }
+  },
+
+  cutter: {
+    type: "no progress",
+    parameters: {
+	  amount: <Double>
+    }
+  },
+
+  ## Posible mutators
+
+  mutator: {
+    type: "uniform",
+    parameters: {
+      percentage: <Double>
+    }
+  },
+
+  mutator: {
+    type: "not uniform",
+    parameters: {
+      percentage: <Double>
+    }
+  },
+
+
+  ## Posible genmutators
+  genmutator: {
+    type: "multiple",
+    parameters: {
+      amount: <Int>
+    }
+  },
+
+  genmutator: {
+    type: "up to",
+    parameters: {
+      amount: <Int>
+    }
+  },
+
+  ## Posible replacers
+
+  replacer: {
+    type: "less children",
+    parameters: {
+      amount: <Int>
+    }
+  },
+
+  replacer: {
+    type: "only children"
+  },
+
+  replacer: {
+    type: "mix and match",
+    parameters: {
+      amount: <Int>
+    }
+  },
+
+  replacer: {
+    type: "uniform",
+    parameters: {
+      amount: <Int>
+    }
+  },
+
+  replacer: {
+    type: "combined",
+    parameters: {
+      percentage: <Double>,
+      first: <Selector>,
+      second: <Selector>
+    }
+  },
+
+
+  ## Posible selectors
+
+  selector: {
+    unique: <true|false>,
+    type: "boltzmann",
+    parameters: {
+      other: <Selector>,
+      temperature: <Double>,
+      decrement: <Double
+    }
+  },
+
+  selector: {
+    unique: <true|false>,
+    type: "combined",
+    parameters: {
+      first: <Selector>,
+      second: <Selector>,
+      percentage: <Double>
+    }
+  },
+
+  selector: {
+    unique: <true|false>,
+    type: "elite"
+  },
+
+  selector: {
+    unique: <true|false>,
+    type: "ranking",
+    parameters: {
+      other: <Selector>
+    }
+  },
+
+  selector: {
+    unique: <true|false>,
+    type: "roulette"
+  },
+
+
+  selector: {
+    unique: <true|false>,
+    type: "tournament_deterministic",
+    parameters: {
+      amount: <Int>
+    }
+  },
+
+  selector: {
+    unique: <true|false>,
+    type: "tournament_probabilistic"
+  },
+
+  selector: {
+    unique: <true|false>,
+    type: "universal"
+  },
+
+}
+
+```
+
 # Informed search
  To play the game go to https://jayisgames.com/games/lightforce/games/chainreaction.php
 
