@@ -1,25 +1,27 @@
 {
-  generation_size: 100,
+  generation_size: 300,
 
   type: "character",
-  character: "assassin",
+
+  character:"assassin",
+
   character_number: 3,
 
-  equipment_path: "./src/resources/testdata",
+  equipment_path: "./src/Resources/testdata",
 
   crosser: "double point",
 
   cutter: {
     type: "generation",
     parameters: {
-      amount: 300000
+      amount: 200000
     }
   },
 
   mutator: {
     type: "uniform",
     parameters: {
-      percentage: 0.5
+      percentage: 0.4
     }
   },
 
@@ -33,7 +35,7 @@
   replacer: {
     type: "less children",
     parameters: {
-      amount: 60
+      amount: 180
     }
   },
 

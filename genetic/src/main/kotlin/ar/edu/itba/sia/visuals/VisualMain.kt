@@ -1,37 +1,22 @@
 package ar.edu.itba.sia.visuals
 
-import ar.edu.itba.sia.Armory
 import ar.edu.itba.sia.Engine.Engine
 import ar.edu.itba.sia.equipables.Equipment
 import ar.edu.itba.sia.equipables.EquipmentType
-import ar.edu.itba.sia.evolutionable.Evolutionable
-import ar.edu.itba.sia.evolutionable.characters.Assassin
 import ar.edu.itba.sia.evolutionable.characters.Character
 import javafx.animation.AnimationTimer
 import javafx.application.Application
-import javafx.geometry.Pos
-import javafx.scene.Group
-import javafx.scene.Node
 import javafx.scene.Scene
 import javafx.scene.canvas.Canvas
 import javafx.scene.canvas.GraphicsContext
 import javafx.stage.Stage
-import java.util.Collections.addAll
 import javafx.scene.chart.XYChart
 import javafx.scene.chart.LineChart
 import javafx.scene.chart.NumberAxis
-import javafx.scene.chart.CategoryAxis
-import javafx.scene.control.TextField
 import javafx.scene.image.Image
-import javafx.scene.layout.HBox
-import javafx.scene.layout.GridPane
-import javafx.scene.layout.VBox
 import javafx.scene.layout.BorderPane
 import javafx.scene.paint.Color
 import javafx.scene.text.Font
-import java.lang.Thread.sleep
-import java.lang.System.gc
-import sun.net.www.ParseUtil.toURI
 import java.io.File
 
 
@@ -50,11 +35,25 @@ class Drawer : Application() {
     lateinit var centerGC: GraphicsContext
 
     val statsColor = ArrayList<Color>()
+
     val headgear = ArrayList<String>()
     val bodyarmor = ArrayList<String>()
     val gloves = ArrayList<String>()
     val boots = ArrayList<String>()
     val weapons = ArrayList<String>()
+
+    var lastBestHeadgear : Equipment? = null
+    var lastBestBodyarmor : Equipment? = null
+    var lastBestGloves : Equipment? = null
+    var lastBestBoots : Equipment? = null
+    var lastBestWeapon : Equipment? = null
+
+    lateinit var currHeadgear : String
+    lateinit var currBodyarmor : String
+    lateinit var currGloves : String
+    lateinit var currBoots : String
+    lateinit var currWeapon : String
+
 
     var index = 0
 
@@ -100,6 +99,8 @@ class Drawer : Application() {
                         seriesMax.addData(index, it.getPerformance())
                         seriesAvrg.addData(index, currentGen.map { it.getPerformance() }.average())
                         index++
+                        drawEquipmentSlots()
+                        drawEquipment(it)
                         drawEquipmentStats(it)
                     }
                 }
@@ -117,6 +118,12 @@ class Drawer : Application() {
         gloves.addAll(readEquipments(EquipmentType.GLOVES))
         boots.addAll(readEquipments(EquipmentType.BOOTS))
         weapons.addAll(readEquipments(EquipmentType.WEAPON))
+
+        currHeadgear = headgear[0]
+        currBodyarmor = bodyarmor[0]
+        currBoots = boots[0]
+        currGloves = gloves[0]
+        currWeapon = weapons[0]
 
         statsColor.add(Color.RED)
         statsColor.add(Color.BROWN)
@@ -153,7 +160,7 @@ class Drawer : Application() {
     }
 
     fun drawEquipmentSlots() {
-        val gc = rightGC.canvas.graphicsContext2D
+        val gc = centerGC.canvas.graphicsContext2D
         val file = File("./src/resources/visual/slots.png")
         val img = Image(file.toURI().toString(), gc.canvas.width, gc.canvas.height, true, true)
         gc.drawImage(img, 0.0, 0.0)
@@ -248,16 +255,68 @@ class Drawer : Application() {
 
     }
 
+    fun drawEquipment(best: Character) {
+        if(!best.headgear.equals(lastBestHeadgear)){
+            lastBestHeadgear = best.headgear
+            headgear.shuffle()
+            currHeadgear = headgear[0]
+        }
+        if(!best.bodyArmor.equals(lastBestBodyarmor)){
+            lastBestBodyarmor = best.bodyArmor
+            bodyarmor.shuffle()
+            currBodyarmor = bodyarmor[0]
+        }
+        if(!best.gloves.equals(lastBestGloves)){
+            lastBestGloves = best.gloves
+            gloves.shuffle()
+            currGloves = gloves[0]
+        }
+        if(!best.boots.equals(lastBestBoots)){
+            lastBestBoots = best.boots
+            boots.shuffle()
+            currBoots = boots[0]
+        }
+        if(!best.weapon.equals(lastBestWeapon)){
+            lastBestWeapon = best.weapon
+            weapons.shuffle()
+            currWeapon = weapons[0]
+        }
+        drawHelm(currHeadgear)
+        drawBodyArmor(currBodyarmor)
+        drawGloves(currGloves)
+        drawBoots(currBoots)
+        drawWeapon(currWeapon)
+    }
 
-    fun drawRandomHelm(){
-
-        val gc = rightGC.canvas.graphicsContext2D
-        headgear.shuffle()
-        val file = File("/src/resources/visual/helms/" + headgear[0])
+    fun drawHelm(name: String){
+        val gc = centerGC.canvas.graphicsContext2D
+        val file = File("./src/resources/visual/HEADGEAR/" + name)
         val img = Image(file.toURI().toString(), 100.0, 100.0, true, false)
-        gc.drawImage(img, 75.0, 25.0)
-
-
+        gc.drawImage(img, 65.0, 25.0)
+    }
+    fun drawBodyArmor(name: String){
+        val gc = centerGC.canvas.graphicsContext2D
+        val file = File("./src/resources/visual/BODYARMOR/" + name)
+        val img = Image(file.toURI().toString(), 100.0, 100.0, true, false)
+        gc.drawImage(img, 65.0, 150.0)
+    }
+    fun drawBoots(name: String){
+        val gc = centerGC.canvas.graphicsContext2D
+        val file = File("./src/resources/visual/BOOTS/" + name)
+        val img = Image(file.toURI().toString(), 100.0, 100.0, true, false)
+        gc.drawImage(img, 60.0, 500.0)
+    }
+    fun drawGloves(name: String){
+        val gc = centerGC.canvas.graphicsContext2D
+        val file = File("./src/resources/visual/GLOVES/" + name)
+        val img = Image(file.toURI().toString(), 100.0, 100.0, true, false)
+        gc.drawImage(img, 60.0, 270.0)
+    }
+    fun drawWeapon(name: String){
+        val gc = centerGC.canvas.graphicsContext2D
+        val file = File("./src/resources/visual/WEAPON/" + name)
+        val img = Image(file.toURI().toString(), 100.0, 100.0, true, false)
+        gc.drawImage(img, 68.0, 383.0)
     }
 
 }

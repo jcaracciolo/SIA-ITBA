@@ -4,6 +4,7 @@ import ar.edu.itba.sia.evolutionable.Evolutionable
 import ar.edu.itba.sia.utils.ConfigurationFile
 import ar.edu.itba.sia.utils.ConfigurationParser
 import java.lang.Thread.sleep
+import java.io.File
 import java.util.*
 import kotlin.collections.ArrayList
 
@@ -60,7 +61,6 @@ class Engine {
 
 
                 var newChildren = children.filter { it.isValid() }
-                println(newChildren.size)
                 newChildren = newChildren.plus(
                      (newChildren.size until children.size).map {
                         configurationFile.initialGeneration.first().random()
@@ -73,8 +73,10 @@ class Engine {
                 generations++
                 processor()
 
-
-                print("${generations}\t${greatestSpecimen.getPerformance()}\t${currentGeneration.map { it.getPerformance() }.average()}\t${currentGeneration.distinct().size}\n")
+                if(generations % 50 == 0){
+                    val output = File("./500Generations200000-DoublePoint-uniform0.4-UpTo5-LessChildren180-RankingFalse-TournamentDeterministic6True.txt")
+                    output.appendText("${generations}\t${greatestSpecimen.getPerformance()}\t${currentGeneration.map { it.getPerformance() }.average()}\t${currentGeneration.distinct().size}\n")
+                }
             }
 
             return greatestSpecimen
