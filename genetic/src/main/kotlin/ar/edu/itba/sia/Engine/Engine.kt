@@ -19,7 +19,7 @@ class Engine {
         @JvmStatic
         fun main(args: Array<String>) {
             val conf = ConfigurationParser.parseFile("./src/resources/config.json")!!
-            val best = naturalSelection(conf, { sleep(100)})
+            val best = naturalSelection(conf)
             print(best)
             println()
             print(best.getPerformance())
@@ -73,10 +73,10 @@ class Engine {
                 generations++
                 processor()
 
+                print(${generations}\t${greatestSpecimen.getPerformance()}\t${currentGeneration.map { it.getPerformance() }.average()}\t${currentGeneration.distinct().size}\n"))
                 if(generations % 50 == 0){
                     val output = File("./500Generations200000-DoublePoint-uniform0.4-UpTo5-LessChildren180-RankingFalse-TournamentDeterministic6True.txt")
-                    output.appendText("${generations}\t${greatestSpecimen.getPerformance()}\t${currentGeneration.map { it.getPerformance() }.average()}\t${currentGeneration.distinct().size}\n")
-                }
+                    output.appendText("
             }
 
             return greatestSpecimen

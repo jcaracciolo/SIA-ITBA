@@ -177,7 +177,7 @@ class Drawer : Application() {
 
         centerGC.fill = Color.BLACK
         centerGC.font = Font.font(15.0)
-        centerGC.fillText("Height: ${"%.2f".format(character.height)}",width/2 - 50,100.0)
+        centerGC.fillText("Height: ${"%.2f".format(character.height)}",width/2 + 50,100.0)
 
         val humanWidth = width/5
         val humanHeight = height*0.8 * (character.height / 2.0)
@@ -185,7 +185,7 @@ class Drawer : Application() {
         val p2 = height - humanHeight
 
         centerGC.fill = Color.PINK
-        centerGC.fillRect(p1,p2,humanWidth,humanHeight)
+        centerGC.fillRect(p1 + 70,p2,humanWidth + 70,humanHeight)
     }
 
     fun drawValues(best: Character, generations: Int, generation: List<Character>) {
@@ -195,10 +195,12 @@ class Drawer : Application() {
         leftGC.font = Font.font(30.0)
         val base = 100.0
         val spacing = 100.0
-        leftGC.fillText("Type: ${best.characterClass.string.capitalize()}", 100.0,base)
-        leftGC.fillText("Generation: $generations", 100.0, base*2)
-        leftGC.fillText("MaxPerformance: ${"%.2f".format(best.getPerformance())}", 100.0,base*3)
-        leftGC.fillText("AvrgPerformance: ${"%.2f".format(generation.map{it.getPerformance()}.average())}", 100.0, base*4)
+        leftGC.fillText("Type: ${best.characterClass.string.capitalize()}", 25.0,base)
+        leftGC.fillText("Generation: $generations", 25.0, base*2)
+        leftGC.fillText("MaxPerformance: ${"%.2f".format(best.getPerformance())}", 25.0,base*3)
+        leftGC.fillText("AvrgPerformance: ${"%.2f".format(generation.map{it.getPerformance()}.average())}", 25.0, base*4)
+        leftGC.fillText("BestAtack: ${"%.2f".format(best.getAttack())}", 25.0, base*5)
+        leftGC.fillText("BestDefense: ${"%.2f".format(best.getDefense())}", 25.0, base*6)
 
     }
 
@@ -226,6 +228,7 @@ class Drawer : Application() {
         val initialX = 20.0
         val initialy = 80.0
         val spacing = 80.0
+
         drawStats(initialX, initialy, best.headgear)
         drawStats(initialX, initialy + spacing, best.bodyArmor)
         drawStats(initialX, initialy + 2*spacing, best.gloves)
@@ -240,11 +243,11 @@ class Drawer : Application() {
         val standarize = blockHeigth/max
 
         for (i in 0 until arr.size) {
-            drawStatBlock(x + 30*i, y, standarize*arr[i], statsColor[i])
+            drawStatBlock(x - 20 + 20*i, y + 100, standarize*arr[i], statsColor[i])
         }
 
         rightGC.fill = Color.BLACK
-        rightGC.fillText("Max Value: ${"%.2f".format(max)}", x + 30*arr.size, y - 25.0)
+        rightGC.fillText("Max Value: ${"%.2f".format(max)}", x + 20*arr.size, y + 75.0)
     }
 
     fun drawStatBlock(x: Double, y: Double, height: Double, color: Color){

@@ -1,52 +1,77 @@
 {
-  generation_size: 300,
+  generation_size: 200,
 
   type: "character",
-
-  character:"assassin",
-
+  character: "assassin",
   character_number: 3,
 
-  equipment_path: "./src/resources/testdata",
 
-  crosser: "double point",
+
+  equipment_path: "/home/juanfra/Downloads/fulldata",
+
+  crosser: "uniform",
 
   cutter: {
     type: "generation",
     parameters: {
-      amount: 200000
+      amount: 100000
     }
   },
 
   mutator: {
     type: "uniform",
     parameters: {
-      percentage: 0.4
+      percentage: 0.3
     }
   },
 
   genmutator: {
     type: "up to",
     parameters: {
-      amount: 5
+      amount: 6
     }
   },
 
   replacer: {
     type: "less children",
     parameters: {
-      amount: 180
+      amount: 160
     }
   },
 
   selector: {
-    unique: true,
-    type: "ranking",
+    unique: false ,
+    type: "combined",
     parameters: {
-      other: {
-        type: "tournament_deterministic",
+      percentage: 0.1,
+      first: {
+        unique: false,
+        type: "elite"
+      },
+      second: {
+        unique: false,
+        type: "combined",
         parameters: {
-          amount: 6
+          percentage: 0.45,
+          first: {
+            unique: false,
+            type: "boltzmann",
+            parameters: {
+              temperature: 20.0,
+              decrement: 0.995,
+              other: {
+                unique: false,
+                type: "tournament_deterministic",
+                parameters: {
+                  amount: 8
+                }
+              }
+            }
+          },
+          second: {
+            unique: false,
+            type: "roulette"
+          }
         }
       }
     }

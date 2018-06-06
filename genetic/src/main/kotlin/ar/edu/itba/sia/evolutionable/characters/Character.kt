@@ -55,11 +55,11 @@ abstract class Character(open protected val innerGens: Array<Double>, val charac
         }
     }
 
-    fun getAttack(): Double{
+    fun getDefense(): Double{
         return (getEffectiveResistance() + getEffectiveExpertise()) * getEffectiveVitality() * getDEM()
     }
 
-    fun getDefense(): Double{
+    fun getAttack(): Double{
         return (getEffectiveAgility() + getEffectiveExpertise()) * getEffectiveStrength() * getATM()
     }
 
