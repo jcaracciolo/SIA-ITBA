@@ -248,6 +248,7 @@ class Drawer : Application() {
 
         rightGC.fill = Color.BLACK
         rightGC.fillText("Max Value: ${"%.2f".format(max)}", x + 20*arr.size, y + 75.0)
+        rightGC.fillText("Max Value: ${"%.2f".format(max)}", x - 20 + 20*arr.size, y + 75)
     }
 
     fun drawStatBlock(x: Double, y: Double, height: Double, color: Color){
