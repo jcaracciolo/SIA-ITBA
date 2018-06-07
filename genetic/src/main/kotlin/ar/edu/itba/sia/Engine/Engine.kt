@@ -18,7 +18,13 @@ class Engine {
 
         @JvmStatic
         fun main(args: Array<String>) {
-            val conf = ConfigurationParser.parseFile("./src/resources/config.json")!!
+            val path: String
+            if(args.isEmpty()) {
+                path = "./src/resources/config.json"
+            } else {
+                path = args.first()
+            }
+            val conf = ConfigurationParser.parseFile(path)!!
             val best = naturalSelection(conf)
             print(best)
             println()

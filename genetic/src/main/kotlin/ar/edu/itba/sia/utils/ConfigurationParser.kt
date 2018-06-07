@@ -241,15 +241,6 @@ data class ConfigurationFile(
 
 class ConfigurationParser {
     companion object {
-
-        @JvmStatic
-        fun main(args: Array<String>) {
-//            ConfigurationFile(jsonObject.tryWithError("crosser"))
-
-            println(parseFile("./src/resources/config.json"))
-
-        }
-
         fun parseFile(path: String): ConfigurationFile? {
             val jsonString = File(path).readText(Charset.defaultCharset())
             val jsonObject = JSONObject(jsonString)
