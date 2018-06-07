@@ -73,10 +73,9 @@ class Engine {
                 generations++
                 processor()
 
-                print(${generations}\t${greatestSpecimen.getPerformance()}\t${currentGeneration.map { it.getPerformance() }.average()}\t${currentGeneration.distinct().size}\n"))
-                if(generations % 50 == 0){
-                    val output = File("./500Generations200000-DoublePoint-uniform0.4-UpTo5-LessChildren180-RankingFalse-TournamentDeterministic6True.txt")
-                    output.appendText("
+                val mapped = currentGeneration.map { it.getPerformance() }
+
+                println("Generation: ${generations}\t Best:${mapped.max()}\t Average:${mapped.average()}\t Distinct: ${currentGeneration.distinct().size}\n")
             }
 
             return greatestSpecimen
